@@ -233,7 +233,7 @@ df %>% filter( u6_ferdigstill !=1  & a1_ferdigstill ==1)
     d5_prim <- d_prim %>% filter( p_ferdigstill ==1, b_ferdigstill==1, u6_ferdigstill==1,
                                    a1_ferdigstill==1, a2_ferdigstill==1, a5_ferdigstill==1)
     
-    dt =  d_a2 %>% filter(op_primar) %>% 
+    dt =  d_prim %>% 
       mutate(a5_fu = a5_ferdigstill == 1, 
               trt =   case_when(
                         o_preop_vektskole==1 & o_opmetode ==1 ~ "RYGB school",

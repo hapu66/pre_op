@@ -71,6 +71,6 @@ tB = tbl_stack(list(tb_GB, tGB2_act))
 tbl_merge(list(tA,tB), tab_spanner = c("**Gastric Sleeve**", "**Gastric Bypass**" ) )  %>%
   modify_header(update = all_stat_cols() ~ "**{level}**  \n N = {n}",
                 text_interpret ="md") %>% 
+  remove_row_type(variables = o_preop_vektskole, type =  c("all"), level_value = NULL) %>% 
   as_gt() %>%  gt::gtsave("tabell2.docx")
-
-
+ 

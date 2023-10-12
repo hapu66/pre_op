@@ -288,8 +288,9 @@ df %>% filter( u6_ferdigstill !=1  & a1_ferdigstill ==1)
     ########################################    select variables  
     
 d =    dt %>% filter(!is.na(o_preop_vektskole), o_opmetode %in% c(1, 6)) %>%
-      select(o_dato_op, p_alder_v_op, Sex, Female, 
+      select(p_pasientid, ForlopsID, o_sykehus,  o_dato_op, p_alder_v_op, Sex, Female, 
              o_preop_vektskole, o_preop_vektprog, o_opmetode, smoke, work,
+             b_finans,  u6_ferdigstill, u6_oppf_type, a5_oppf_type,
              contains("bmi_"),  contains("b_beh"), vent, vent_a5, ligg, ligg_a5, alv_kmp, alv_kmp_a5, subst, subst_a5,
              reinn, reinn_a5, depr, depr_a5, vtap, vtap_a5, dBMI, dBMI_a5, a5_fu, 
             o_dato_op, a5_dato_oppf,  trt, a5_ferdigstill, bmi_5a,  a5_TWL) %>% 
@@ -310,11 +311,7 @@ d_a5_fu = d_elig %>% filter(!is.na(bmi_5a), bmi_5a > 10)                 #      
 d_a5_no = d_elig %>% filter(is.na(bmi_5a))                               #                 1049
 
 
-# d_GS_vs =  d %>% filter(o_preop_vektskole == 1, o_opmetode== 6)
-# d_GS_ns =  d %>% filter(o_preop_vektskole == 0, o_opmetode== 6)
-# d_GB_vs =  d %>% filter(o_preop_vektskole == 1, o_opmetode== 1)
-# d_GB_ns =  d %>% filter(o_preop_vektskole == 0, o_opmetode== 1)
-
+ 
 
 d_elig %>% group_by(o_preop_vektskole, o_opmetode) %>%
   summarise(N= n(),age =  mean(p_alder_v_op, na.rm = TRUE), Female= mean(Sex=="F", na.rm = TRUE),  BMI = mean(bmi_0, na.rm = TRUE),
@@ -441,30 +438,30 @@ tGB2_elig = d_elig %>% mutate(a5_no = !a5_fu) %>%
   modify_header(update = all_stat_cols() ~ "**{level}**  \n N = {n}",
                 text_interpret ="md")
 
-
-tb_GS = d_elig %>% filter(o_opmetode == 6) %>% select(trt, o_preop_vektskole) %>%  tbl_summary(by=trt)  
-
-tb_GB = d_elig %>% filter(o_opmetode == 1) %>% select(trt, o_preop_vektskole) %>%  tbl_summary(by=trt)  
-
-###############################################  final table
-tA = tbl_stack(list(tb_GS, tGS2_act))
-tB = tbl_stack(list(tb_GB, tGB2_act))
-
-tbl_merge(list(tA,tB), tab_spanner = c("**Gastric Sleeve**", "**Gastric Bypass**" ) )  %>%
-  modify_header(update = all_stat_cols() ~ "**{level}**  \n N = {n}",
-                text_interpret ="md") %>% 
-  as_gt() %>%  gt::gtsave("tabell2.docx")
-
-# %>% as_flex_table()  
-tbl_merge(list(tA,tB), tab_spanner = c("**Gastric Sleeve**", "**Gastric Bypass**" ) )  %>%
-  modify_header(update = all_stat_cols() ~ "**{level}**  \n N = {n}",
-                text_interpret ="md") %>%
-  remove_row_type(variables = o_preop_vektskole, type =  c("all"), level_value = NULL) %>% 
-  as_gt() %>%  gt::gtsave("tabell2.docx")
-
-tb_N = d_elig %>% filter(o_opmetode %in% c(1,6)) %>% select(trt, o_preop_vektskole) %>%  
-  tbl_summary(by = trt)
-
+# 
+# tb_GS = d_elig %>% filter(o_opmetode == 6) %>% select(trt, o_preop_vektskole) %>%  tbl_summary(by=trt)  
+# 
+# tb_GB = d_elig %>% filter(o_opmetode == 1) %>% select(trt, o_preop_vektskole) %>%  tbl_summary(by=trt)  
+# 
+# ###############################################  final table
+# tA = tbl_stack(list(tb_GS, tGS2_act))
+# tB = tbl_stack(list(tb_GB, tGB2_act))
+# 
+# tbl_merge(list(tA,tB), tab_spanner = c("**Gastric Sleeve**", "**Gastric Bypass**" ) )  %>%
+#   modify_header(update = all_stat_cols() ~ "**{level}**  \n N = {n}",
+#                 text_interpret ="md") %>% 
+#   as_gt() %>%  gt::gtsave("tabell2.docx")
+# 
+# # %>% as_flex_table()  
+# tbl_merge(list(tA,tB), tab_spanner = c("**Gastric Sleeve**", "**Gastric Bypass**" ) )  %>%
+#   modify_header(update = all_stat_cols() ~ "**{level}**  \n N = {n}",
+#                 text_interpret ="md") %>%
+#   remove_row_type(variables = o_preop_vektskole, type =  c("all"), level_value = NULL) %>% 
+#   as_gt() %>%  gt::gtsave("tabell2.docx")
+# 
+# tb_N = d_elig %>% filter(o_opmetode %in% c(1,6)) %>% select(trt, o_preop_vektskole) %>%  
+#   tbl_summary(by = trt)
+# 
 
 
 tbl_stack(  list(tb_N, tbl_merge(  list(tGS2_act, tGB2_act) ))) %>% 

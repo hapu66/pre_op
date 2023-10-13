@@ -1,5 +1,5 @@
 
-source("preop.R")
+source("set_up.R")
 
 tGS2_act = d_act_nt6 %>%
   filter(o_opmetode == 6) %>%

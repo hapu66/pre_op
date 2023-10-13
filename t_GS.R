@@ -6,7 +6,8 @@ d_elig_d30 |>
   filter(o_opmetode == 6) |>
   select(trt, b_finans, p_alder_v_op, Female, bmi_0o,                 # BMI 3x?
         b_beh_musk_skjsm, b_beh_depr, b_beh_diab, b_beh_hypert, b_beh_dyslip, 
-        b_beh_sovnap, b_beh_dyspepsi, smoke, work) |> tbl_summary(by = trt)
+        b_beh_sovnap, b_beh_dyspepsi, smoke, work) |> tbl_summary(by = trt) |>
+  add_overall()
 
 d_act_d30
 

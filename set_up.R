@@ -223,6 +223,6 @@ d_act_d30 = d_elig_d30 %>% filter(u6_ferdigstill == 1,
                                   u6_oppf_type %in% c(1, 2, 3))
   
 
-d_act_nt6  = d_act %>% filter(a5_dato_oppf - o_dato_op < 2007, a5_dato_oppf - o_dato_op > 1642)    # +- 6 mån
-d_act_nt12 = d_act %>% filter(a5_dato_oppf - o_dato_op < 2190,  a5_dato_oppf - o_dato_op > 1460)
+d_act_nt6  = d_act_a5 %>% filter(a5_dato_oppf - o_dato_op < 2007, a5_dato_oppf - o_dato_op > 1642)    # normtid:  +- 6 mån
+d_act_nt12 = d_act_a5 %>% filter(a5_dato_oppf - o_dato_op < 2190,  a5_dato_oppf - o_dato_op > 1460)
 

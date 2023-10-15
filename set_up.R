@@ -3,6 +3,7 @@
     # # #    source("preop.R")
 # tools
   library(tidyverse)
+  library(magrittr)
   library(gtsummary)    
   library(gt)      
 # help

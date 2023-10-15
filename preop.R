@@ -299,6 +299,8 @@ d =    dt %>% filter(!is.na(o_preop_vektskole), o_opmetode %in% c(1, 6)) %>%
     
 d_elig = d %>% filter(o_dato_op <  Sys.Date() - years(5) - months(6))      
 
+d_act_d30 = d_elig %>% filter(u6_ferdigstill == 1)
+
 d_act = d %>% filter(o_dato_op <  Sys.Date() - years(5) - months(6), 
                       a5_ferdigstill == 1,  
                       !is.na( bmi_5a))  #     2023-10-09: 3731      

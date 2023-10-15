@@ -38,7 +38,48 @@ t_fu_d30 = d_act_d30 %>%
     statistic = gtsummary::all_continuous()  ~ "{mean} ({sd})",
     digits = list(p_alder_v_op ~ c(1, 1)) ) #  %>%
 
-T1 =  tbl_merge(tbls =  list(t_e_d30, t_fu_d30, tGS, tGB),
+tGS_d30 = d_act_d30   %>%
+  filter(o_opmetode == 6) %>%
+  select(p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
+         b_beh_hypert, b_beh_musk_skjsm, b_beh_depr, b_beh_sovnap, smoke, work, trt) %>%
+  tbl_summary(
+    by        = trt,
+    label = list(p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
+                 work ~ "Working" , b_beh_musk_skjsm ~ "Muskular-sceletal pain",
+                 b_beh_diab ~ "Diabetes", b_beh_hypert ~ "Hypertension", 
+                 b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
+                 b_beh_depr ~ "Depression"), 
+    statistic = gtsummary::all_continuous()  ~ "{mean} ({sd})",
+    digits = list(p_alder_v_op ~ c(1, 1)) ) %>%
+  add_p(test  = list(
+    gtsummary::all_continuous()  ~ "t.test", 
+    gtsummary::all_categorical() ~ "fisher.test") ) %>%
+  modify_header(update = all_stat_cols() ~ "**{level}**  \n N = {n}",
+                text_interpret ="md")  
+
+tGB_d30 =  d_act_d30   %>%
+  filter(o_opmetode == 1) %>%
+  select(p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
+         b_beh_hypert, b_beh_musk_skjsm, b_beh_depr, b_beh_sovnap, smoke, work, trt) %>%
+  tbl_summary(
+    by        = trt,
+    label = list(p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
+                 work ~ "Working" , b_beh_musk_skjsm ~ "Muskular-sceletal pain",
+                 b_beh_diab ~ "Diabetes", b_beh_hypert ~ "Hypertension", 
+                 b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
+                 b_beh_depr ~ "Depression"), 
+    statistic = gtsummary::all_continuous()  ~ "{mean} ({sd})",
+    digits = list(p_alder_v_op ~ c(1, 1)) ) %>%
+  add_p(test  = list(
+    gtsummary::all_continuous()  ~ "t.test", 
+    gtsummary::all_categorical() ~ "fisher.test") )  %>%
+  modify_header(update = all_stat_cols() ~ "**{level}**  \n N = {n}",
+                text_interpret ="md")  
+
+
+
+
+T1 =  tbl_merge(tbls =  list(t_e_d30, t_fu_d30, tGS_d30, tGB_d30),
                 tab_spanner = c("Eligible for  \n 30 d follow-up",
                                 "Actual   \n 30 d follow-up", 
                                 "Gastric Sleeve", 

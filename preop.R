@@ -353,7 +353,7 @@ ST <- function(v){tibble(n()/nrowmean(v, na.rm=TRUE),sd(v, na.rm = TRUE))}  # +p
 #                                        o_preop_vektskole==1 & o_opmetode ==6 ~ "GS school",
 #                                        o_preop_vektskole==0 & o_opmetode ==6 ~ "GS norm"))
 
-tGS = d_act_nt6   %>%
+tGS = d_act_d30   %>%
   filter(o_opmetode == 6) %>%
   select(p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
          b_beh_hypert, b_beh_musk_skjsm, b_beh_depr, b_beh_sovnap, smoke, work, trt) %>%
@@ -372,7 +372,7 @@ tGS = d_act_nt6   %>%
   modify_header(update = all_stat_cols() ~ "**{level}**  \n N = {n}",
                 text_interpret ="md")  
   
-tGB =  d_act_nt6   %>%
+tGB =  d_act_d30   %>%
     filter(o_opmetode == 1) %>%
   select(p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
          b_beh_hypert, b_beh_musk_skjsm, b_beh_depr, b_beh_sovnap, smoke, work, trt) %>%

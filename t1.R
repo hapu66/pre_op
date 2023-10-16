@@ -5,7 +5,7 @@ source("set_up.R")
 
 d_elig_d30 |>
   filter(o_opmetode == 6) |>
-  select(trt, b_finans, p_alder_v_op, Female, bmi_0o,               # BMI 3x?
+  select(trt, bi_finans, p_alder_v_op, Female, bmi_0o,               # BMI 3x?
         b_beh_musk_skjsm, b_beh_depr, b_beh_diab, b_beh_hypert, b_beh_dyslip, 
         b_beh_sovnap, b_beh_dyspepsi, smoke, work) |> tbl_summary(by = trt) |>
   add_overall()
@@ -14,10 +14,10 @@ d_act_d30 = d_elig_d30 %>% filter(u6_ferdigstill == 1)
 
 
 t_e_d30 = d_elig_d30 %>% 
-  select(b_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
+  select(bi_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
          b_beh_hypert, b_beh_musk_skjsm, b_beh_depr, b_beh_sovnap, smoke, work ) %>%
   tbl_summary(
-    label = list(b_finans ~ "Financing", p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
+    label = list(bi_finans ~ "Financing", p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
                  work ~ "Working" , b_beh_musk_skjsm ~ "Muskular-sceletal pain",
                  b_beh_diab ~ "Diabetes", b_beh_hypert ~ "Hypertension", 
                  b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
@@ -27,10 +27,10 @@ t_e_d30 = d_elig_d30 %>%
 #  as_gt %>% opt_footnote_marks(marks = "letters") 
 
 t_fu_d30 = d_act_d30 %>% 
-  select(b_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
+  select(bi_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
          b_beh_hypert, b_beh_musk_skjsm, b_beh_depr, b_beh_sovnap, smoke, work ) %>%
   tbl_summary(
-    label = list(b_finans ~ "Financing", p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
+    label = list(bi_finans ~ "Financing", p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
                  work ~ "Working" , b_beh_musk_skjsm ~ "Muskular-sceletal pain",
                  b_beh_diab ~ "Diabetes", b_beh_hypert ~ "Hypertension", 
                  b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
@@ -40,11 +40,11 @@ t_fu_d30 = d_act_d30 %>%
 
 tGS_d30 = d_act_d30   %>%
   filter(o_opmetode == 6) %>%
-  select(b_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
+  select(bi_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
          b_beh_hypert, b_beh_musk_skjsm, b_beh_depr, b_beh_sovnap, smoke, work, trt) %>%
   tbl_summary(
     by        = trt,
-    label = list(b_finans ~ "Financing", p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
+    label = list(bi_finans ~ "Financing", p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
                  work ~ "Working" , b_beh_musk_skjsm ~ "Muskular-sceletal pain",
                  b_beh_diab ~ "Diabetes", b_beh_hypert ~ "Hypertension", 
                  b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
@@ -59,11 +59,11 @@ tGS_d30 = d_act_d30   %>%
 
 tGB_d30 =  d_act_d30   %>%
   filter(o_opmetode == 1) %>%
-  select(b_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
+  select(bi_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
          b_beh_hypert, b_beh_musk_skjsm, b_beh_depr, b_beh_sovnap, smoke, work, trt) %>%
   tbl_summary(
     by        = trt,
-    label = list(b_finans ~ "Financing", p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
+    label = list(bi_finans ~ "Financing", p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
                  work ~ "Working" , b_beh_musk_skjsm ~ "Muskular-sceletal pain",
                  b_beh_diab ~ "Diabetes", b_beh_hypert ~ "Hypertension", 
                  b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
@@ -86,10 +86,10 @@ T1 =  tbl_merge(tbls =  list(t_e_d30, t_fu_d30, tGS_d30, tGB_d30),
 
  
 cnt_N =   function(tb)  { tb %>% 
-  select(b_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
+  select(bi_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
          b_beh_hypert, b_beh_musk_skjsm, b_beh_depr, b_beh_sovnap, smoke, work ) %>%
   tbl_summary(
-    label = list(b_finans ~ "Financing", p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
+    label = list(bi_finans ~ "Financing", p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
                  work ~ "Working" , b_beh_musk_skjsm ~ "Muscular-sceletal pain",
                  b_beh_diab ~ "Diabetes", b_beh_hypert ~ "Hypertension", 
                  b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
@@ -104,11 +104,11 @@ opr_N =   function(tb, op)  {
                   TRUE ~ 99)
 T =  tb   %>%
   filter(o_opmetode == om) %>%
-  select(b_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
+  select(bi_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
          b_beh_hypert, b_beh_musk_skjsm, b_beh_depr, b_beh_sovnap, smoke, work, trt) %>%
   tbl_summary(
     by        = trt,
-    label = list(b_finans ~ "Financing", p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
+    label = list(bi_finans ~ "Financing", p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
                  work ~ "Working" , b_beh_musk_skjsm ~ "Muscular-sceletal pain",
                  b_beh_diab ~ "Diabetes", b_beh_hypert ~ "Hypertension", 
                  b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  

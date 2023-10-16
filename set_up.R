@@ -82,7 +82,8 @@ df  <- df %>%
          work = b_ssv_inntarb==1) %>%   
   select(-p_kjonn)
 #  re-kode fedmerelaterte sykdommar,  pakke=dplyr !!
-df %<>% mutate(  a1_beh  =  dplyr::recode(a1_beh , "Nei" = 0L,  "Ja" = 1L, .default=NA_integer_),
+df %<>% mutate(  bi_finans = dplyr::recode(b_finans, "1" = "Public", "2" = "Private", "3" = "Private", .default=NA_character_), 
+                 a1_beh  =  dplyr::recode(a1_beh , "Nei" = 0L,  "Ja" = 1L, .default=NA_integer_),
                  a1_beh_diare =  dplyr::recode(a1_beh_diare, "Nei" = 0L,  "Ja" = 1L, .default=NA_integer_),
                  a1_ann_sykd =  dplyr::recode(a1_ann_sykd, "Nei" = 0L,  "Ja" = 1L, .default=NA_integer_),
                  a2_beh  =  dplyr::recode(a2_beh , "Nei" = 0L,  "Ja" = 1L, .default=NA_integer_),
@@ -200,8 +201,8 @@ dt %<>% mutate( vent_a5 = ifelse(a5_fu, vent, NA_integer_),
 d =    dt %>% filter(!is.na(o_preop_vektskole), o_opmetode %in% c(1, 6)) %>%
   select(p_pasientid, ForlopsID, o_sykehus,  o_dato_op, p_alder_v_op, Sex, Female, 
          o_preop_vektskole, o_preop_vektprog, o_opmetode, smoke, work,
-         b_finans,  u6_ferdigstill, u6_oppf_type, a5_oppf_type,
-         contains("bmi_"),  contains("b_beh"), 
+         bi_finans,  u6_ferdigstill, u6_oppf_type, a5_oppf_type,
+         contains("bmi_"),  contains("b_beh"),  
          vent, vent_a5, ligg, ligg_a5, alv_kmp, alv_kmp_a5, subst, subst_a5,
          reinn, reinn_a5, depr, depr_a5, vtap, vtap_a5, dBMI, dBMI_a5, a5_fu, 
          o_dato_op, trt, a5_ferdigstill, a5_ant_vekt, a5_dato_oppf, bmi_5a,  a5_TWL) %>% 

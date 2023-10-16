@@ -94,7 +94,7 @@ cnt_N =   function(tb)  { tb %>%
                  b_beh_diab ~ "Diabetes", b_beh_hypert ~ "Hypertension", 
                  b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
                  b_beh_depr ~ "Depression"), 
-    statistic = gtsummary::all_continuous()  ~ "{mean} ({sd})",
+#    statistic = gtsummary::all_continuous()  ~ "{mean} ({sd})",
     digits = list(p_alder_v_op ~ c(1, 1)) ) } #  
 
 opr_N =   function(tb, op)  { 
@@ -113,7 +113,7 @@ T =  tb   %>%
                  b_beh_diab ~ "Diabetes", b_beh_hypert ~ "Hypertension", 
                  b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
                  b_beh_depr ~ "Depression"), 
-    statistic = gtsummary::all_continuous()  ~ "{mean} ({sd})",
+#    statistic = gtsummary::all_continuous()  ~ "{mean} ({sd})",
     digits = list(p_alder_v_op ~ c(1, 1)) ) %>%
   # add_p(test  = list(
   #   gtsummary::all_continuous()  ~ "t.test", 

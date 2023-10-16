@@ -86,7 +86,7 @@ T1 =  tbl_merge(tbls =  list(t_e_d30, t_fu_d30, tGS_d30, tGB_d30),
 
  
 cnt_N =   function(tb)  { tb %>% 
-  select(p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
+  select(b_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
          b_beh_hypert, b_beh_musk_skjsm, b_beh_depr, b_beh_sovnap, smoke, work ) %>%
   tbl_summary(
     label = list(b_finans ~ "Financing", p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
@@ -104,7 +104,7 @@ opr_N =   function(tb, op)  {
                   TRUE ~ 99)
 T =  tb   %>%
   filter(o_opmetode == om) %>%
-  select(p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
+  select(b_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
          b_beh_hypert, b_beh_musk_skjsm, b_beh_depr, b_beh_sovnap, smoke, work, trt) %>%
   tbl_summary(
     by        = trt,

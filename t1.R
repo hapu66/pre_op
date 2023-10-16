@@ -23,7 +23,8 @@ t_e_d30 = d_elig_d30 %>%
                  b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
                  b_beh_depr ~ "Depression"), 
     statistic = gtsummary::all_continuous()  ~ "{mean} ({sd})",
-    digits = list(p_alder_v_op ~ c(1, 1)) ) #  %>%
+    digits = list(p_alder_v_op ~ c(1, 1)),
+    missing_text = "Missing data") #  %>%
 #  as_gt %>% opt_footnote_marks(marks = "letters") 
 
 t_fu_d30 = d_act_d30 %>% 
@@ -36,7 +37,8 @@ t_fu_d30 = d_act_d30 %>%
                  b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
                  b_beh_depr ~ "Depression"), 
     statistic = gtsummary::all_continuous()  ~ "{mean} ({sd})",
-    digits = list(p_alder_v_op ~ c(1, 1)) ) #  %>%
+    digits = list(p_alder_v_op ~ c(1, 1)),
+    missing_text = "Missing data") #  %>%
 
 tGS_d30 = d_act_d30   %>%
   filter(o_opmetode == 6) %>%
@@ -50,7 +52,8 @@ tGS_d30 = d_act_d30   %>%
                  b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
                  b_beh_depr ~ "Depression"), 
     statistic = gtsummary::all_continuous()  ~ "{mean} ({sd})",
-    digits = list(p_alder_v_op ~ c(1, 1)) ) %>%
+    digits = list(p_alder_v_op ~ c(1, 1)),
+    missing_text = "Missing data") %>%
   add_p(test  = list(
     gtsummary::all_continuous()  ~ "t.test", 
     gtsummary::all_categorical() ~ "fisher.test") ) %>%
@@ -69,7 +72,8 @@ tGB_d30 =  d_act_d30   %>%
                  b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
                  b_beh_depr ~ "Depression"), 
     statistic = gtsummary::all_continuous()  ~ "{mean} ({sd})",
-    digits = list(p_alder_v_op ~ c(1, 1)) ) %>%
+    digits = list(p_alder_v_op ~ c(1, 1)),
+    missing_text = "Missing data") %>%
   add_p(test  = list(
     gtsummary::all_continuous()  ~ "t.test", 
     gtsummary::all_categorical() ~ "fisher.test") )  %>%
@@ -95,7 +99,8 @@ cnt_N =   function(tb)  { tb %>%
                  b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
                  b_beh_depr ~ "Depression"), 
 #    statistic = gtsummary::all_continuous()  ~ "{mean} ({sd})",
-    digits = list(p_alder_v_op ~ c(1, 1)) ) } #  
+    digits = list(p_alder_v_op ~ c(1, 1)),
+    missing_text = "Missing data") } #  
 
 opr_N =   function(tb, op)  { 
   
@@ -114,7 +119,8 @@ T =  tb   %>%
                  b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
                  b_beh_depr ~ "Depression"), 
 #    statistic = gtsummary::all_continuous()  ~ "{mean} ({sd})",
-    digits = list(p_alder_v_op ~ c(1, 1)) ) %>%
+    digits = list(p_alder_v_op ~ c(1, 1)),
+     missing_text = "Missing data") %>%
   # add_p(test  = list(
   #   gtsummary::all_continuous()  ~ "t.test", 
   #   gtsummary::all_categorical() ~ "fisher.test") ) %>%

@@ -123,6 +123,50 @@ T =  tb   %>%
 T }
 
 
+c1 = cnt_N(d_elig_d30)
+c2 = cnt_N(d_act_d30)
+c34 = opr_N(d_elig_d30, "GS")
+
+
+c_1 = cnt_N(d_elig)
+c_2 = cnt_N(d_act_nt6)
+c_34 = opr_N(d_act_nt6,"GS")
+
+T_GS_d30 =  tbl_merge(tbls =  list(c1,c2,c34),
+                tab_spanner = c("Eligible for  \n 30 d follow-up",
+                                "Actual   \n 30 d follow-up", 
+                                "Gastric Sleeve" ) )  %>% 
+  as_flex_table()  
+
+T_GS_a5 =  tbl_merge(tbls =  list(c_1,c_2,c_34),
+                      tab_spanner = c("Eligible for  \n 5 yr follow-up",
+                                      "Actual   \n 5 yr follow-up", 
+                                      "Gastric Sleeve" ) )  %>% 
+  as_flex_table()  
+
+b1 = cnt_N(d_elig_d30)
+b2 = cnt_N(d_act_d30)
+b34 = opr_N(d_elig_d30, "GB")
+
+
+b_1 = cnt_N(d_elig)
+b_2 = cnt_N(d_act_nt6)
+b_34 = opr_N(d_act_nt6,"GB")
+
+T_GB_d30 =  tbl_merge(tbls =  list(b1,b2,b34),
+                      tab_spanner = c("Eligible for  \n 30 d follow-up",
+                                      "Actual   \n 30 d follow-up", 
+                                      "Gastric Bypass" ) )  %>% 
+  as_flex_table()  
+
+T_GB_a5 =  tbl_merge(tbls =  list(b_1,b_2,b_34),
+                     tab_spanner = c("Eligible for  \n 5 yr follow-up",
+                                     "Actual   \n 5 yr follow-up", 
+                                     "Gastric Bypass" ) )  %>% 
+  as_flex_table()  
+
+tbl_merge(tbls = list(T_GS_d30, T_GS_a5))
+
 # tGS2_act = d_act_nt6 %>%
 #   filter(o_opmetode == 6) %>%
 #   select(trt, a5_fu,    vent_a5,   ligg_a5,   reinn_a5,

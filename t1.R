@@ -101,7 +101,7 @@ opr_N =   function(tb, op)  {
   
   om = case_when( op == "GS" ~ 6,
                   op == "GB" ~ 1,
-                  TRUE ~ 99)
+                  TRUE ~ NA_integer_)
 T =  tb   %>%
   filter(o_opmetode == om) %>%
   select(bi_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,

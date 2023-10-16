@@ -90,7 +90,7 @@ cnt_N =   function(tb)  { tb %>%
          b_beh_hypert, b_beh_musk_skjsm, b_beh_depr, b_beh_sovnap, smoke, work ) %>%
   tbl_summary(
     label = list(p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
-                 work ~ "Working" , b_beh_musk_skjsm ~ "Muskular-sceletal pain",
+                 work ~ "Working" , b_beh_musk_skjsm ~ "Muscular-sceletal pain",
                  b_beh_diab ~ "Diabetes", b_beh_hypert ~ "Hypertension", 
                  b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
                  b_beh_depr ~ "Depression"), 
@@ -135,14 +135,12 @@ c_34 = opr_N(d_act_nt6,"GS")
 T_GS_d30 =  tbl_merge(tbls =  list(c1,c2,c34),
                 tab_spanner = c("Eligible for  \n 30 d follow-up",
                                 "Actual   \n 30 d follow-up", 
-                                "Gastric Sleeve" ) )  %>% 
-  as_flex_table()  
+                                "Gastric Sleeve" ) )  # %>%   as_flex_table()  
 
 T_GS_a5 =  tbl_merge(tbls =  list(c_1,c_2,c_34),
                       tab_spanner = c("Eligible for  \n 5 yr follow-up",
                                       "Actual   \n 5 yr follow-up", 
-                                      "Gastric Sleeve" ) )  %>% 
-  as_flex_table()  
+                                      "Gastric Sleeve" ) ) # %>%  as_flex_table()  
 
 b1 = cnt_N(d_elig_d30)
 b2 = cnt_N(d_act_d30)
@@ -156,16 +154,15 @@ b_34 = opr_N(d_act_nt6,"GB")
 T_GB_d30 =  tbl_merge(tbls =  list(b1,b2,b34),
                       tab_spanner = c("Eligible for  \n 30 d follow-up",
                                       "Actual   \n 30 d follow-up", 
-                                      "Gastric Bypass" ) )  %>% 
-  as_flex_table()  
+                                      "Gastric Bypass" ) ) # %>%   as_flex_table()  
 
 T_GB_a5 =  tbl_merge(tbls =  list(b_1,b_2,b_34),
                      tab_spanner = c("Eligible for  \n 5 yr follow-up",
                                      "Actual   \n 5 yr follow-up", 
-                                     "Gastric Bypass" ) )  %>% 
-  as_flex_table()  
+                                     "Gastric Bypass" ) )  # %>%   as_flex_table()  
 
 tbl_merge(tbls = list(T_GS_d30, T_GS_a5))
+tbl_merge(tbls = list(T_GB_d30, T_GB_a5))
 
 # tGS2_act = d_act_nt6 %>%
 #   filter(o_opmetode == 6) %>%

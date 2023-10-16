@@ -109,15 +109,15 @@ T =  tb   %>%
   tbl_summary(
     by        = trt,
     label = list(p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
-                 work ~ "Working" , b_beh_musk_skjsm ~ "Muskular-sceletal pain",
+                 work ~ "Working" , b_beh_musk_skjsm ~ "Muscular-sceletal pain",
                  b_beh_diab ~ "Diabetes", b_beh_hypert ~ "Hypertension", 
                  b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
                  b_beh_depr ~ "Depression"), 
     statistic = gtsummary::all_continuous()  ~ "{mean} ({sd})",
     digits = list(p_alder_v_op ~ c(1, 1)) ) %>%
-  add_p(test  = list(
-    gtsummary::all_continuous()  ~ "t.test", 
-    gtsummary::all_categorical() ~ "fisher.test") ) %>%
+  # add_p(test  = list(
+  #   gtsummary::all_continuous()  ~ "t.test", 
+  #   gtsummary::all_categorical() ~ "fisher.test") ) %>%
   modify_header(update = all_stat_cols() ~ "**{level}**  \n N = {n}",
                 text_interpret ="md") 
 T }

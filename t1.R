@@ -130,9 +130,9 @@ T =  tb   %>%
 T }
 
 
-c1 = cnt_N(d_elig_d30)
-c2 = cnt_N(d_act_d30)
-c34 = opr_N(d_act_d30, "GS")
+c1 = cnt_N(d_elig_GS_d30)
+c2 = cnt_N(d_act_GS_d30)
+c34 = opr_N(d_act_GS_d30, "GS")
 
 
 c_1 = cnt_N(d_elig)
@@ -149,9 +149,9 @@ T_GS_a5 =  tbl_merge(tbls =  list(c_1,c_2,c_34),
                                       "Actual   \n 5 yr follow-up", 
                                       "Gastric Sleeve" ) ) # %>%  as_flex_table()  
 
-b1 = cnt_N(d_elig_d30)
-b2 = cnt_N(d_act_d30)
-b34 = opr_N(d_elig_d30, "GB")
+b1 = cnt_N(d_elig_GB_d30)
+b2 = cnt_N(d_act_GB_d30)
+b34 = opr_N(d_act_GB_d30, "GB")
 
 
 b_1 = cnt_N(d_elig)

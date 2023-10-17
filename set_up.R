@@ -213,7 +213,12 @@ eo_dato_d30 = as.Date("2023-06-30")
 eo_dato_a5 = as.Date("2018-04-15")
 
 d_elig    = d %>% filter(o_dato_op <  Sys.Date() - years(5) - months(6))      #  
+
 d_elig_d30 = d %>% filter(o_dato_op <  Sys.Date()   - months(3)) 
+d_elig_GS_d30 = d_elig_d30 %>% filter(o_opmetode == 6)
+d_elig_GB_d30 = d_elig_d30 %>% filter(o_opmetode == 1)
+
+
 
 d_act_a5 = d %>% filter(o_dato_op <  Sys.Date() - years(5) - months(6), 
                      a5_ferdigstill == 1,                                                      # a5_oppf_type %in% c(1, 2, 3),  # !!  BESTILL   a5_NUM
@@ -223,8 +228,10 @@ d_act_a5 = d %>% filter(o_dato_op <  Sys.Date() - years(5) - months(6),
 
 d_act_d30 = d_elig_d30 %>% filter(u6_ferdigstill == 1,
                                   u6_oppf_type %in% c(1, 2, 3))
-  
+d_act_GS_d30 = d_act_d30 %>% filter(o_opmetode == 6)
+d_act_GB_d30 = d_act_d30 %>% filter(o_opmetode == 1)
 
 d_act_nt6  = d_act_a5 %>% filter(a5_dato_oppf - o_dato_op < 2007, a5_dato_oppf - o_dato_op > 1642)    # normtid:  +- 6 mån
 d_act_nt12 = d_act_a5 %>% filter(a5_dato_oppf - o_dato_op < 2190,  a5_dato_oppf - o_dato_op > 1460)
+
 

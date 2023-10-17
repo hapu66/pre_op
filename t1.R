@@ -121,6 +121,7 @@ T =  tb   %>%
 #    statistic = gtsummary::all_continuous()  ~ "{mean} ({sd})",
     digits = list(p_alder_v_op ~ c(1, 1)),
      missing_text = "Missing data") %>%
+    add_overall() %>% 
   # add_p(test  = list(
   #   gtsummary::all_continuous()  ~ "t.test", 
   #   gtsummary::all_categorical() ~ "fisher.test") ) %>%
@@ -131,7 +132,7 @@ T }
 
 c1 = cnt_N(d_elig_d30)
 c2 = cnt_N(d_act_d30)
-c34 = opr_N(d_elig_d30, "GS")
+c34 = opr_N(d_act_d30, "GS")
 
 
 c_1 = cnt_N(d_elig)
@@ -143,7 +144,7 @@ T_GS_d30 =  tbl_merge(tbls =  list(c1,c2,c34),
                                 "Actual   \n 30 d follow-up", 
                                 "Gastric Sleeve" ) )  # %>%   as_flex_table()  
 
-T_GS_a5 =  tbl_merge(tbls =  list(c_1,c_2,c_34),
+T_GS_a5 =  tbl_merge(tbls =  list(c_1,c_2,c_34), 
                       tab_spanner = c("Eligible for  \n 5 yr follow-up",
                                       "Actual   \n 5 yr follow-up", 
                                       "Gastric Sleeve" ) ) # %>%  as_flex_table()  

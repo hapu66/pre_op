@@ -1,6 +1,29 @@
 
 # source("set_up.R")
 
+d_act_GS_d30 %>% 
+  select(trt, vent, vt_pr, ligg, reinn,  alv_kmp) %>%
+  tbl_summary(by = trt,
+              type = list( vent ~ "continuous2",
+                           vt_pr ~ "continuous",
+                           ligg ~ "continuous",
+                           reinn ~ "dichotomous",
+                           alv_kmp ~ "dichotomous")              ,
+              statistic = list( vent ~  c(
+                  "{median} ({p25}, {p75})",
+                  "{mean} ({p25}, {p75})"),
+                  all_continuous() ~ "{mean} ({sd})",
+                  all_categorical() ~ "{n} / {N} ({p}%)") ,
+                label  = list( vent ~ "Waiting time (d)",
+                                vt_pr ~ "Pre-operative weight loss",
+                                ligg ~ "Postoperative days in hospital",
+                                reinn ~ "Readmission",
+                                alv_kmp ~ "Severe complications (30 d)"),
+              missing_text = "Missing data" ) %>%
+  add_p() %>%
+  add_ci()
+
+
 tGS2_act = d_act_GS_nt6 %>%
   select(trt, a5_fu,    vent_a5,   ligg_a5,   reinn_a5,
          alv_kmp_a5,  subst_a5,   depr_a5,   vtap_a5,   dBMI_a5) %>% 
@@ -58,7 +81,7 @@ tGB2_act = d_act_GB_nt6 %>%
                 text_interpret ="md")
 
 
-tb_GS = d_elig %>% filter(o_opmetode == 6) %>% select(trt, o_preop_vektskole) %>%  tbl_summary(by=trt)  
+tb_GS = d_elig %>% filter(o_opmetode == 6)  %>% select(trt, o_preop_vektskole) %>%  tbl_summary(by=trt)  
 
 tb_GB = d_elig %>% filter(o_opmetode == 1) %>% select(trt, o_preop_vektskole) %>%  tbl_summary(by=trt)  
 
@@ -69,6 +92,6 @@ tB = tbl_stack(list(tb_GB, tGB2_act))
 tbl_merge(list(tA,tB), tab_spanner = c("**Gastric Sleeve**", "**Gastric Bypass**" ) )  %>%
   modify_header(update = all_stat_cols() ~ "**{level}**  \n N = {n}",
                 text_interpret ="md") %>% 
-  remove_row_type(variables = o_preop_vektskole, type =  c("all"), level_value = NULL) %>% 
-  as_gt() %>%  gt::gtsave("tabell2.docx")
+  remove_row_type(variables = o_preop_vektskole, type =  c("all"), level_value = NULL)  # %>% 
+#  as_gt() %>%  gt::gtsave("tabell2.docx")
  

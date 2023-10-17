@@ -161,7 +161,7 @@ df %<>% mutate(bmi_baseline = b_ant_vekt/(b_ant_hoyde/100)^2,
 #  o_opmetode==1 & o_gbp_type == 2 ~"O"))
 
 # -----------------------  variables for table 2
-df %<>% mutate( pr_vt = b_ant_vekt - o_ant_vekt,  
+df %<>% mutate( vt_pr = b_ant_vekt - o_ant_vekt,  
                 vent = o_dato_op - b_dato_henv,
                 ligg = u6_dato_ut - o_dato_op,  #  -u6_pop_ligg
                 reinn = u6_innl_sykeh_d0_30 == 1,    #  0 Nei 1 Ja    2 Vet ikke
@@ -202,7 +202,7 @@ d =    dt %>% filter(!is.na(o_preop_vektskole), o_opmetode %in% c(1, 6)) %>%
   select(p_pasientid, ForlopsID, o_sykehus,  o_dato_op, p_alder_v_op, Sex, Female, 
          o_preop_vektskole, o_preop_vektprog, o_opmetode, smoke, work,
          bi_finans,  u6_ferdigstill, u6_oppf_type, a5_oppf_type,
-         contains("bmi_"),  contains("b_beh"),  
+         contains("bmi_"),  contains("b_beh"),  vt_pr,
          vent, vent_a5, ligg, ligg_a5, alv_kmp, alv_kmp_a5, subst, subst_a5,
          reinn, reinn_a5, depr, depr_a5, vtap, vtap_a5, dBMI, dBMI_a5, a5_fu, 
          o_dato_op, trt, a5_ferdigstill, a5_ant_vekt, a5_dato_oppf, bmi_5a,  a5_TWL) %>% 

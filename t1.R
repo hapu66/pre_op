@@ -1,7 +1,6 @@
 #
-source("set_up.R")
+# source("set_up.R")
 #
-
 
 d_elig_d30 |>
   filter(o_opmetode == 6) |>
@@ -137,7 +136,7 @@ c34 = opr_N(d_act_GS_d30, "GS")
 
 c_1 = cnt_N(d_elig_GS)
 c_2 = cnt_N(d_act_GS_nt6)
-c_34 = opr_N(d_act_GS_nt6,"GS")
+c_34 = opr_N(d_act_GS_nt6, "GS")
 
 T_GS_d30 =  tbl_merge(tbls =  list(c1,c2,c34),
                 tab_spanner = c("Eligible for  \n 30 d follow-up",
@@ -156,8 +155,6 @@ T_GB_a5 =  tbl_merge(tbls =  list(d_1,d_2,d_34),
                      tab_spanner = c("Eligible for  \n 5 yr follow-up",
                                      "Actual   \n 5 yr follow-up", 
                                      "Gastric Bypass" ) ) # %>%  as_flex_table()  
-
-
 
 b1 = cnt_N(d_elig_GB_d30)
 b2 = cnt_N(d_act_GB_d30)

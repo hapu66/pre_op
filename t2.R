@@ -1,8 +1,7 @@
 
 # source("set_up.R")
 
-tGS2_act = d_act_nt6 %>%
-  filter(o_opmetode == 6) %>%
+tGS2_act = d_act_GS_nt6 %>%
   select(trt, a5_fu,    vent_a5,   ligg_a5,   reinn_a5,
          alv_kmp_a5,  subst_a5,   depr_a5,   vtap_a5,   dBMI_a5) %>% 
   tbl_summary(
@@ -29,8 +28,7 @@ tGS2_act = d_act_nt6 %>%
                 text_interpret ="md")
 
 
-tGB2_act = d_act_nt6 %>%
-  filter(o_opmetode == 1) %>%
+tGB2_act = d_act_GB_nt6 %>%
   select(trt, a5_fu,    vent_a5,   ligg_a5,   reinn_a5,
          alv_kmp_a5,  subst_a5,   depr_a5,   vtap_a5,   dBMI_a5) %>% 
   tbl_summary(

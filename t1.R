@@ -121,7 +121,7 @@ T =  tb   %>%
 #    statistic = gtsummary::all_continuous()  ~ "{mean} ({sd})",
     digits = list(p_alder_v_op ~ c(1, 1)),
      missing_text = "Missing data") %>%
-    add_overall() %>% 
+##    add_overall() %>% 
   # add_p(test  = list(
   #   gtsummary::all_continuous()  ~ "t.test", 
   #   gtsummary::all_categorical() ~ "fisher.test") ) %>%

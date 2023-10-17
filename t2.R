@@ -1,29 +1,44 @@
 
   source("set_up.R")
 
-d_act_GS_d30 %>% 
+# d_act_GS_d30 %>% 
+#   select(trt, vent, vt_pr, ligg, reinn,  alv_kmp) %>%
+#   tbl_summary(
+#     by = trt,
+#     type = all_continuous() ~ "continuous2",
+#     statistic = all_continuous() ~ c("{median} ({p25}, {p75})", "{mean}, {sd}"),
+#     label  =  vent ~ "Waiting time (d)",
+#     missing_text = "Missing data" ) %>%
+#   add_p() %>%
+#   add_ci()
+
+shrt_res = function(tb) {tb %>% 
   select(trt, vent, vt_pr, ligg, reinn,  alv_kmp) %>%
-  tbl_summary(by = trt,
-              type = list( vent ~ "continuous2",
-                           vt_pr ~ "continuous",
-                           ligg ~ "continuous",
-                           reinn ~ "dichotomous",
-                           alv_kmp ~ "dichotomous")              ,
-              statistic = list( vent ~  c(
-                  "{median} ({p25}, {p75})",
-                  "{mean} ({p25}, {p75})"),
-                  all_continuous() ~ "{mean} ({sd})",
-                  all_categorical() ~ "{n} / {N} ({p}%)") ,
-                label  = list( vent ~ "Waiting time (d)",
-                                vt_pr ~ "Pre-operative weight loss",
-                                ligg ~ "Postoperative days in hospital",
-                                reinn ~ "Readmission",
-                                alv_kmp ~ "Severe complications (30 d)"),
-              missing_text = "Missing data" ) %>%
+  tbl_summary(
+    by = trt,
+    type = list( vent ~ "continuous2",
+                 vt_pr ~ "continuous",
+                 ligg ~  "continuous",
+                 reinn ~ "dichotomous",
+                 alv_kmp ~ "dichotomous")              ,
+    statistic = list(        vent ~ c("{median} ({p25}, {p75})", "{mean}, ({sd}) "),
+                             vt_pr ~ "{mean} ({sd})",
+                             ligg  ~ "{mean} ({sd})",
+                              reinn ~ "{n} / {N} ({p}%)",
+                              alv_kmp ~ "{n} / {N} ({p}%)") ,
+    label  = list( vent ~ "Waiting time (d)",
+                   vt_pr ~ "Pre-operative weight loss",
+                   ligg ~ "Postoperative days in hospital",
+                   reinn ~ "Readmission",
+                   alv_kmp ~ "Severe complications (30 d)"),
+ #   missing = "no",
+    missing_text = "Missing data" ) %>%
   add_p() %>%
-  add_ci()
+  add_ci()}
 
-
+shrt_res(  d_act_GS_d30 )
+shrt_res(  d_act_GB_d30 )
+  
 tGS2_act = d_act_GS_nt6 %>%
   select(trt, a5_fu,    vent_a5,   ligg_a5,   reinn_a5,
          alv_kmp_a5,  subst_a5,   depr_a5,   vtap_a5,   dBMI_a5) %>% 

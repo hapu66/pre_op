@@ -204,8 +204,8 @@ d =    dt %>% filter(!is.na(o_preop_vektskole), o_opmetode %in% c(1, 6)) %>%
          o_preop_vektskole, o_preop_vektprog, o_opmetode, smoke, work,
          bi_finans,  u6_ferdigstill, u6_oppf_type, a5_oppf_type,
          contains("bmi_"),  contains("b_beh"),  vt_pr,
-         vent, vent_a5, ligg, ligg_a5, alv_kmp, alv_kmp_a5, subst, subst_a5,
-         reinn, reinn_a5, depr, depr_a5, vtap, vtap_a5, dBMI, dBMI_a5, a5_fu, 
+         vent,   ligg,   alv_kmp,  subst,  
+         reinn,  depr,   vtap,   dBMI,   a5_fu, 
          o_dato_op, trt, a5_ferdigstill, a5_ant_vekt, a5_dato_oppf, bmi_5a,  a5_TWL) %>% 
   mutate(bmi_0 = bmi_baseline, bmi_0o = bmi_op, bmi_0u6 = bmi_6v) %>%
   select(-bmi_baseline, -bmi_op, -bmi_6v)

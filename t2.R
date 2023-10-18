@@ -33,7 +33,7 @@ shrt_res = function(tb) {tb %>%
                    alv_kmp ~ "Severe complications (30 d)"),
  #   missing = "no",
     missing_text = "Missing data" ) %>%
-  add_p() } #  %>%  add_ci()}
+  add_p() }  #  %>%  add_ci(include=vent) } #  }  add_ci :  extra col.
 
 
 lng_res = function(tb) {tb %>%

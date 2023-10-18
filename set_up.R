@@ -203,7 +203,7 @@ d =    dt %>% filter(!is.na(o_preop_vektskole), o_opmetode %in% c(1, 6)) %>%
   select(p_pasientid, ForlopsID, o_sykehus,  o_dato_op, p_alder_v_op, Sex, Female, 
          o_preop_vektskole, o_preop_vektprog, o_opmetode, smoke, work,
          bi_finans,  u6_ferdigstill, u6_oppf_type, a5_oppf_type,
-         contains("bmi_"),  contains("b_beh"),  vt_pr,
+         contains("bmi_"),  contains("b_beh"),  vt_pr, TWL_pr,
          vent,   ligg,   alv_kmp,  subst,  
          reinn,  depr,   vtap,   dBMI,   a5_fu, 
          o_dato_op, trt, a5_ferdigstill, a5_ant_vekt, a5_dato_oppf, bmi_5a,  a5_TWL) %>% 

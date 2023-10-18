@@ -161,7 +161,7 @@ df %<>% mutate(bmi_baseline = b_ant_vekt/(b_ant_hoyde/100)^2,
 #  o_opmetode==1 & o_gbp_type == 2 ~"O"))
 
 # -----------------------  variables for table 2
-df %<>% mutate( vt_pr = b_ant_vekt - o_ant_vekt,  
+df %<>% mutate( vt_pr = b_ant_kmi - bmi_op,     # d BMI
                 vent = o_dato_op - b_dato_henv,
                 ligg = u6_dato_ut - o_dato_op,  #  -u6_pop_ligg
                 reinn = u6_innl_sykeh_d0_30 == 1,    #  0 Nei 1 Ja    2 Vet ikke
@@ -188,14 +188,14 @@ dt =  d_prim %>%
            o_preop_vektskole==1 & o_opmetode ==6 ~ "GS school",
            o_preop_vektskole==0 & o_opmetode ==6 ~ "GS norm"))
 
-dt %<>% mutate( vent_a5 = ifelse(a5_fu, vent, NA_integer_),
-                ligg_a5 = ifelse(a5_fu, ligg, NA_integer_),
-                alv_kmp_a5 = ifelse(a5_fu, alv_kmp, NA),
-                subst_a5 = ifelse(a5_fu, subst, NA),
-                reinn_a5 = ifelse(a5_fu, reinn, NA),
-                depr_a5 = ifelse(a5_fu, depr, NA),
-                vtap_a5 = ifelse(a5_fu, vtap, NA_real_),
-                dBMI_a5 = ifelse(a5_fu, dBMI, NA_real_))
+# dt %<>% mutate( vent_a5 = ifelse(a5_fu, vent, NA_integer_),
+#                 ligg_a5 = ifelse(a5_fu, ligg, NA_integer_),
+#                 alv_kmp_a5 = ifelse(a5_fu, alv_kmp, NA),
+#                 subst_a5 = ifelse(a5_fu, subst, NA),
+#                 reinn_a5 = ifelse(a5_fu, reinn, NA),
+#                 depr_a5 = ifelse(a5_fu, depr, NA),
+#                 vtap_a5 = ifelse(a5_fu, vtap, NA_real_),
+#                 dBMI_a5 = ifelse(a5_fu, dBMI, NA_real_))
 ########################################    select variables  
 
 d =    dt %>% filter(!is.na(o_preop_vektskole), o_opmetode %in% c(1, 6)) %>%
@@ -228,6 +228,7 @@ d_act_a5 = d %>% filter(o_dato_op <  Sys.Date() - years(5) - months(6),
                      a5_oppf_type %in%  c("Frammøte", "Per telefon eller via nettmøte",  "Per brev/mail eller på annen måte"),   ###   kod = 1,2,3
                      !is.na(bmi_5a),
                      a5_ant_vekt > 0)  # 3 pas have vekt = 0?  count as elig
+
 
 d_act_d30 = d_elig_d30 %>% filter(u6_ferdigstill == 1,
                                   u6_oppf_type %in% c(1, 2, 3))

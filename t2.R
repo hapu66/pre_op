@@ -33,8 +33,7 @@ shrt_res = function(tb) {tb %>%
                    alv_kmp ~ "Severe complications (30 d)"),
  #   missing = "no",
     missing_text = "Missing data" ) %>%
-  add_p() %>%
-  add_ci()}
+  add_p() } #  %>%  add_ci()}
 
 
 lng_res = function(tb) {tb %>%
@@ -63,6 +62,9 @@ shrt_res(  d_act_GB_d30 )
 
 lng_res(  d_act_GS_nt6 )
 lng_res(  d_act_GB_nt6 )
+
+
+tbl_stack(list(shrt_res(d_act_d30), lng_res(d_act_nt6)))
 
 # -------------  Who has NOT been followed up?
 # d30  

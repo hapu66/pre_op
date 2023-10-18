@@ -64,6 +64,21 @@ shrt_res(  d_act_GB_d30 )
 lng_res(  d_act_GS_nt6 )
 lng_res(  d_act_GB_nt6 )
 
+# -------------  Who has NOT been followed up?
+# d30  
+d_elig_d30 |> select(trt, u6_ferdigstill, a5_ferdigstill) |>
+  tbl_summary(by = trt, 
+              statistic = contains("ferdigstill") ~ "{n} / {N} ({p}%)",
+              label = list(u6_ferdigstill ~ "u6 follow-up", 
+                           a5_ferdigstill ~ "a5 follow-up"
+                           ))
+## a5
+d_elig |>  select(trt, u6_ferdigstill, a5_ferdigstill) |>
+  tbl_summary(by = trt, 
+              statistic = contains("ferdigstill") ~ "{n} / {N} ({p}%)",
+              label = list(u6_ferdigstill ~ "u6 follow-up", 
+                           a5_ferdigstill ~ "a5 follow-up"
+              ))
 
   
 tGS2_act = d_act_GS_nt6 %>%

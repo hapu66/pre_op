@@ -38,7 +38,7 @@ shrt_res = function(tb) {tb %>%
 
 
 lng_res = function(tb) {tb %>%
-  select(trt, a5_fu, subst,   depr,   vtap,   dBMI) %>% 
+  select(trt, a5_fu, vtap, dBMI, depr, subst, depr) %>% 
   tbl_summary(
     by = trt,
     statistic = list( a5_fu ~ "{n}", 

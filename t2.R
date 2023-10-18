@@ -38,24 +38,20 @@ shrt_res = function(tb) {tb %>%
 
 
 lng_res = function(tb) {tb %>%
-  select(trt, a5_fu,    vent_a5,   ligg_a5,   reinn_a5,
-         alv_kmp_a5,  subst_a5,   depr_a5,   vtap_a5,   dBMI_a5) %>% 
+  select(trt, a5_fu,    
+              subst_a5,   depr_a5,   vtap_a5,   dBMI_a5) %>% 
   tbl_summary(
     by = trt,
     statistic = list( a5_fu ~"{n}", 
-                      reinn_a5  ~ "{n} / {N} ({p}%)"  ,
-                      alv_kmp_a5~ "{n} / {N} ({p}%)"  ,
-                      subst_a5~ "{n} / {N} ({p}%)"  ,
-                      depr_a5~ "{n} / {N} ({p}%)" ),
+                      reinn  ~ "{n} / {N} ({p}%)"  ,
+                      alv_kmp~ "{n} / {N} ({p}%)"  ,
+                      subst~ "{n} / {N} ({p}%)"  ,
+                      depr~ "{n} / {N} ({p}%)" ),
     label = list(a5_fu ~"Follow-up 5 yrs",
-                 vent_a5 ~"Waiting time ", 
-                 ligg_a5 ~"Postoperative days in hospital ", 
-                 reinn_a5 ~"Readmission ", 
-                 alv_kmp_a5 ~"Severe complication (30d) ", 
-                 subst_a5 ~"Substitution ", 
-                 depr_a5 ~"Depression ", 
-                 vtap_a5 ~"%TWL ", 
-                 dBMI_a5  ~"d BMI "),
+                 subst ~"Substitution ", 
+                 depr ~"Depression ", 
+                 vtap ~"%TWL ", 
+                 dBMI  ~"d BMI "),
     missing_text = "Missing data" ) %>%  
   add_p(test  = list(
     gtsummary::all_continuous()  ~ "t.test", 

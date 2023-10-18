@@ -182,7 +182,6 @@ T_GB = tbl_merge(tbls = list(T_GB_d30, T_GB_a5))
 T_GS %>% as_gt %>% opt_footnote_marks(marks = "letters") 
 T_GB %>% as_gt %>% opt_footnote_marks(marks = "letters")
 
-
 # tGS2_act = d_act_nt6 %>%
 #   filter(o_opmetode == 6) %>%
 #   select(trt, a5_fu,    vent_a5,   ligg_a5,   reinn_a5,

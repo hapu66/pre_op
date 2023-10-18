@@ -38,19 +38,16 @@ shrt_res = function(tb) {tb %>%
 
 
 lng_res = function(tb) {tb %>%
-  select(trt, a5_fu,    
-              subst_a5,   depr_a5,   vtap_a5,   dBMI_a5) %>% 
+  select(trt, a5_fu, subst,   depr,   vtap,   dBMI) %>% 
   tbl_summary(
     by = trt,
-    statistic = list( a5_fu ~"{n}", 
-                      reinn  ~ "{n} / {N} ({p}%)"  ,
-                      alv_kmp~ "{n} / {N} ({p}%)"  ,
-                      subst~ "{n} / {N} ({p}%)"  ,
-                      depr~ "{n} / {N} ({p}%)" ),
+    statistic = list( a5_fu ~ "{n}", 
+                      depr~ "{n} / {N} ({p}%)",
+                      subst~ "{n} / {N} ({p}%)" ),
     label = list(a5_fu ~"Follow-up 5 yrs",
-                 subst ~"Substitution ", 
-                 depr ~"Depression ", 
-                 vtap ~"%TWL ", 
+                 depr ~ "Depression ", 
+                 subst ~ "Substitution ", 
+                 vtap ~ "%TWL ", 
                  dBMI  ~"d BMI "),
     missing_text = "Missing data" ) %>%  
   add_p(test  = list(

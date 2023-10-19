@@ -1,5 +1,5 @@
 
-  source("set_up.R")
+#  source("set_up.R")
 
 # d_act_GS_d30 %>% 
 #   select(trt, vent, vt_pr, ligg, reinn,  alv_kmp) %>%
@@ -37,7 +37,7 @@ shrt_res = function(tb) {tb %>%
 
 
 lng_res = function(tb) {tb %>%
-  select(trt, a5_fu, vtap, dBMI, depr, subst, depr) %>% 
+  select(trt, a5_fu, N_revop, vtap, dBMI, depr, subst, depr) %>% 
   tbl_summary(
     by = trt,
     statistic = list( a5_fu ~ "{n}", 

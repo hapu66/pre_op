@@ -44,6 +44,7 @@ lng_res = function(tb) {tb %>%
                       depr~ "{n} / {N} ({p}%)",
                       subst~ "{n} / {N} ({p}%)" ),
     label = list(a5_fu ~"Follow-up 5 yrs",
+                 N_revop ~ "Revisions",
                  depr ~ "Depression ", 
                  subst ~ "Substitution ", 
                  vtap ~ "%TWL ", 

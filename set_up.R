@@ -81,6 +81,8 @@ df  <- df %>%
          smoke = (b_royk==1 | b_royk == 3),  # 3  Tilfeldig røykeslutt før operasjon ?
          work = b_ssv_inntarb==1) %>%   
   select(-p_kjonn)
+#  Informasjon om revisjonsoperasjonar
+df <- df %>% group_by(p_pasientid) %>% mutate(N_revop = n()-1) %>% ungroup()
 #  re-kode fedmerelaterte sykdommar,  pakke=dplyr !!
 df %<>% mutate(  bi_finans = dplyr::recode(b_finans, "1" = "Public", "2" = "Private", "3" = "Private", .default=NA_character_), 
                  a1_beh  =  dplyr::recode(a1_beh , "Nei" = 0L,  "Ja" = 1L, .default=NA_integer_),

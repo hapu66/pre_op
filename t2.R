@@ -12,16 +12,54 @@
 #   add_p() %>%
 #   add_ci()
 
+# Example 2 ----------------------------------
+# Use `data[[variable]]` to access the current variable
+mean_ci <- function(data, variable, ...) {
+  test <- t.test(data[[variable]])
+  dplyr::tibble(
+    mean = test$estimate,
+    conf.low = test$conf.int[1],
+    conf.high = test$conf.int[2]
+  )
+}
+
 shrt_res = function(tb) {tb %>% 
+    select(trt, vent, vt_pr, ligg, reinn,  alv_kmp) %>%
+    tbl_summary(
+      by = trt,
+      type = list( vent ~ "continuous2",
+                   vt_pr ~ "continuous",
+                   ligg ~  "continuous",
+                   reinn ~ "dichotomous",
+                   alv_kmp ~ "dichotomous") ,
+      statistic = list(        vent ~ c("{median} ({p25}, {p75})", 
+                                        "{mean} [{min}; {max}]"),  #  CI?
+                               vt_pr ~ "{mean} ({sd})",
+                               ligg  ~ "{mean} ({sd})",
+                               reinn ~ "{n} / {N} ({p}%)",
+                               alv_kmp ~ "{n} / {N} ({p}%)") ,
+      label  = list( vent ~ "Waiting time (d)",
+                     vt_pr ~ "Pre-operative weight loss",
+                     ligg ~ "Postoperative days in hospital",
+                     reinn ~ "Readmission",
+                     alv_kmp ~ "Severe complications (30 d)"),
+      #   missing = "no",
+      missing_text = "Missing data" ) %>%
+    add_p() }  #  %>%  add_ci(include=vent) } #  }  add_ci :  extra col.
+
+
+shrt_res_cstm = function(tb) {tb %>% 
   select(trt, vent, vt_pr, ligg, reinn,  alv_kmp) %>%
-  tbl_summary(
+  tbl_custom_summary(
     by = trt,
     type = list( vent ~ "continuous2",
                  vt_pr ~ "continuous",
                  ligg ~  "continuous",
                  reinn ~ "dichotomous",
-                 alv_kmp ~ "dichotomous")              ,
-    statistic = list(        vent ~ c("{median} ({p25}, {p75})", "{mean}, ({sd}) "),
+                 alv_kmp ~ "dichotomous") ,
+    stat_fns = ~mean_ci,
+    statistic = list(        vent ~ c("{median} ({p25}, {p75})", 
+                                      "{mean} [{conf.low}; {conf.high}]"),
                              vt_pr ~ "{mean} ({sd})",
                              ligg  ~ "{mean} ({sd})",
                               reinn ~ "{n} / {N} ({p}%)",
@@ -34,6 +72,31 @@ shrt_res = function(tb) {tb %>%
  #   missing = "no",
     missing_text = "Missing data" ) %>%
   add_p() }  #  %>%  add_ci(include=vent) } #  }  add_ci :  extra col.
+
+
+cstm_res = d_act_d30 |>
+  tbl_custom_summary(
+    include = c("vent"),
+    by = trt,
+    stat_fns = ~mean_ci,
+    statistic = ~"{mean} [{conf.low}; {conf.high}]"
+  )
+
+
+tbl_custom_summary_ex2 <-
+  trial %>%
+  tbl_custom_summary(
+    include = c("marker", "ttdeath"),
+    by = "trt",
+    stat_fns = ~mean_ci,
+    statistic = ~"{mean} [{conf.low}; {conf.high}]"
+  ) %>%
+  add_overall(last = TRUE) %>%
+  modify_footnote(
+    update = all_stat_cols() ~ "mean [95% CI]"
+  )
+
+
 
 
 lng_res = function(tb) {tb %>%
@@ -50,9 +113,8 @@ lng_res = function(tb) {tb %>%
                  vtap ~ "%TWL ", 
                  dBMI  ~"d BMI "),
     missing_text = "Missing data" ) %>%  
-  add_p(test  = list(
-    gtsummary::all_continuous()  ~ "t.test", 
-    gtsummary::all_categorical() ~ "fisher.test") ) %>%
+  add_p(  test  = list( gtsummary::all_dichotomous() ~ "fisher.test"),
+          include = all_dichotomous() ) %>%
   modify_header(update = all_stat_cols() ~ "**{level}**  \n N = {n}",
                 text_interpret ="md")}
 

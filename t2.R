@@ -106,15 +106,15 @@ lng_res = function(tb) {tb %>%
     statistic = list( a5_fu ~ "{n}", 
                       depr~ "{n} / {N} ({p}%)",
                       subst~ "{n} / {N} ({p}%)" ),
-    label = list(a5_fu ~"Follow-up 5 yrs",
+    label = list(a5_fu ~ "Follow-up 5 yrs",
                  N_revop ~ "Revisions",
                  depr ~ "Depression ", 
                  subst ~ "Substitution ", 
                  vtap ~ "%TWL ", 
                  dBMI  ~"d BMI "),
     missing_text = "Missing data" ) %>%  
-  add_p(  test  = list( gtsummary::all_dichotomous() ~ "fisher.test"),
-          include = all_dichotomous() ) %>%
+  add_p(  test  =   all_dichotomous() ~ "fisher.test",
+          include =  all_dichotomous()   ) %>%
   modify_header(update = all_stat_cols() ~ "**{level}**  \n N = {n}",
                 text_interpret ="md")}
 

@@ -174,13 +174,28 @@ T_GB_a5 =  tbl_merge(tbls =  list(b_1,b_2,b_34),
                      tab_spanner = c("Eligible for  \n 5 yr follow-up",
                                      "Actual   \n 5 yr follow-up", 
                                      "Gastric Bypass" ) )  # %>%   as_flex_table()  
+##############
+T_GS = tbl_merge(tbls = list(T_GS_d30, T_GS_a5), tab_spanner = c("**30 d**","**a 5**"))
+T_GB = tbl_merge(tbls = list(T_GB_d30, T_GB_a5), tab_spanner = c("**30 d**","**a 5**"))
+###############
 
-T_GS = tbl_merge(tbls = list(T_GS_d30, T_GS_a5))
-T_GB = tbl_merge(tbls = list(T_GB_d30, T_GB_a5))
+TA =  T_GS %>% as_gt %>% opt_footnote_marks(marks = "letters") 
+TB =  T_GB %>% as_gt %>% opt_footnote_marks(marks = "letters")
+TC =  T_GS_GB %>% as_gt %>% opt_footnote_marks(marks = "letters") 
+
+library(officer)
+library(gto)
+library(gt)
+
+#  gt_tbl <- gt(head(exibble))
+
+doc <- read_docx()
+doc <- body_add_gt(doc, value = TC)  # T_GB  T_GS_GB  TA TB TC
+fileout <-   "TC.docx"
+print(doc, target = fileout)
 
 
-T_GS %>% as_gt %>% opt_footnote_marks(marks = "letters") 
-T_GB %>% as_gt %>% opt_footnote_marks(marks = "letters")
+
 
 # tGS2_act = d_act_nt6 %>%
 #   filter(o_opmetode == 6) %>%

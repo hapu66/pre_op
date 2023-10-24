@@ -44,7 +44,7 @@ lng_res  = function(tb) { tb |>
                    depr ~ "Depression ", 
                    subst ~ "Substitution ", 
                    vtap ~ "%TWL ", 
-                   dBMI  ~"d BMI "),
+                   dBMI  ~ "d BMI "),
       missing_text = "Missing data" 
     ) |>
     add_p()
@@ -54,5 +54,5 @@ lng_res  = function(tb) { tb |>
   # fix in the denominator with gt
   
   #   stack tables  tbl_stack  
-  
+# tbl_stack( list(sht_res(d_act_GS_d30), lng_res(d_act_GS_nt6)))
   #   merge tables

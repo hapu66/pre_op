@@ -101,6 +101,8 @@ cnt_N =   function(tb)  { tb %>%
     digits = list(p_alder_v_op ~ c(1, 1)),
     missing_text = "Missing data") } #  
 
+
+
 opr_N =   function(tb, op)  { 
   
   om = case_when( op == "GS" ~ 6,
@@ -183,18 +185,18 @@ TA =  T_GS %>% as_gt %>% opt_footnote_marks(marks = "letters")
 TB =  T_GB %>% as_gt %>% opt_footnote_marks(marks = "letters")
 TC =  T_GS_GB %>% as_gt %>% opt_footnote_marks(marks = "letters") 
 
-library(officer)
+library(officer) 
 library(gto)
 library(gt)
 
 #  gt_tbl <- gt(head(exibble))
 
 doc <- read_docx()
-doc <- body_add_gt(doc, value = TC)  # T_GB  T_GS_GB  TA TB TC
-fileout <-   "TC.docx"
+doc <- body_add_gt(doc, value = TA)  # T_GB  T_GS_GB  TA TB TC
+fileout <-   "TA.docx"
 print(doc, target = fileout)
 
-
+#################### 
 
 
 # tGS2_act = d_act_nt6 %>%

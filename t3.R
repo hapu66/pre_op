@@ -65,7 +65,16 @@ l_GS |> as_gt() |> rows_add(.list = rlang::list2(   "label" = "sdf",
                               "stat_2" =  N_op_a5[2,2], 
                               "p.value" =0.05 ),   
                               .before = 2 )
-                              
+
+
+l_GS |> as_gt() |> rows_add(   "var_label" = "sdf",
+                               "stat_1" = as.character( N_op_a5[1,2]),
+                               "stat_2" = as.character( N_op_a5[2,2]),
+                               "p.value" = NA ,   
+                            .before = 2 )
+
+
+                          
              # as_tibble_row("label"= "rw", "stat_1" = N_op_a5[1,2], "stat_2" =  N_op_a5[2,2], "p.value" =0.05  ),
                   #          .before = 2    #   N_op_a5[1:2,2]
   #   stack tables  tbl_stack  

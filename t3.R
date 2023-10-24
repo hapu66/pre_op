@@ -66,8 +66,8 @@ l_GS |> as_gt() |> rows_add(.list = rlang::list2(   "label" = "sdf",
                               "p.value" =0.05 ),   
                               .before = 2 )
 
-
-l_GS |> as_gt() |> rows_add(   "var_label" = "sdf",
+# l_GS$table_body 
+l_GS |> as_gt() |> rows_add(   "label" = "potential 5 yr",
                                "stat_1" = as.character( N_op_a5[1,2]),
                                "stat_2" = as.character( N_op_a5[2,2]),
                                "p.value" = NA ,   

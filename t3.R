@@ -1,8 +1,10 @@
 
   # denominator for follow-up %
-N_op_30d <- d_elig_d30 |>  group_by(trt) |> summarise(N_opr = n())
+N_op_d30 <- d_elig_d30 |>  group_by(trt) |> summarise(N_opr = n())
 N_op_a5  <- d_elig |>  group_by(trt) |> summarise(N_opr = n())  
-    
+ 
+N_act_d30 <- d_act_d30 |>  group_by(trt) |> summarise(N_opr = n())
+N_act_a5  <- d_act_a5 |>  group_by(trt) |> summarise(N_opr = n())
     
   # short term results, cohort: d_act_GS_d30,  d_act_GB_d30
 sht_res  = function(tb) { tb |> 
@@ -55,8 +57,19 @@ l_GS =  lng_res(d_act_GS_nt6)
 s_GB =  sht_res(d_act_GB_d30)
 l_GB =  lng_res(d_act_GB_nt6)
 
-  # fix in the denominator with gt
-  
+# fix in the denominator with gt 
+#  .list = rlang::list2( 
+
+l_GS |> as_gt() |> rows_add(.list = rlang::list2(   "label" = "sdf",
+                              "stat_1" = N_op_a5[1,2],
+                              "stat_2" =  N_op_a5[2,2], 
+                              "p.value" =0.05 ),   
+                              .before = 2 )
+                              
+             # as_tibble_row("label"= "rw", "stat_1" = N_op_a5[1,2], "stat_2" =  N_op_a5[2,2], "p.value" =0.05  ),
+                  #          .before = 2    #   N_op_a5[1:2,2]
   #   stack tables  tbl_stack  
 # tbl_stack( list(sht_res(d_act_GS_d30), lng_res(d_act_GS_nt6)))
   #   merge tables
+
+tibble("label"= "rw", "stat_1" = N_op_a5[1,2], "stat_2" =  N_op_a5[2,2], "p.value" =0.05)

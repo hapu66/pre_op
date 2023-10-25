@@ -61,6 +61,15 @@ n_opr = function(ch, op) {
                     text_interpret ="md")
     T
 }
+   #  # string function for titlene grunnet opr.type GS/GB  og oppfølgningstid d30 / a5
+titl =  function(op){
+          case_when( op == "GS" ~  c("Eligible for  \n 30 d follow-up",         # time
+                                                        "Actual   \n 30 d follow-up", 
+                                                        "Gastric Sleeve" ),     # str_detect()?
+                     op == "GB" ~ c("Eligible for  \n 30 d follow-up",         # time
+                                    "Actual   \n 30 d follow-up", 
+                                    "Gastric Bypass" ),
+           TRUE ~ NA_character_)}
 
    # put two columns and opr results together
 cb_chs  = function(ch_e, ch_fu, op){
@@ -80,10 +89,22 @@ cb_chs  = function(ch_e, ch_fu, op){
    
   cl_1  = n_cl(ch_e)
   cl_2  = n_cl(ch_fu)
-  cl_34 = n_opr(ch_fu, op)
+  cl_34 = n_opr(ch_fu,  op )
   T = tbl_merge( tbls = list(cl_1, cl_2, cl_34) )
   T
 }
+
+tb1_GS =  tbl_merge( list(
+cb_chs(d_elig_GS_d30, d_act_GS_d30, "GS"),
+cb_chs(d_act_GS_nt6, d_act_GS_nt6, "GS")
+), tab_spanner = c("**Results for 30 days**", "**Results for 5 years**"))
+
+
+tb1_GB =  tbl_merge( list(
+  cb_chs(d_elig_GB_d30, d_act_GB_d30, "GB"),
+  cb_chs(d_act_GB_nt6, d_act_GB_nt6, "GB")
+), tab_spanner = c("**Results for 30 days**", "**Results for 5 years**"))
+
 
 #n_fu   = function(ch){ ch |> --------------------------------------------------
 #  

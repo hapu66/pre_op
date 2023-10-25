@@ -21,11 +21,12 @@ sht_res  = function(tb) { tb |>
                   reinn   ~ "dichotomous",
                   alv_kmp ~ "dichotomous"      ),
       statistic = list(vent ~ c("{median} ({p25}, {p75})", 
-                                "{mean} [{min}; {max}]"),    #  !! fix CI
+                                "{mean} [{min}]"),    #  !! fix CI
                        vt_pr ~ "{mean} ({sd})", 
-                       ligg ~ "{mean} ({sd})",
+                       ligg ~ "{median} ({min}; {max})",     ## median IQR per default !
                        reinn ~ "{n} / {N} ({p}%)", 
                        alv_kmp ~"{n} / {N} ({p}%)"),
+    #  digits = list(ligg ~ 2), 
       label = list( vent ~ "Waiting time (d)",
                     vt_pr ~ "Pre-operative weight loss",
                     ligg ~ "Postoperative days in hospital",
@@ -33,9 +34,10 @@ sht_res  = function(tb) { tb |>
                     alv_kmp ~ "Severe complications (30 d)"),
       missing_text = "Missing data" 
         ) |>
-    add_p()
-  }
-    
+    add_p()   # |> add_ci()
+}
+
+ #    https://stackoverflow.com/questions/77069718/how-to-add-row-with-confidence-intervals-for-each-column-using-gtsummary
   #  long term results, cohort: d_act_GS_nt6,  d_act_GB_nt6     
 lng_res  = function(tb) { tb |> 
     select(trt, a5_fu, N_revop, vtap, dBMI, depr, subst, depr) |>

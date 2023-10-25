@@ -21,7 +21,7 @@ sht_res  = function(tb) { tb |>
                   reinn   ~ "dichotomous",
                   alv_kmp ~ "dichotomous"      ),
       statistic = list(vent ~ c("{median} ({p25}, {p75})", 
-                                "{mean} [{min}]"),    #  !! fix CI
+                                "{mean} [{min} {max}]"),    #  !! fix CI
                        vt_pr ~ "{mean} ({sd})", 
                        ligg ~ "{median} ({min}; {max})",     ## median IQR per default !
                        reinn ~ "{n} / {N} ({p}%)", 
@@ -34,7 +34,8 @@ sht_res  = function(tb) { tb |>
                     alv_kmp ~ "Severe complications (30 d)"),
       missing_text = "Missing data" 
         ) |>
-    add_p()   # |> add_ci()
+    add_p()  |> 
+    add_ci(include=c("vent", "ligg"), pattern = "{stat} ({ci})")
 }
 
  #    https://stackoverflow.com/questions/77069718/how-to-add-row-with-confidence-intervals-for-each-column-using-gtsummary

@@ -126,7 +126,7 @@ M_GS_s = matrix(c(2178, 3217, 2353, 3392),
 fisher.test(M_GS_s)
 
 ## ------------------------------       GS
-
+#                               |------------> insert rows only in   as_gt()
 tab3_GS  |> as_gt() |> 
   rows_add( .list = rlang::list2(  "label" = "potential 30 d",
                                    "stat_1" = as.character( N_op_d30[1,2]),

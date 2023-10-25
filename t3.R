@@ -175,8 +175,10 @@ tab3_GB  |> as_gt() |>
 
 M_GB_s = matrix(c(1508, 1584, 3957, 4202),
                 nrow = 2)
-fisher.test(M_GB_s)
+fisher.test(M_GB_s)  #  p-value = 0.7999
+chisq.test(M_GB_s)   #  p-value = 0.8127
 
 M_GB_l = matrix(c(353, 522, 791, 1229),
                 nrow = 2)
-fisher.test(M_GB_l)
+fisher.test(M_GB_l)  # p-value = 0.5624
+chisq.test(M_GB_l)  #  p-value = 0.5774

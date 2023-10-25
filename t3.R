@@ -77,7 +77,7 @@ l_GS |> as_gt() |>
               "stat_2" = as.character( N_op_a5[2,2]),
               "p.value" = NA ,   
               .before = 2 )  
-  
+ # --------------------------  Follow-up %:s   format
 l_GS |> as_gt() |> 
   rows_add( .list = rlang::list2(  "label" = "potential 5 yr",
               "stat_1" = as.character( N_op_a5[1,2]),
@@ -85,12 +85,32 @@ l_GS |> as_gt() |>
               "p.value" = NA ),   
               .before = 2 )  |>
   rows_add( .list = rlang::list2(  "label" = "follow-up %; 5 yrs",
-                                   "stat_1" = as.character( fup_a5[1]),
-                                   "stat_2" = as.character( fup_a5[2]),
+                                   "stat_1" = as.character( l_GS$df_by$n[1]/ N_op_a5[1,2]),
+                                   "stat_2" = as.character( l_GS$df_by$n[2]/ N_op_a5[2,2]),
+                                   "p.value" = 0.07479 ),   
+            .before = 3 )
+M_GS = matrix(c(685, 676, 1222, 1066),
+              nrow = 2)
+fisher.test(M_GS)
+#--
+
+l_GB |> as_gt() |> 
+  rows_add( .list = rlang::list2(  "label" = "potential 5 yr",
+                                   "stat_1" = as.character( N_op_a5[3,2]),
+                                   "stat_2" = as.character( N_op_a5[4,2]),
                                    "p.value" = NA ),   
+            .before = 2 )  |>
+  rows_add( .list = rlang::list2(  "label" = "follow-up %; 5 yrs",
+                                   "stat_1" = as.character( l_GB$df_by$n[1]/ N_op_a5[3,2]),
+                                   "stat_2" = as.character( l_GB$df_by$n[2]/ N_op_a5[4,2]),
+                                   "p.value" = 0.5624 ),   
             .before = 3 )
 
-                          
+M_GB = matrix(c(353, 791, 522, 1229),
+                         nrow = 2)
+fisher.test(M_GB)
+
+# ------
              # as_tibble_row("label"= "rw", "stat_1" = N_op_a5[1,2], "stat_2" =  N_op_a5[2,2], "p.value" =0.05  ),
                   #          .before = 2    #   N_op_a5[1:2,2]
   #   stack tables  tbl_stack  

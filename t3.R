@@ -119,12 +119,13 @@ fisher.test(M_GB)
 
 #  tibble("label"= "rw", "stat_1" = N_op_a5[1,2], "stat_2" =  N_op_a5[2,2], "p.value" =0.05)
 tab3_GS =  tbl_stack(list(s_GS, l_GS))
+tab3_GB =  tbl_stack(list(s_GB, l_GB))
 
 M_GS_s = matrix(c(2178, 3217, 2353, 3392),
               nrow = 2)
 fisher.test(M_GS_s)
 
-
+## ------------------------------       GS
 
 tab3_GS  |> as_gt() |> 
   rows_add( .list = rlang::list2(  "label" = "potential 30 d",
@@ -147,3 +148,35 @@ tab3_GS  |> as_gt() |>
                                    "stat_2" = as.character( l_GS$df_by$n[2]/ N_op_a5[2,2]),
                                    "p.value" = 0.07479  ),   
             .before = 14 )  
+
+##-----------------------------------  GB
+
+tab3_GB  |> as_gt() |> 
+  rows_add( .list = rlang::list2(  "label" = "potential 30 d",
+                                   "stat_1" = as.character( N_op_d30[3,2]),
+                                   "stat_2" = as.character( N_op_d30[4,2]),
+                                   "p.value" = NA ),   
+            .before = 1 )  |>
+  rows_add( .list = rlang::list2(  "label" = "follow-up %; 30 d",
+                                   "stat_1" = as.character( s_GB$df_by$n[1]/ N_op_d30[3,2]),
+                                   "stat_2" = as.character( s_GB$df_by$n[2]/ N_op_d30[4,2]),
+                                   "p.value" = 0.7999 ),   
+            .before = 2 ) |>
+  rows_add( .list = rlang::list2(  "label" = "potential 5 yr",
+                                   "stat_1" = as.character( N_op_a5[3,2]),
+                                   "stat_2" = as.character( N_op_a5[4,2]),
+                                   "p.value" = NA ),   
+            .before = 13 )  |>
+  rows_add( .list = rlang::list2(  "label" = "follow-up %; 5 yrs",
+                                   "stat_1" = as.character( l_GB$df_by$n[1]/ N_op_a5[3,2]),
+                                   "stat_2" = as.character( l_GB$df_by$n[2]/ N_op_a5[4,2]),
+                                   "p.value" = 0.5624  ),   
+            .before = 14 )  
+
+M_GB_s = matrix(c(1508, 1584, 3957, 4202),
+                nrow = 2)
+fisher.test(M_GB_s)
+
+M_GB_l = matrix(c(353, 522, 791, 1229),
+                nrow = 2)
+fisher.test(M_GB_l)

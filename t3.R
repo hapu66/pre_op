@@ -49,7 +49,7 @@ lng_res  = function(tb) { tb |>
                    dBMI  ~ "d BMI "),
       missing_text = "Missing data" 
     ) |>
-    add_p()  # remove for a5_fu
+    add_p()  # remove for a5_fu?
   }
   
 s_GS =  sht_res(d_act_GS_d30)

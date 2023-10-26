@@ -74,6 +74,23 @@ titl =  function(op){
    # put two columns and opr results together
 cb_chs  = function(ch_e, ch_fu, op){
   
+  el_nm = deparse(substitute(ch_e))  # name of the eligible tb
+  fu_nm = deparse(substitute(ch_fu)) #             follow-up
+  
+  fu_t = ifelse(str_detect(el_nm, "d30"), "d30", 
+          ifelse(str_detect(el_nm, "a5"),
+                "a5",  "ERROR!"))
+          
+  opr_mt =  ifelse(str_detect(el_nm, "GS"), "GS", 
+                   ifelse(str_detect(el_nm, "GB"),
+                          "GB",  "ERROR!"))
+  
+  ttl_str = str_glue("Eligible for \n {fu_t} follow-up, {opr_mt}")
+#  case_when()
+  
+  
+  
+#print(c(el_nm, el_fu, op))
   # op_str = ifelse(str_detect(ch_fu, "GS"),
   #                 c("Eligible for  \n 30 d follow-up",  # time
   #                   "Actual   \n 30 d follow-up", 

@@ -241,6 +241,6 @@ d_act_GB_d30 = d_act_d30 %>% filter(o_opmetode == 1)
 d_act_nt6  = d_act_a5 %>% filter(a5_dato_oppf - o_dato_op < 2007, a5_dato_oppf - o_dato_op > 1642)    # normtid:  +- 6 mån
 d_act_nt12 = d_act_a5 %>% filter(a5_dato_oppf - o_dato_op < 2190,  a5_dato_oppf - o_dato_op > 1460)
 
-d_act_GS_nt6 = d_act_nt6 %>% filter(o_opmetode == 6)
-d_act_GB_nt6 = d_act_nt6 %>% filter(o_opmetode == 1)
+d_act_GS_a5 = d_act_nt6 %>% filter(o_opmetode == 6)  # OBS normtid = +- 6 months
+d_act_GB_a5 = d_act_nt6 %>% filter(o_opmetode == 1)
 

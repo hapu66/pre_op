@@ -1,5 +1,5 @@
 #
-# source("set_up.R")
+ # source("set_up.R")
 #
 
   #   Count the n- column(s) for cohort(s)  eligible/ follow up
@@ -74,22 +74,28 @@ titl =  function(op){
    # put two columns and opr results together
 cb_chs  = function(ch_e, ch_fu){   # , op
   
+#  ch_e = d_elig_GS_d30
+#  ch_fu = d_act_GS_d30
+  
   el_nm = deparse(substitute(ch_e))  # name of the eligible tb
   fu_nm = deparse(substitute(ch_fu)) #             follow-up
   
-  fu_t = ifelse(str_detect(el_nm, "d30"), "d30", 
-          ifelse(str_detect(el_nm, "a5"),
+  fu_t = ifelse(str_detect(fu_nm, "d30"), "d30", 
+          ifelse(str_detect(fu_nm, "a5"),
                 "a5",  "ERROR!"))
-          
-  opr_mt =  ifelse(str_detect(el_nm, "GS"), "GS", 
-                   ifelse(str_detect(el_nm, "GB"),
+  opr_mt =  ifelse(str_detect(fu_nm, "GS"), "GS", 
+                   ifelse(str_detect(fu_nm, "GB"),
                           "GB",  "ERROR!"))
+#  ttl_str = str_glue("Eligible for \n {fu_t} follow-up, {opr_mt}")
+  # tb_span =  glue(c("Eligible for  \n {fu_t} follow-up",
+  #                       "Actual        \n {fu_t} follow-up",
+  #                       "{opr_mt}"))
   
-  ttl_str = str_glue("Eligible for \n {fu_t} follow-up, {opr_mt}")
+  tb_sp1 = str_glue("Eligible for  \n {fu_t} follow-up")
+  tb_sp2 = str_glue("Actual        \n {fu_t} follow-up")
+  tb_sp3 = str_glue("{opr_mt}")   
   
-  tb_span = c("Eligible for  \n {fu_t} follow-up",
-              "Actual        \n {fu_t} follow-up",
-              "{opr_mt}")
+  tb_span = c(tb_sp1, tb_sp2, tb_sp3)
 #  case_when()
   
 #print(c(el_nm, el_fu, op))
@@ -114,8 +120,8 @@ cb_chs  = function(ch_e, ch_fu){   # , op
 }
 
 tb1_GS =  tbl_merge( list(
-cb_chs(d_elig_GS_d30, d_act_GS_d30, "GS"),
-cb_chs(d_act_GS_nt6, d_act_GS_nt6, "GS")
+cb_chs(d_elig_GS_d30, d_act_GS_d30 ),
+cb_chs(d_act_GS_nt6, d_act_GS_nt6 )
 ), tab_spanner = c("**Results for 30 days**", "**Results for 5 years**"))
 
 

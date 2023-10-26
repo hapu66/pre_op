@@ -96,21 +96,8 @@ cb_chs  = function(ch_e, ch_fu){   # , op
   tb_sp3 = str_glue("{opr_mt}")   
   
   tb_span = c(tb_sp1, tb_sp2, tb_sp3)
-#  case_when()
-  
-#print(c(el_nm, el_fu, op))
-  # op_str = ifelse(str_detect(ch_fu, "GS"),
-  #                 c("Eligible for  \n 30 d follow-up",  # time
-  #                   "Actual   \n 30 d follow-up", 
-  #                   "Gastric Sleeve" ) , 
-  #             ifelse(str_detect(ch_fu, "GB"),
-  #                    c("Eligible for  \n 5 yr follow-up",
-  #                      "Actual   \n 5 yr follow-up", 
-  #                      "Gastric Bypass" ), 
-  #                                             "neither GS nor GB ?!")
-  #                 )
- # fix  similar solution for time d30  a5
- #  
+###  case_when()
+  #  
    
   cl_1  = n_cl(ch_e)
   cl_2  = n_cl(ch_fu)
@@ -118,6 +105,10 @@ cb_chs  = function(ch_e, ch_fu){   # , op
   T = tbl_merge( tbls = list(cl_1, cl_2, cl_34), tab_spanner =  tb_span )
   T
 }
+
+#   remove over-titles!
+# tbl_merge( list( cb_chs(d_elig_GS_d30, d_act_GS_d30 ) , cb_chs(d_elig_GB_d30, d_act_GB_d30 )), tab_spanner = FALSE)
+
 
 tb1_GS =  tbl_merge( list(
 cb_chs(d_elig_GS_d30, d_act_GS_d30 ),

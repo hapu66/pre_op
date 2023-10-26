@@ -72,7 +72,7 @@ titl =  function(op){
            TRUE ~ NA_character_)}
 
    # put two columns and opr results together
-cb_chs  = function(ch_e, ch_fu, op){
+cb_chs  = function(ch_e, ch_fu){   # , op
   
   el_nm = deparse(substitute(ch_e))  # name of the eligible tb
   fu_nm = deparse(substitute(ch_fu)) #             follow-up
@@ -86,9 +86,11 @@ cb_chs  = function(ch_e, ch_fu, op){
                           "GB",  "ERROR!"))
   
   ttl_str = str_glue("Eligible for \n {fu_t} follow-up, {opr_mt}")
+  
+  tb_span = c("Eligible for  \n {fu_t} follow-up",
+              "Actual        \n {fu_t} follow-up",
+              "{opr_mt}")
 #  case_when()
-  
-  
   
 #print(c(el_nm, el_fu, op))
   # op_str = ifelse(str_detect(ch_fu, "GS"),
@@ -106,8 +108,8 @@ cb_chs  = function(ch_e, ch_fu, op){
    
   cl_1  = n_cl(ch_e)
   cl_2  = n_cl(ch_fu)
-  cl_34 = n_opr(ch_fu,  op )
-  T = tbl_merge( tbls = list(cl_1, cl_2, cl_34) )
+  cl_34 = n_opr(ch_fu,  opr_mt )
+  T = tbl_merge( tbls = list(cl_1, cl_2, cl_34), tab_spanner =  tb_span )
   T
 }
 

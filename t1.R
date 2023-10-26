@@ -121,13 +121,13 @@ cb_chs  = function(ch_e, ch_fu){   # , op
 
 tb1_GS =  tbl_merge( list(
 cb_chs(d_elig_GS_d30, d_act_GS_d30 ),
-cb_chs(d_act_GS_nt6, d_act_GS_nt6 )
+cb_chs(d_act_GS_a5, d_act_GS_a5 )
 ), tab_spanner = c("**Results for 30 days**", "**Results for 5 years**"))
 
 
 tb1_GB =  tbl_merge( list(
-  cb_chs(d_elig_GB_d30, d_act_GB_d30, "GB"),
-  cb_chs(d_act_GB_nt6, d_act_GB_nt6, "GB")
+  cb_chs(d_elig_GB_d30, d_act_GB_d30 ),
+  cb_chs(d_act_GB_a5, d_act_GB_a5 )
 ), tab_spanner = c("**Results for 30 days**", "**Results for 5 years**"))
 
 

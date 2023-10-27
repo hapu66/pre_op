@@ -1,5 +1,5 @@
-source("set_up.R")
-
+# source("set_up.R")
+library(ggdist)
 
 dl =    d_act_GS_a5 %>% pivot_longer(cols = contains("bmi_"), names_to = "time", values_to = "value")   
 

@@ -60,9 +60,9 @@ lng_res  = function(tb) { tb |>
   }
   
 s_GS =  sht_res(d_act_GS_d30)
-l_GS =  lng_res(d_act_GS_nt6)
+l_GS =  lng_res(d_act_GS_a5)
 s_GB =  sht_res(d_act_GB_d30)
-l_GB =  lng_res(d_act_GB_nt6)
+l_GB =  lng_res(d_act_GB_a5)
 
 # fix in the denominator with gt 
 #  .list = rlang::list2( 

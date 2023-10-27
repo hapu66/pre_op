@@ -24,7 +24,9 @@ n_cl = function(ch) { ch |>
                        all_dichotomous() ~ "{n} / {N} ({p}%)"),
       digits = list(p_alder_v_op ~ c(1, 1)),
       missing_text = "Missing data"
-    )  
+    ) # |>
+#    modify_header(update = all_stat_cols() ~ "Sleeve \n operated  \n N = {n}",
+#                  text_interpret ="md") 
     }
 
   #   Count the n- column(s) for cohort(s)  eligible/ follow up
@@ -112,13 +114,23 @@ cb_chs  = function(ch_e, ch_fu){   # , op
 
 tb1_GS =  tbl_merge( list(
 cb_chs(d_elig_GS_d30, d_act_GS_d30 ),
-cb_chs(d_act_GS_a5, d_act_GS_a5 )
+cb_chs(d_elig_GS, d_act_GS_a5 )
 ), tab_spanner = c("**Results for 30 days**", "**Results for 5 years**"))
 
+tbl_merge( list(
+  cb_chs(d_elig_GS_d30, d_act_GS_d30 ),
+  cb_chs(d_elig_GS, d_act_GS_a5 )
+), tab_spanner = FALSE)
 
-tb1_GB =  tbl_merge( list(
+tbl_merge( list(
   cb_chs(d_elig_GB_d30, d_act_GB_d30 ),
-  cb_chs(d_act_GB_a5, d_act_GB_a5 )
+  cb_chs(d_elig_GB, d_act_GB_a5 )
+), tab_spanner = FALSE)
+
+
+tb2_GB =  tbl_merge( list(
+  cb_chs(d_elig_GB_d30, d_act_GB_d30 ),
+  cb_chs(d_elig_GB, d_act_GB_a5 )
 ), tab_spanner = c("**Results for 30 days**", "**Results for 5 years**"))
 
 
@@ -167,3 +179,13 @@ opr_N =   function(tb, op)  {
                   text_interpret ="md") 
   T }
 
+# theme_gtsummary_journal(journal = "jama")
+# 
+# theme_gtsummary
+# theme_gtsummary_compact()
+# theme_gtsummary_printer(print_engine=)
+# theme_gtsummary_mean_sd()
+# 
+# theme_gtsummary_language("nl")
+
+reset_gtsummary_theme()

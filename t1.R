@@ -117,12 +117,12 @@ cb_chs(d_elig_GS_d30, d_act_GS_d30 ),
 cb_chs(d_elig_GS, d_act_GS_a5 )
 ), tab_spanner = c("**Results for 30 days**", "**Results for 5 years**"))
 
-tbl_merge( list(
+T1S =  tbl_merge( list(
   cb_chs(d_elig_GS_d30, d_act_GS_d30 ),
   cb_chs(d_elig_GS, d_act_GS_a5 )
 ), tab_spanner = FALSE)
 
-tbl_merge( list(
+T1B =  tbl_merge( list(
   cb_chs(d_elig_GB_d30, d_act_GB_d30 ),
   cb_chs(d_elig_GB, d_act_GB_a5 )
 ), tab_spanner = FALSE)

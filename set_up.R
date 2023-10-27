@@ -244,3 +244,5 @@ d_act_nt12 = d_act_a5 %>% filter(a5_dato_oppf - o_dato_op < 2190,  a5_dato_oppf 
 d_act_GS_a5 = d_act_nt6 %>% filter(o_opmetode == 6)  # OBS normtid = +- 6 months
 d_act_GB_a5 = d_act_nt6 %>% filter(o_opmetode == 1)
 
+
+

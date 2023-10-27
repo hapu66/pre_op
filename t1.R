@@ -188,4 +188,4 @@ opr_N =   function(tb, op)  {
 # 
 # theme_gtsummary_language("nl")
 
-reset_gtsummary_theme()
+# reset_gtsummary_theme()

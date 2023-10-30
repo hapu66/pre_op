@@ -184,7 +184,8 @@ d_prim <- df %>% filter(op_primar)  #   primær
 d_revop <- df %>% filter(!op_primar)
 
 dt =  d_prim %>% 
-  mutate(a5_fu = a5_ferdigstill == 1, 
+  mutate(u6_fu =  u6_ferdigstill == 1 & u6_oppf_type %in% c(1, 2, 3),
+         a5_fu = a5_ferdigstill == 1, 
          trt =   case_when(
            o_preop_vektskole==1 & o_opmetode ==1 ~ "RYGB school",
            o_preop_vektskole==0 & o_opmetode ==1 ~ "RYGB norm",

@@ -59,7 +59,7 @@ A2 <- read_csv2(fil_2)
 A5 <- read_csv2(fil_5)
 #
 # setwd(anlzmappe) 
-setwd(r"(C:\Users\hanlyy\OneDrive - Helse Vest\H-dokumenter\pre_operativ)")
+setwd(r"(C:\Users\hanlyy\OneDrive - Helse Vest\H-dokumenter\pre_operativ\pre-op-WL-school)")
 ################################################################### join tables
 df<-AVN %>% 
   left_join(A1, by=c("p_pasientid","ForlopsID","p_opid") ) %>% 

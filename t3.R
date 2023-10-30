@@ -67,11 +67,11 @@ l_GB =  lng_res(d_act_GB_a5)
 # fix in the denominator with gt 
 #  .list = rlang::list2( 
 
-l_GS |> as_gt() |> rows_add(.list = rlang::list2(   "label" = "sdf",
-                              "stat_1" = N_op_a5[1,2],
-                              "stat_2" =  N_op_a5[2,2], 
-                              "p.value" =0.05 ),   
-                              .before = 2 )
+# l_GS |> as_gt() |> rows_add(.list = rlang::list2(   "label" = "sdf",
+#                               "stat_1" = N_op_a5[1,2],
+#                               "stat_2" =  N_op_a5[2,2], 
+#                               "p.value" =0.05 ),   
+#                               .before = 2 )
 
 # l_GS$table_body 
 l_GS |> as_gt() |> 
@@ -82,16 +82,21 @@ l_GS |> as_gt() |>
               .before = 2 )  
  # --------------------------  Follow-up %:s   format
 l_GS  = l_GS |> as_gt() |> 
-  rows_add( .list = rlang::list2(  "label" = "potential 5 yr",
+  rows_add( .list = rlang::list2(  "label" = "Potential 5 yr follow-up",
               "stat_1" = as.character( N_op_a5[1,2]),
               "stat_2" = as.character( N_op_a5[2,2]),
               "p.value" = NA ),   
-              .before = 2 )  |>
-  rows_add( .list = rlang::list2(  "label" = "follow-up %; 5 yrs",
-                                   "stat_1" = as.character( l_GS$df_by$n[1]/ N_op_a5[1,2]),
-                                   "stat_2" = as.character( l_GS$df_by$n[2]/ N_op_a5[2,2]),
+              .before = 1 )  |>
+  rows_add( .list = rlang::list2(  "label" = "Follow-up %; 5 yrs",
+                                   "stat_1" = as.character(round( 100*l_GS$df_by$n[1]/ N_op_a5[1,2],1)),
+                                   "stat_2" = as.character(round( 100*l_GS$df_by$n[2]/ N_op_a5[2,2],1)),
                                    "p.value" = 0.07479 ),   
-            .before = 3 )
+            .before = 3 ) |>
+  fmt_number(
+    rows = 3,
+    decimals = 2
+  )
+
 M_GS = matrix(c(685, 676, 1222, 1066),
               nrow = 2)
 fisher.test(M_GS)
@@ -151,6 +156,19 @@ tab3_GS  |> as_gt() |>
                                    "stat_2" = as.character( l_GS$df_by$n[2]/ N_op_a5[2,2]),
                                    "p.value" = 0.07479  ),   
             .before = 14 )  
+
+tab3_GS  |> as_gt() |> 
+  rows_add( .list = rlang::list2(  "label" = "potential 30 d",
+                                   "stat_1" = as.character( N_op_d30[1,2]),
+                                   "stat_2" = as.character( N_op_d30[2,2]),
+                                   "p.value" = NA ),   
+            .before = 1 )  |>
+  rows_add( .list = rlang::list2(  "label" = "follow-up %; 30 d",
+                                   "stat_1" = as.character( s_GS$df_by$n[1]/ N_op_d30[1,2]),
+                                   "stat_2" = as.character( s_GS$df_by$n[2]/ N_op_d30[2,2]),
+                                   "p.value" = 0.5369 ),   
+            .before = 2 )
+
 
 ##-----------------------------------  GB
 

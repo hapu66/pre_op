@@ -12,22 +12,25 @@ fup_a5 =  N_act_a5$N_opr / N_op_a5$N_opr
 
   # short term results, cohort: d_act_GS_d30,  d_act_GB_d30
 sht_res  = function(tb) { tb |> 
-    select(trt, vent, vt_pr, ligg, reinn, alv_kmp) |>
+    select(trt, u6_fu, vent, vt_pr, ligg, reinn, alv_kmp) |>
     tbl_summary( 
       by = trt,
-      type = list(vent ~  "continuous2",
-                  vt_pr ~ "continuous",
-                  ligg ~ "continuous",
-                  reinn   ~ "dichotomous",
-                  alv_kmp ~ "dichotomous"      ),
-      statistic = list(vent ~ c("{median} ({p25}, {p75})", 
+      type = list( u6_fu ~ "dichotomous",
+                   vent ~  "continuous2",
+                   vt_pr ~ "continuous",
+                   ligg ~ "continuous",
+                   reinn   ~ "dichotomous",
+                   alv_kmp ~ "dichotomous"      ),
+      statistic = list(u6_fu ~ "{n}",
+                       vent ~ c("{median} ({p25}, {p75})", 
                                 "{mean} [{min} {max}]"),    #  !! fix CI
                        vt_pr ~ "{mean} ({sd})", 
                        ligg ~ "{median} ({min}; {max})",     ## median IQR per default !
                        reinn ~ "{n} / {N} ({p}%)", 
                        alv_kmp ~"{n} / {N} ({p}%)"),
     #  digits = list(ligg ~ 2), 
-      label = list( vent ~ "Waiting time (d)",
+      label = list( u6_fu ~ "Follow-up 30 d",
+                    vent ~ "Waiting time (d)",
                     vt_pr ~ "Pre-operative weight loss",
                     ligg ~ "Postoperative days in hospital",
                     reinn ~ "Readmission",
@@ -81,6 +84,32 @@ l_GS |> as_gt() |>
               "p.value" = NA ,   
               .before = 2 )  
  # --------------------------  Follow-up %:s   format
+
+s_GS_gt  = s_GS |> as_gt() |> 
+  rows_add( .list = rlang::list2(  "label" = "Potential 30 d follow-up",
+                                   "stat_1" = as.character( N_op_d30[1,2]),
+                                   "stat_2" = as.character( N_op_d30[2,2]),
+                                   "p.value" = NA ),   
+            .before = 1 )  |>
+  rows_add( .list = rlang::list2(  "label" = "Follow-up %; 30 d",
+                                   "stat_1" = as.character(round( 100*s_GS$df_by$n[1]/ N_op_d30[1,2], 1)),
+                                   "stat_2" = as.character(round( 100*s_GS$df_by$n[2]/ N_op_d30[2,2], 1)),
+                                   "p.value" = NA),   
+            .before = 3 )
+
+s_GB_gt  = s_GB |> as_gt() |> 
+  rows_add( .list = rlang::list2(  "label" = "Potential 30 d follow-up",
+                                   "stat_1" = as.character( N_op_d30[3,2]),
+                                   "stat_2" = as.character( N_op_d30[4,2]),
+                                   "p.value" = NA ),   
+            .before = 1 )  |>
+  rows_add( .list = rlang::list2(  "label" = "Follow-up %; 30 d",
+                                   "stat_1" = as.character(round( 100*s_GB$df_by$n[1]/ N_op_d30[3,2], 1)),
+                                   "stat_2" = as.character(round( 100*s_GB$df_by$n[2]/ N_op_d30[4,2], 1)),
+                                   "p.value" = NA),   
+            .before = 3 )
+
+
 l_GS_gt  = l_GS |> as_gt() |> 
   rows_add( .list = rlang::list2(  "label" = "Potential 5 yr follow-up",
               "stat_1" = as.character( N_op_a5[1,2]),
@@ -91,11 +120,20 @@ l_GS_gt  = l_GS |> as_gt() |>
                                    "stat_1" = as.character(round( 100*l_GS$df_by$n[1]/ N_op_a5[1,2], 1)),
                                    "stat_2" = as.character(round( 100*l_GS$df_by$n[2]/ N_op_a5[2,2], 1)),
                                    "p.value" = 0.07479 ),   
-            .before = 3 ) |>
-  fmt_number(
-    rows = 3,
-    decimals = 2
-  )
+            .before = 3 ) 
+
+l_GB_gt  = l_GB |> as_gt() |> 
+  rows_add( .list = rlang::list2(  "label" = "Potential 5 yr follow-up",
+                                   "stat_1" = as.character( N_op_a5[3,2]),
+                                   "stat_2" = as.character( N_op_a5[4,2]),
+                                   "p.value" = NA ),   
+            .before = 1 )  |>
+  rows_add( .list = rlang::list2(  "label" = "Follow-up %; 5 yrs",
+                                   "stat_1" = as.character(round( 100*l_GB$df_by$n[1]/ N_op_a5[3,2], 1)),
+                                   "stat_2" = as.character(round( 100*l_GB$df_by$n[2]/ N_op_a5[4,2], 1)),
+                                   "p.value" = 0.07479 ),   
+            .before = 3 )
+
 
 M_GS = matrix(c(685, 676, 1222, 1066),
               nrow = 2)

@@ -116,8 +116,8 @@ fisher.test(M_GS)
 
 l_GB_gt  = l_GB |> as_gt() |> 
   rows_add( .list = rlang::list2(  "label" = "Potential 5 yr follow-up",
-                                   "stat_1" = as.character( N_op_a5[1,2]),
-                                   "stat_2" = as.character( N_op_a5[2,2]),
+                                   "stat_1" = as.character( N_op_a5[3,2]),
+                                   "stat_2" = as.character( N_op_a5[4,2]),
                                    "p.value" = NA ),   
             .before = 1 )  |>
   rows_add( .list = rlang::list2(  "label" = "Follow-up %; 5 yrs",

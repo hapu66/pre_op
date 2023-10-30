@@ -34,8 +34,8 @@ sht_res  = function(tb) { tb |>
                     alv_kmp ~ "Severe complications (30 d)"),
       missing_text = "Missing data" 
         ) |>
-    add_p()  |> 
-    add_ci(include=c("vent", "ligg"), pattern = "{stat} ({ci})")
+    add_p() # |> 
+#    add_ci(include=c("vent", "ligg"), pattern = "{stat} ({ci})")
 }
 
  #    https://stackoverflow.com/questions/77069718/how-to-add-row-with-confidence-intervals-for-each-column-using-gtsummary
@@ -81,15 +81,15 @@ l_GS |> as_gt() |>
               "p.value" = NA ,   
               .before = 2 )  
  # --------------------------  Follow-up %:s   format
-l_GS  = l_GS |> as_gt() |> 
+l_GS_gt  = l_GS |> as_gt() |> 
   rows_add( .list = rlang::list2(  "label" = "Potential 5 yr follow-up",
               "stat_1" = as.character( N_op_a5[1,2]),
               "stat_2" = as.character( N_op_a5[2,2]),
               "p.value" = NA ),   
               .before = 1 )  |>
   rows_add( .list = rlang::list2(  "label" = "Follow-up %; 5 yrs",
-                                   "stat_1" = as.character(round( 100*l_GS$df_by$n[1]/ N_op_a5[1,2],1)),
-                                   "stat_2" = as.character(round( 100*l_GS$df_by$n[2]/ N_op_a5[2,2],1)),
+                                   "stat_1" = as.character(round( 100*l_GS$df_by$n[1]/ N_op_a5[1,2], 1)),
+                                   "stat_2" = as.character(round( 100*l_GS$df_by$n[2]/ N_op_a5[2,2], 1)),
                                    "p.value" = 0.07479 ),   
             .before = 3 ) |>
   fmt_number(
@@ -102,17 +102,34 @@ M_GS = matrix(c(685, 676, 1222, 1066),
 fisher.test(M_GS)
 #--
 
-l_GB = l_GB |> as_gt() |> 
-  rows_add( .list = rlang::list2(  "label" = "potential 5 yr",
-                                   "stat_1" = as.character( N_op_a5[3,2]),
-                                   "stat_2" = as.character( N_op_a5[4,2]),
+# l_GB_gt = l_GB |> as_gt() |> 
+#   rows_add( .list = rlang::list2(  "label" = "potential 5 yr",
+#                                    "stat_1" = as.character( N_op_a5[3,2]),
+#                                    "stat_2" = as.character( N_op_a5[4,2]),
+#                                    "p.value" = NA ),   
+#             .before = 2 )  |>
+#   rows_add( .list = rlang::list2(  "label" = "follow-up %; 5 yrs",
+#                                    "stat_1" = as.character( l_GB$df_by$n[1]/ N_op_a5[3,2]),
+#                                    "stat_2" = as.character( l_GB$df_by$n[2]/ N_op_a5[4,2]),
+#                                    "p.value" = 0.5624 ),   
+#             .before = 3 )
+
+l_GB_gt  = l_GB |> as_gt() |> 
+  rows_add( .list = rlang::list2(  "label" = "Potential 5 yr follow-up",
+                                   "stat_1" = as.character( N_op_a5[1,2]),
+                                   "stat_2" = as.character( N_op_a5[2,2]),
                                    "p.value" = NA ),   
-            .before = 2 )  |>
-  rows_add( .list = rlang::list2(  "label" = "follow-up %; 5 yrs",
-                                   "stat_1" = as.character( l_GB$df_by$n[1]/ N_op_a5[3,2]),
-                                   "stat_2" = as.character( l_GB$df_by$n[2]/ N_op_a5[4,2]),
+            .before = 1 )  |>
+  rows_add( .list = rlang::list2(  "label" = "Follow-up %; 5 yrs",
+                                   "stat_1" = as.character(round( 100*l_GB$df_by$n[1]/ N_op_a5[3,2], 1)),
+                                   "stat_2" = as.character(round( 100*l_GB$df_by$n[2]/ N_op_a5[4,2], 1)),
                                    "p.value" = 0.5624 ),   
-            .before = 3 )
+            .before = 3 )  # |>
+  # fmt_number(
+  #   rows = 3,
+  #   decimals = 2
+  # )
+
 
 M_GB = matrix(c(353, 791, 522, 1229),
                          nrow = 2)

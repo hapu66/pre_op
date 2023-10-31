@@ -97,10 +97,10 @@ lng_res  = function(tb) { tb |>
     add_p()  # remove for a5_fu?
   }
   
-s_GS =  sht_res(d_act_GS_d30)
-l_GS =  lng_res(d_act_GS_a5)
-s_GB =  sht_res(d_act_GB_d30)
-l_GB =  lng_res(d_act_GB_a5)
+s_GS =  sht_res(d_act_d30_GS)
+l_GS =  lng_res(d_act_a5_GS)
+s_GB =  sht_res(d_act_d30_GB)
+l_GB =  lng_res(d_act_a5_GB)
 
 
 cnt_d30 = d_elig_d30 %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")

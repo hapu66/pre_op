@@ -186,7 +186,9 @@ d_revop <- df %>% filter(!op_primar)
 dt =  d_prim %>% 
   mutate(u6_fu =  u6_ferdigstill == 1 & u6_oppf_type %in% c(1, 2, 3),
          a5_fu = a5_ferdigstill == 1, 
-         a5_nt =  a5_ferdigstill == 1 & a5_dato_oppf - o_dato_op < 2007 & a5_dato_oppf - o_dato_op > 1642, # fu a5 i normtid
+         a5_nt =  a5_ferdigstill == 1 & a5_dato_oppf - o_dato_op < 2007 & a5_dato_oppf - o_dato_op > 1642, 
+         a5_oppf_type %in%  c("Frammøte", "Per telefon eller via nettmøte",  "Per brev/mail eller på annen måte") &
+           a5_ant_vekt > 0,   # fu a5 i normtid,   3 st wrong with a5_ant_vekt == 0
          trt =   case_when(
            o_preop_vektskole==1 & o_opmetode ==1 ~ "RYGB school",
            o_preop_vektskole==0 & o_opmetode ==1 ~ "RYGB norm",
@@ -220,21 +222,20 @@ d_elig_d30 = d %>% filter(o_dato_op <  Sys.Date()   - months(3))  # - 3 m
 d_elig_GS_d30 = d_elig_d30 %>% filter(o_opmetode == 6)
 d_elig_GB_d30 = d_elig_d30 %>% filter(o_opmetode == 1)
 
-d_act_a5 = d %>% filter(o_dato_op <  Sys.Date() - days(2007), 
-                     a5_ferdigstill == 1,             # a5_oppf_type %in% c(1, 2, 3),  # !!  BESTILL   a5_NUM
-                     a5_oppf_type %in%  c("Frammøte", "Per telefon eller via nettmøte",  "Per brev/mail eller på annen måte"),   ###   kod = 1,2,3
-                     !is.na(bmi_5a),
-                     a5_ant_vekt > 0)  # 3 pas have vekt = 0?  count as elig
+# d_act_a5 = d %>% filter(o_dato_op <  Sys.Date() - days(2007), 
+#                      a5_ferdigstill == 1,       # a5_oppf_type %in% c(1, 2, 3),  # !!  BESTILL   a5_NUM
+#                      a5_oppf_type %in%  c("Frammøte", "Per telefon eller via nettmøte",  "Per brev/mail eller på annen måte"),   ###   kod = 1,2,3
+#                      !is.na(bmi_5a),
+#                      a5_ant_vekt > 0)  # 3 pas have vekt = 0?  count as elig
 
-d_act_d30 = d_elig_d30 %>% filter(u6_ferdigstill == 1,
-                                  u6_oppf_type %in% c(1, 2, 3))
-
+d_act_d30 = d_elig_d30 %>% filter(u6_fu == 1)
 d_act_GS_d30 = d_act_d30 %>% filter(o_opmetode == 6)
 d_act_GB_d30 = d_act_d30 %>% filter(o_opmetode == 1)
 
 d_act_nt6  = d_act_a5 %>% filter(a5_dato_oppf - o_dato_op < 2007, a5_dato_oppf - o_dato_op > 1642)    # normtid:  +- 6 mån
 d_act_nt12 = d_act_a5 %>% filter(a5_dato_oppf - o_dato_op < 2190,  a5_dato_oppf - o_dato_op > 1460)
 
+d_act_a5 = d %>% filter(a5_nt)
 d_act_GS_a5 = d_act_nt6 %>% filter(o_opmetode == 6)  # OBS normtid = +- 6 months
 d_act_GB_a5 = d_act_nt6 %>% filter(o_opmetode == 1)
 

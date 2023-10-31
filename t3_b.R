@@ -1,3 +1,59 @@
+cnt_d30 =    d_elig_d30 %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
+cnt_d30_GS = d_elig_d30_GS %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
+cnt_d30_GB = d_elig_d30_GB %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
+
+
+up_d30 = function(tb) { tb |> 
+    select(trt,  vent, vt_pr, ligg, reinn, alv_kmp) |>  
+    tbl_summary( 
+      by = trt,
+      type = list( vent ~  "continuous2",
+                   vt_pr ~ "continuous",
+                   ligg ~ "continuous",
+                   reinn   ~ "dichotomous",
+                   alv_kmp ~ "dichotomous"      ),
+      statistic = list( vent ~ c("{median} ({p25}, {p75})",
+                                 "{mean} [{min} {max}]"),    #  !! fix CI
+                        vt_pr ~ "{mean} ({sd})", 
+                        ligg ~ "{median} ({min}; {max})",     ## median IQR per default !
+                        reinn ~ "{n} / {N} ({p}%)", 
+                        alv_kmp ~ "{n} / {N} ({p}%)"),      #  digits = list(ligg ~ 2), 
+      label = list(# u6_fu ~ "Follow-up 30 d",
+        vent ~ "Waiting time (d)",
+        vt_pr ~ "Pre-operative weight loss",
+        ligg ~ "Postoperative days in hospital",
+        reinn ~ "Readmission",
+        alv_kmp ~ "Severe complications (30 d)"),
+      missing_text = "Missing data" 
+    ) |>
+    add_p() # |>   #    add_ci(include=c("vent", "ligg"), pattern = "{stat} ({ci})")
+}
+
+cnt_a5 =    d_elig %>% tbl_summary(by = trt, include = c(a5_nt), label =    a5_nt ~ "Followed up, 5 yr +- 6m")
+cnt_a5_GS = d_elig_GS %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5 yr +- 6m")
+cnt_a5_GB = d_elig_GB %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5 yr +- 6m")
+
+
+dw_a5 = function(tb) { tb |> 
+    select(trt, a5_fu, vtap, dBMI, depr, subst, depr) |>  # N_revop, 
+    tbl_summary( 
+      by = trt,
+      type = list( c(a5_fu, depr, subst) ~ "dichotomous"),   ##  c()
+      statistic = list(a5_fu ~ "{n}", 
+                       depr~ "{n} / {N} ({p}%)",
+                       subst~ "{n} / {N} ({p}%)"),
+      label = list(a5_fu ~ "Follow-up 5 yrs",
+                   #  N_revop ~ "Revisions",
+                   depr ~ "Depression ", 
+                   subst ~ "Substitution ", 
+                   vtap ~ "%TWL ", 
+                   dBMI  ~ "d BMI "),
+      missing_text = "Missing data" 
+    ) |>
+    add_p()  # remove for a5_fu?
+}
+
+tbl_stack(list(cnt_d30_GS, up_d30(d_elig_d30_GS), cnt_a5_GS, dw_a5(d_elig_GS) )) 
 
   # denominator for follow-up %
 N_op_d30 <- d_elig_d30 |>  group_by(trt) |> summarise(N_opr = n())
@@ -44,58 +100,60 @@ sht_res  = function(tb) { tb |>
 }
 
 
-up_d30 = function(tb) { tb |> 
-    select(trt,  vent, vt_pr, ligg, reinn, alv_kmp) |> #  u6_fu,
-    tbl_summary( 
-      by = trt,
-      type = list( # u6_fu ~ "dichotomous",
-                   vent ~  "continuous2",
-                   vt_pr ~ "continuous",
-                   ligg ~ "continuous",
-                   reinn   ~ "dichotomous",
-                   alv_kmp ~ "dichotomous"      ),
-      statistic = list(# u6_fu ~ "{n}",
-                       vent ~ c("{median} ({p25}, {p75})", 
-                                "{mean} [{min} {max}]"),    #  !! fix CI
-                       vt_pr ~ "{mean} ({sd})", 
-                       ligg ~ "{median} ({min}; {max})",     ## median IQR per default !
-                       reinn ~ "{n} / {N} ({p}%)", 
-                       alv_kmp ~"{n} / {N} ({p}%)"),
-      #  digits = list(ligg ~ 2), 
-      label = list(# u6_fu ~ "Follow-up 30 d",
-                    vent ~ "Waiting time (d)",
-                    vt_pr ~ "Pre-operative weight loss",
-                    ligg ~ "Postoperative days in hospital",
-                    reinn ~ "Readmission",
-                    alv_kmp ~ "Severe complications (30 d)"),
-      missing_text = "Missing data" 
-    ) |>
-    add_p() # |>   #    add_ci(include=c("vent", "ligg"), pattern = "{stat} ({ci})")
-}
+# up_d30 = function(tb) { tb |> 
+#     select(trt,  vent, vt_pr, ligg, reinn, alv_kmp) |> #  u6_fu,
+#     tbl_summary( 
+#       by = trt,
+#       type = list( # u6_fu ~ "dichotomous",
+#                    vent ~  "continuous2",
+#                    vt_pr ~ "continuous",
+#                    ligg ~ "continuous",
+#                    reinn   ~ "dichotomous",
+#                    alv_kmp ~ "dichotomous"      ),
+#       statistic = list(# u6_fu ~ "{n}",
+#                        vent ~ c("{median} ({p25}, {p75})", 
+#                                 "{mean} [{min} {max}]"),    #  !! fix CI
+#                        vt_pr ~ "{mean} ({sd})", 
+#                        ligg ~ "{median} ({min}; {max})",     ## median IQR per default !
+#                        reinn ~ "{n} / {N} ({p}%)", 
+#                        alv_kmp ~"{n} / {N} ({p}%)"),
+#       #  digits = list(ligg ~ 2), 
+#       label = list(# u6_fu ~ "Follow-up 30 d",
+#                     vent ~ "Waiting time (d)",
+#                     vt_pr ~ "Pre-operative weight loss",
+#                     ligg ~ "Postoperative days in hospital",
+#                     reinn ~ "Readmission",
+#                     alv_kmp ~ "Severe complications (30 d)"),
+#       missing_text = "Missing data" 
+#     ) |>
+#     add_p() # |>   #    add_ci(include=c("vent", "ligg"), pattern = "{stat} ({ci})")
+# }
 
-
+# dn_a5 
 
 
  #    https://stackoverflow.com/questions/77069718/how-to-add-row-with-confidence-intervals-for-each-column-using-gtsummary
   #  long term results, cohort: d_act_GS_nt6,  d_act_GB_nt6     
-lng_res  = function(tb) { tb |> 
-    select(trt, a5_fu, vtap, dBMI, depr, subst, depr) |>  # N_revop, 
-    tbl_summary( 
-      by = trt,
-      type = list( c(a5_fu, depr, subst) ~ "dichotomous"),   ##  c()
-      statistic = list(a5_fu ~ "{n}", 
-                       depr~ "{n} / {N} ({p}%)",
-                       subst~ "{n} / {N} ({p}%)"),
-      label = list(a5_fu ~ "Follow-up 5 yrs",
-                 #  N_revop ~ "Revisions",
-                   depr ~ "Depression ", 
-                   subst ~ "Substitution ", 
-                   vtap ~ "%TWL ", 
-                   dBMI  ~ "d BMI "),
-      missing_text = "Missing data" 
-    ) |>
-    add_p()  # remove for a5_fu?
-  }
+
+
+# lng_res  = function(tb) { tb |> 
+#     select(trt, a5_fu, vtap, dBMI, depr, subst, depr) |>  # N_revop, 
+#     tbl_summary( 
+#       by = trt,
+#       type = list( c(a5_fu, depr, subst) ~ "dichotomous"),   ##  c()
+#       statistic = list(a5_fu ~ "{n}", 
+#                        depr~ "{n} / {N} ({p}%)",
+#                        subst~ "{n} / {N} ({p}%)"),
+#       label = list(a5_fu ~ "Follow-up 5 yrs",
+#                  #  N_revop ~ "Revisions",
+#                    depr ~ "Depression ", 
+#                    subst ~ "Substitution ", 
+#                    vtap ~ "%TWL ", 
+#                    dBMI  ~ "d BMI "),
+#       missing_text = "Missing data" 
+#     ) |>
+#     add_p()  # remove for a5_fu?
+#   }
   
 s_GS =  sht_res(d_act_d30_GS)
 l_GS =  lng_res(d_act_a5_GS)
@@ -103,13 +161,6 @@ s_GB =  sht_res(d_act_d30_GB)
 l_GB =  lng_res(d_act_a5_GB)
 
 
-cnt_d30 =    d_elig_d30 %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
-cnt_d30_GS = d_elig_d30_GS %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
-cnt_d30_GB = d_elig_d30_GB %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
-
-cnt_a5 =    d_elig %>% tbl_summary(by = trt, include = c(a5_nt), label =    a5_nt ~ "Followed up, 5 yr +- 6m")
-cnt_a5_GS = d_elig_GS %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5 yr +- 6")
-cnt_a5_GB = d_elig_GB %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5 yr")
 
 
 # cnt_a5  =  d_act_nt6 %>% tbl_summary(by = trt, include = c(a5_fu))

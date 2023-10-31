@@ -29,9 +29,9 @@ up_d30 = function(tb) { tb |>
     add_p() # |>   #    add_ci(include=c("vent", "ligg"), pattern = "{stat} ({ci})")
 }
 
-cnt_a5 =    d_elig %>% tbl_summary(by = trt, include = c(a5_nt), label =    a5_nt ~ "Followed up, 5 yr +- 6m")
-cnt_a5_GS = d_elig_GS %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5 yr +- 6m")
-cnt_a5_GB = d_elig_GB %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5 yr +- 6m")
+cnt_a5 =    d_elig %>% tbl_summary(by = trt, include = c(a5_nt), label =    a5_nt ~ "Followed up, 5yr +- 6m")
+cnt_a5_GS = d_elig_GS %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m")
+cnt_a5_GB = d_elig_GB %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m")
 
 
 dw_a5 = function(tb) { tb |> 
@@ -53,7 +53,37 @@ dw_a5 = function(tb) { tb |>
     add_p()  # remove for a5_fu?
 }
 
-tbl_stack(list(cnt_d30_GS, up_d30(d_elig_d30_GS), cnt_a5_GS, dw_a5(d_elig_GS) )) 
+tbl_merge( list(
+tbl_stack(list(cnt_d30_GS, up_d30(d_elig_d30_GS), cnt_a5_GS, dw_a5(d_elig_GS) )),
+tbl_stack(list(cnt_d30_GB, up_d30(d_elig_d30_GB), cnt_a5_GB, dw_a5(d_elig_GB) )) 
+))
+
+lft  =  tbl_stack(list(cnt_d30_GS, up_d30(d_elig_d30_GS), cnt_a5_GS, dw_a5(d_elig_GS) ))
+rgt =  tbl_stack(list(cnt_d30_GB, up_d30(d_elig_d30_GB), cnt_a5_GB, dw_a5(d_elig_GB) )) 
+
+
+lft |> as_gt() |>  
+  rows_add( .list = rlang::list2("label" =  "GS  >5.5 yr earlier",
+                                 "stat_1" = as.character(N_op_a5$N_opr[1]),
+                                 "stat_2" = as.character(N_op_a5$N_opr[2])),
+                  .before = 13 ) |> 
+  rows_add( .n_empty = 1, .before = 13)
+  
+rgt |> as_gt() |>  
+  rows_add( .list = rlang::list2("label" =  "GB >5.5 yr earlier", 
+                                 "stat_1" = as.character(N_op_a5$N_opr[3]),
+                                 "stat_2" = as.character(N_op_a5$N_opr[4])),
+            .before = 13 ) |> 
+  rows_add( .n_empty = 1, .before = 13)
+
+
+tbl_stack( list(
+tbl_merge( list(
+tbl_stack(list(cnt_d30_GS, up_d30(d_elig_d30_GS))), 
+tbl_stack(list(cnt_d30_GB, up_d30(d_elig_d30_GB)))
+)), cnt_a5)
+)
+
 
   # denominator for follow-up %
 N_op_d30 <- d_elig_d30 |>  group_by(trt) |> summarise(N_opr = n())

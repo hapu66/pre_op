@@ -186,7 +186,7 @@ d_revop <- df %>% filter(!op_primar)
 dt =  d_prim %>% 
   mutate(u6_fu =  u6_ferdigstill == 1 & u6_oppf_type %in% c(1, 2, 3),
          a5_fu = a5_ferdigstill == 1, 
-         a5_nt =  a5_ferdigstill == 1 & a5_dato_oppf - o_dato_op < 2007 & a5_dato_oppf - o_dato_op > 1642, 
+         a5_nt =  a5_ferdigstill == 1 & a5_dato_oppf - o_dato_op < 2007 & a5_dato_oppf - o_dato_op > 1642 &
          a5_oppf_type %in%  c("Frammøte", "Per telefon eller via nettmøte",  "Per brev/mail eller på annen måte") &
            a5_ant_vekt > 0,   # fu a5 i normtid,   3 st wrong with a5_ant_vekt == 0
          trt =   case_when(

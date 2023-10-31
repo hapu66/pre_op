@@ -103,9 +103,13 @@ s_GB =  sht_res(d_act_d30_GB)
 l_GB =  lng_res(d_act_a5_GB)
 
 
-cnt_d30 = d_elig_d30 %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
-cnt_GS_d30 = d_elig_GS_d30 %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
+cnt_d30 =    d_elig_d30 %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
+cnt_d30_GS = d_elig_d30_GS %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
+cnt_d30_GB = d_elig_d30_GB %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
 
+cnt_a5 =    d_elig %>% tbl_summary(by = trt, include = c(a5_nt), label =    a5_nt ~ "Followed up, 5 yr +- 6m")
+cnt_a5_GS = d_elig_GS %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5 yr +- 6")
+cnt_a5_GB = d_elig_GB %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5 yr")
 
 
 # cnt_a5  =  d_act_nt6 %>% tbl_summary(by = trt, include = c(a5_fu))

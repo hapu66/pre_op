@@ -186,6 +186,7 @@ d_revop <- df %>% filter(!op_primar)
 dt =  d_prim %>% 
   mutate(u6_fu =  u6_ferdigstill == 1 & u6_oppf_type %in% c(1, 2, 3),
          a5_fu = a5_ferdigstill == 1, 
+         a5_nt =  a5_ferdigstill == 1 & a5_dato_oppf - o_dato_op < 2007 & a5_dato_oppf - o_dato_op > 1642, # fu a5 i normtid
          trt =   case_when(
            o_preop_vektskole==1 & o_opmetode ==1 ~ "RYGB school",
            o_preop_vektskole==0 & o_opmetode ==1 ~ "RYGB norm",
@@ -198,7 +199,7 @@ d =    dt %>% filter(!is.na(o_preop_vektskole), o_opmetode %in% c(1, 6)) %>%
          bi_finans,  u6_ferdigstill, u6_oppf_type, a5_oppf_type,
          contains("bmi_"),  contains("b_beh"),  vt_pr, TWL_pr,
          vent,   ligg,   alv_kmp,  subst,  N_revop,
-         reinn,  depr,   vtap,   dBMI,   u6_fu, a5_fu, trt,
+         reinn,  depr,   vtap,   dBMI,   u6_fu, a5_fu, a5_nt, trt,
          o_dato_op, a5_ferdigstill, a5_ant_vekt, a5_dato_oppf, bmi_5a,  a5_TWL) %>% 
   mutate(bmi_0 = bmi_baseline, bmi_0o = bmi_op, bmi_0u6 = bmi_6v) %>%
   select(-bmi_baseline, -bmi_op, -bmi_6v)
@@ -211,26 +212,23 @@ eo_dato_a5 = as.Date("2018-04-15")
 #
 ## d_elig    =  d %>% filter(o_dato_op <  Sys.Date() - years(5) - months(6))  
 #
-d_elig    =  d %>% filter(o_dato_op <  Sys.Date() - days(2007))  # 5.5 yr
+d_elig    =  d %>% filter(o_dato_op <  Sys.Date() - days(2007))  # -5.5 yr
 d_elig_GS  = d_elig  %>% filter(o_opmetode == 6)
 d_elig_GB  = d_elig  %>% filter(o_opmetode == 1)
 
-
-d_elig_d30 = d %>% filter(o_dato_op <  Sys.Date()   - months(3)) 
+d_elig_d30 = d %>% filter(o_dato_op <  Sys.Date()   - months(3))  # - 3 m
 d_elig_GS_d30 = d_elig_d30 %>% filter(o_opmetode == 6)
 d_elig_GB_d30 = d_elig_d30 %>% filter(o_opmetode == 1)
 
-
-
 d_act_a5 = d %>% filter(o_dato_op <  Sys.Date() - days(2007), 
-                     a5_ferdigstill == 1,                                                      # a5_oppf_type %in% c(1, 2, 3),  # !!  BESTILL   a5_NUM
+                     a5_ferdigstill == 1,             # a5_oppf_type %in% c(1, 2, 3),  # !!  BESTILL   a5_NUM
                      a5_oppf_type %in%  c("Frammøte", "Per telefon eller via nettmøte",  "Per brev/mail eller på annen måte"),   ###   kod = 1,2,3
                      !is.na(bmi_5a),
                      a5_ant_vekt > 0)  # 3 pas have vekt = 0?  count as elig
 
-
 d_act_d30 = d_elig_d30 %>% filter(u6_ferdigstill == 1,
                                   u6_oppf_type %in% c(1, 2, 3))
+
 d_act_GS_d30 = d_act_d30 %>% filter(o_opmetode == 6)
 d_act_GB_d30 = d_act_d30 %>% filter(o_opmetode == 1)
 

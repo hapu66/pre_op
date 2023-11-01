@@ -2,23 +2,35 @@
  # source("set_up.R")
 #
 
-lz_str =  function(ch, ag){
+lz2_str =  function(ch, ag){
   ch_nm = deparse(substitute(ch))
     sts  = ifelse(str_detect(ch_nm, "elig"), "elig", ifelse(str_detect(ch_nm, "act"),  "act",  "status ERROR!"))
     tim  = ifelse(str_detect(ch_nm, "d30"), "d30", ifelse(str_detect(ch_nm, "a5"),  "a5",  "t ERROR!"))
     opm  = ifelse(str_detect(ch_nm, "GS"), "GS", ifelse(str_detect(ch_nm, "GB"),  "GB",  "opm ERROR!"))
     
     str = case_when( ag == "st" ~  sts,
-               ag == "ti" ~ tim,
-               ag == "om" ~ opm,
+                        ag == "ti" ~ tim,
+                       ag == "om" ~ opm,
                TRUE ~  "Error: ag = st/ti/om") 
     str
 }
+
+lz_str =  function(ch, arg){
+  ch_nm = deparse(substitute(ch))
+    str = case_when(arg == "st" ~   str_split(ch_nm, "_")[[1]][2],
+                    arg == "ti" ~   str_split(ch_nm, "_")[[1]][3],
+                    arg == "om" ~   str_split(ch_nm, "_")[[1]][4])
+    str
+}
+
 #  str_split("d_elig_d30_GS","_")[[1]][3]
 # [1] "d30"
 
   #   Count the n- column(s) for cohort(s)  eligible/ follow up
-n_cl = function(ch) { ch |> 
+n_cl = function(ch) { 
+   
+  sts = lz_str(ch , "st")
+    ch |> 
     select(bi_finans, p_alder_v_op, Female, bmi_0, b_beh_musk_skjsm, b_beh_depr,
            b_beh_diab,  b_beh_hypert, b_beh_dyslip,  b_beh_sovnap, b_beh_dyspepsi,
            smoke, work) |>
@@ -39,9 +51,9 @@ n_cl = function(ch) { ch |>
                        all_dichotomous() ~ "{n} / {N} ({p}%)"),
       digits = list(p_alder_v_op ~ c(1, 1)),
       missing_text = "Missing data"
-    ) # |>
- #   modify_header(update = all_stat_cols() ~ "Sleeve \n operated  \n N = {n}",
- #                 text_interpret ="md") 
+    )  |>
+    modify_header(update = all_stat_cols() ~ str_glue("Sleeve {sts} \n operated  \n N = {n}"),
+                  text_interpret ="md") 
     }
 
   #   Count the n- column(s) for cohort(s)  eligible/ follow up

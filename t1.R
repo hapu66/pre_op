@@ -2,6 +2,21 @@
  # source("set_up.R")
 #
 
+lz_str =  function(ch, ag){
+  ch_nm = deparse(substitute(ch))
+    sts  = ifelse(str_detect(ch_nm, "elig"), "elig", ifelse(str_detect(ch_nm, "act"),  "act",  "status ERROR!"))
+    tim  = ifelse(str_detect(ch_nm, "d30"), "d30", ifelse(str_detect(ch_nm, "a5"),  "a5",  "t ERROR!"))
+    opm  = ifelse(str_detect(ch_nm, "GS"), "GS", ifelse(str_detect(ch_nm, "GB"),  "GB",  "opm ERROR!"))
+    
+    str = case_when( ag == "st" ~  sts,
+               ag == "ti" ~ tim,
+               ag == "om" ~ opm,
+               TRUE ~  "Error: ag = st/ti/om") 
+    str
+}
+#  str_split("d_elig_d30_GS","_")[[1]][3]
+# [1] "d30"
+
   #   Count the n- column(s) for cohort(s)  eligible/ follow up
 n_cl = function(ch) { ch |> 
     select(bi_finans, p_alder_v_op, Female, bmi_0, b_beh_musk_skjsm, b_beh_depr,
@@ -25,8 +40,8 @@ n_cl = function(ch) { ch |>
       digits = list(p_alder_v_op ~ c(1, 1)),
       missing_text = "Missing data"
     ) # |>
-#    modify_header(update = all_stat_cols() ~ "Sleeve \n operated  \n N = {n}",
-#                  text_interpret ="md") 
+ #   modify_header(update = all_stat_cols() ~ "Sleeve \n operated  \n N = {n}",
+ #                 text_interpret ="md") 
     }
 
   #   Count the n- column(s) for cohort(s)  eligible/ follow up
@@ -114,23 +129,23 @@ cb_chs  = function(ch_e, ch_fu){   # , op
 
 tb1_GS =  tbl_merge( list(
 cb_chs(d_elig_d30_GS, d_act_d30_GS ),
-cb_chs(d_elig_GS, d_act_GS_a5 )
+cb_chs(d_elig_GS, d_act_a5_GS )
 ), tab_spanner = c("**Results for 30 days**", "**Results for 5 years**"))
 
 T1S =  tbl_merge( list(
   cb_chs(d_elig_d30_GS, d_act_d30_GS ),
-  cb_chs(d_elig_GS, d_act_GS_a5 )
+  cb_chs(d_elig_GS, d_act_a5_GS )
 ), tab_spanner = FALSE)
 
 T1B =  tbl_merge( list(
   cb_chs(d_elig_d30_GB, d_act_d30_GB ),
-  cb_chs(d_elig_GB, d_act_GB_a5 )
+  cb_chs(d_elig_GB, d_act_a5_GB )
 ), tab_spanner = FALSE)
 
 
 tb2_GB =  tbl_merge( list(
   cb_chs(d_elig_d30_GB, d_act_d30_GB ),
-  cb_chs(d_elig_GB, d_act_GB_a5 )
+  cb_chs(d_elig_GB, d_act_a5_GB )
 ), tab_spanner = c("**Results for 30 days**", "**Results for 5 years**"))
 
 

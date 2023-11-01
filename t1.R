@@ -76,8 +76,8 @@ titl =  function(op){
    # put two columns and opr results together
 cb_chs  = function(ch_e, ch_fu){   # , op
   
-#  ch_e = d_elig_GS_d30
-#  ch_fu = d_act_GS_d30
+#  ch_e = d_elig_d30_GS
+#  ch_fu = d_act_d30_GS
   
   el_nm = deparse(substitute(ch_e))  # name of the eligible tb
   fu_nm = deparse(substitute(ch_fu)) #             follow-up
@@ -109,27 +109,27 @@ cb_chs  = function(ch_e, ch_fu){   # , op
 }
 
 #   remove over-titles!
-# tbl_merge( list( cb_chs(d_elig_GS_d30, d_act_GS_d30 ) , cb_chs(d_elig_GB_d30, d_act_GB_d30 )), tab_spanner = FALSE)
+# tbl_merge( list( cb_chs(d_elig_d30_GS, d_act_d30_GS ) , cb_chs(d_elig_d30_GB, d_act_d30_GB )), tab_spanner = FALSE)
 
 
 tb1_GS =  tbl_merge( list(
-cb_chs(d_elig_GS_d30, d_act_GS_d30 ),
+cb_chs(d_elig_d30_GS, d_act_d30_GS ),
 cb_chs(d_elig_GS, d_act_GS_a5 )
 ), tab_spanner = c("**Results for 30 days**", "**Results for 5 years**"))
 
 T1S =  tbl_merge( list(
-  cb_chs(d_elig_GS_d30, d_act_GS_d30 ),
+  cb_chs(d_elig_d30_GS, d_act_d30_GS ),
   cb_chs(d_elig_GS, d_act_GS_a5 )
 ), tab_spanner = FALSE)
 
 T1B =  tbl_merge( list(
-  cb_chs(d_elig_GB_d30, d_act_GB_d30 ),
+  cb_chs(d_elig_d30_GB, d_act_d30_GB ),
   cb_chs(d_elig_GB, d_act_GB_a5 )
 ), tab_spanner = FALSE)
 
 
 tb2_GB =  tbl_merge( list(
-  cb_chs(d_elig_GB_d30, d_act_GB_d30 ),
+  cb_chs(d_elig_d30_GB, d_act_d30_GB ),
   cb_chs(d_elig_GB, d_act_GB_a5 )
 ), tab_spanner = c("**Results for 30 days**", "**Results for 5 years**"))
 

@@ -28,8 +28,18 @@ lz_str =  function(ch, arg){
 
   #   Count the n- column(s) for cohort(s)  eligible/ follow up
 n_cl = function(ch) { 
-   
+  ch_nm = deparse(substitute(ch))
+  
+  lz_str =  function(ch, arg){
+    str = case_when(arg == "st" ~   str_split(ch_nm, "_")[[1]][2],
+                    arg == "ti" ~   str_split(ch_nm, "_")[[1]][3],
+                    arg == "om" ~   str_split(ch_nm, "_")[[1]][4])
+    str  }
+  
   sts = lz_str(ch , "st")
+  tim = lz_str(ch , "ti")
+  opm = lz_str(ch , "om")
+#  tb_sp = str_glue("{sts} for  \n {tim} {opm} follow-up \n N = {n}")
     ch |> 
     select(bi_finans, p_alder_v_op, Female, bmi_0, b_beh_musk_skjsm, b_beh_depr,
            b_beh_diab,  b_beh_hypert, b_beh_dyslip,  b_beh_sovnap, b_beh_dyspepsi,
@@ -52,7 +62,7 @@ n_cl = function(ch) {
       digits = list(p_alder_v_op ~ c(1, 1)),
       missing_text = "Missing data"
     )  |>
-    modify_header(update = all_stat_cols() ~ str_glue("Sleeve {sts} \n operated  \n N = {n}"),
+    modify_header(update = all_stat_cols() ~  "N = {n}" ,
                   text_interpret ="md") 
     }
 

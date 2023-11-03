@@ -43,10 +43,10 @@ up_d30 = function(tb) { tb |>
 }
 
 cnt_a5 =    d_elig %>% tbl_summary(by = trt, include = c(a5_nt), label =    a5_nt ~ "Followed up, 5yr +- 6m")
-cnt_a5_GS = d_elig_GS  %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m")
+cnt_a5_GS = d_elig_GS %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m")
 cnt_a5_GB = d_elig_GB  %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m")
 
-# %>% filter(!is.na(a5_nt))
+# %>% filter(!is.na(a5_nt))   , %>% filter(a5_ant_vekt > 0)
 # %>% filter(!is.na(a5_nt))
 #            d_elig_GS   d_act_a5_GS
 #            d_elig_GB?   d_act_a5_GB

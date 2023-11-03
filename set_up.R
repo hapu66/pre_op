@@ -228,14 +228,14 @@ d_elig_d30_GB = d_elig_d30 %>% filter(o_opmetode == 1)
 #                      !is.na(bmi_5a),
 #                      a5_ant_vekt > 0)  # 3 pas have vekt = 0?  count as elig
 
-d_act_d30 = d_elig_d30 %>% filter(u6_fu == 1)
+d_act_d30 = d_elig_d30 %>% filter(u6_fu == 1)  # follow-up 30d
 d_act_d30_GS = d_act_d30 %>% filter(o_opmetode == 6)
 d_act_d30_GB = d_act_d30 %>% filter(o_opmetode == 1)
 
 
-d_act_a5 = d %>% filter(a5_nt)
+d_act_a5 = d %>% filter(a5_nt)  # follow-up 5 yr
 d_act_nt6  = d_act_a5 %>% filter(a5_dato_oppf - o_dato_op < 2007, a5_dato_oppf - o_dato_op > 1642)    # normtid:  +- 6 mån
-d_act_nt12 = d_act_a5 %>% filter(a5_dato_oppf - o_dato_op < 2190,  a5_dato_oppf - o_dato_op > 1460)
+# d_act_nt12 = d_act_a5 %>% filter(a5_dato_oppf - o_dato_op < 2190,  a5_dato_oppf - o_dato_op > 1460)
 
 
 d_act_a5_GS = d_act_nt6 %>% filter(o_opmetode == 6)  # OBS normtid = +- 6 months

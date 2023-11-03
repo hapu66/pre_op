@@ -1,3 +1,16 @@
+# denominator for follow-up %
+N_op_d30 <- d_elig_d30 |>  group_by(trt) |> summarise(N_opr = n())
+N_op_a5  <- d_elig |>  group_by(trt) |> summarise(N_opr = n())  
+
+N_op_nt  <- d_act_a5 |>  group_by(trt) |> summarise(N_opr = n())  
+
+N_act_d30 <- d_act_d30 |>  group_by(trt) |> summarise(N_opr = n())
+N_act_a5  <- d_act_a5 |>  group_by(trt) |> summarise(N_opr = n())
+
+fup_d30 =  N_act_d30$N_opr / N_op_d30$N_opr
+fup_a5 =  N_act_a5$N_opr / N_op_a5$N_opr
+
+
 cnt_d30 =    d_elig_d30 %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
 cnt_d30_GS = d_elig_d30_GS %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
 cnt_d30_GB = d_elig_d30_GB %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
@@ -30,19 +43,22 @@ up_d30 = function(tb) { tb |>
 }
 
 cnt_a5 =    d_elig %>% tbl_summary(by = trt, include = c(a5_nt), label =    a5_nt ~ "Followed up, 5yr +- 6m")
-cnt_a5_GS = d_elig_GS %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m")
-cnt_a5_GB = d_elig_GB %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m")
+cnt_a5_GS = d_elig_GS  %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m")
+cnt_a5_GB = d_elig_GB  %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m")
 
-
+# %>% filter(!is.na(a5_nt))
+# %>% filter(!is.na(a5_nt))
+#            d_elig_GS   d_act_a5_GS
+#            d_elig_GB?   d_act_a5_GB
 dw_a5 = function(tb) { tb |> 
-    select(trt, a5_fu, vtap, dBMI, depr, subst, depr) |>  # N_revop, 
+    select(trt, vtap, dBMI, depr, subst, depr) |>  #  a5_fu, N_revop, 
     tbl_summary( 
       by = trt,
-      type = list( c(a5_fu, depr, subst) ~ "dichotomous"),   ##  c()
-      statistic = list(a5_fu ~ "{n}", 
+      type = list( c(  depr, subst) ~ "dichotomous"),   ##  c()
+      statistic = list(# a5_fu ~ "{n}", 
                        depr~ "{n} / {N} ({p}%)",
                        subst~ "{n} / {N} ({p}%)"),
-      label = list(a5_fu ~ "Follow-up 5 yrs",
+      label = list(# a5_fu ~ "Follow-up 5 yrs",
                    #  N_revop ~ "Revisions",
                    depr ~ "Depression ", 
                    subst ~ "Substitution ", 
@@ -58,17 +74,26 @@ tbl_stack(list(cnt_d30_GS, up_d30(d_elig_d30_GS), cnt_a5_GS, dw_a5(d_elig_GS) ))
 tbl_stack(list(cnt_d30_GB, up_d30(d_elig_d30_GB), cnt_a5_GB, dw_a5(d_elig_GB) )) 
 ))
 
+M_GS_l = matrix(c(690,688,1236,1088),
+                nrow = 2)
+Fi = fisher.test(M_GS_l)  #  p-value = 0.0713
+ch = chisq.test(M_GS_l)   #  p-value = 0.0722
+
+
+
 lft  =  tbl_stack(list(cnt_d30_GS, up_d30(d_elig_d30_GS), cnt_a5_GS, dw_a5(d_elig_GS) ))
 rgt =  tbl_stack(list(cnt_d30_GB, up_d30(d_elig_d30_GB), cnt_a5_GB, dw_a5(d_elig_GB) )) 
 
-
+t3_GS <-
 lft |> as_gt() |>  
   rows_add( .list = rlang::list2("label" =  "GS  >5.5 yr earlier",
                                  "stat_1" = as.character(N_op_a5$N_opr[1]),
-                                 "stat_2" = as.character(N_op_a5$N_opr[2])),
+                                 "stat_2" = as.character(N_op_a5$N_opr[2]),
+                                 "p.value" =  round( Fi$p.value, 2)),  # <double>, next row
                   .before = 13 ) |> 
   rows_add( .n_empty = 1, .before = 13)
-  
+
+t3_GB <-  
 rgt |> as_gt() |>  
   rows_add( .list = rlang::list2("label" =  "GB >5.5 yr earlier", 
                                  "stat_1" = as.character(N_op_a5$N_opr[3]),
@@ -85,17 +110,6 @@ tbl_stack(list(cnt_d30_GB, up_d30(d_elig_d30_GB)))
 )
 
 
-  # denominator for follow-up %
-N_op_d30 <- d_elig_d30 |>  group_by(trt) |> summarise(N_opr = n())
-N_op_a5  <- d_elig |>  group_by(trt) |> summarise(N_opr = n())  
- 
-N_op_nt  <- d_act_a5 |>  group_by(trt) |> summarise(N_opr = n())  
-
-N_act_d30 <- d_act_d30 |>  group_by(trt) |> summarise(N_opr = n())
-N_act_a5  <- d_act_a5 |>  group_by(trt) |> summarise(N_opr = n())
-    
-fup_d30 =  N_act_d30$N_opr / N_op_d30$N_opr
-fup_a5 =  N_act_a5$N_opr / N_op_a5$N_opr
 
 
   # short term results, cohort: d_act_GS_d30,  d_act_GB_d30

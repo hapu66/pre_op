@@ -43,8 +43,8 @@ up_d30 = function(tb) { tb |>
 }
 
 cnt_a5 =    d_elig %>% tbl_summary(by = trt, include = c(a5_nt), label =    a5_nt ~ "Followed up, 5yr +- 6m")
-cnt_a5_GS = d_elig_GS %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m")
-cnt_a5_GB = d_elig_GB  %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m")
+cnt_a5_GS = d_elig_GS %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m") %>% add_p
+cnt_a5_GB = d_elig_GB  %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m") %>% add_p
 
 # %>% filter(!is.na(a5_nt))   , %>% filter(a5_ant_vekt > 0)
 # %>% filter(!is.na(a5_nt))
@@ -88,10 +88,10 @@ t3_GS <-
 lft |> as_gt() |>  
   rows_add( .list = rlang::list2("label" =  "GS  >5.5 yr earlier",
                                  "stat_1" = as.character(N_op_a5$N_opr[1]),
-                                 "stat_2" = as.character(N_op_a5$N_opr[2]),
-                                 "p.value" =  round( Fi$p.value, 2)),  # <double>, next row
+                                 "stat_2" = as.character(N_op_a5$N_opr[2])),
                   .before = 13 ) |> 
   rows_add( .n_empty = 1, .before = 13)
+#  "p.value" =  round( Fi$p.value, 2)),  # <double>, next row
 
 t3_GB <-  
 rgt |> as_gt() |>  

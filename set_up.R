@@ -188,7 +188,7 @@ dt =  d_prim %>%
          a5_fu = a5_ferdigstill == 1, 
          a5_nt =  a5_ferdigstill == 1 & a5_dato_oppf - o_dato_op < 2007 & a5_dato_oppf - o_dato_op > 1642 &
          a5_oppf_type %in%  c("Frammøte", "Per telefon eller via nettmøte",  "Per brev/mail eller på annen måte") &
-           a5_ant_vekt > 0,   # fu a5 i normtid,   3 st wrong with a5_ant_vekt == 0
+   !is.na(a5_ant_vekt)  & a5_ant_vekt > 0,   # fu a5 i normtid,   3 st wrong with a5_ant_vekt == 0
          trt =   case_when(
            o_preop_vektskole==1 & o_opmetode ==1 ~ "RYGB school",
            o_preop_vektskole==0 & o_opmetode ==1 ~ "RYGB norm",

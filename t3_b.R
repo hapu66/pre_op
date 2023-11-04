@@ -101,6 +101,10 @@ rgt |> as_gt() |>
             .before = 13 ) |> 
   rows_add( .n_empty = 1, .before = 13)
 
+# t3_GS %>% opt_footnote_marks(marks = "letters") %>% gtsave("t3GS.docx")
+# t3_GB %>% opt_footnote_marks(marks = "letters") %>% gtsave("t3GB.docx")
+
+# as_gt %>% opt_footnote_marks(marks = "letters")
 
 tbl_stack( list(
 tbl_merge( list(

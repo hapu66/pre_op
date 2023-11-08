@@ -171,6 +171,11 @@ tb2_GB =  tbl_merge( list(
 ), tab_spanner = c("**Results for 30 days**", "**Results for 5 years**"))
 
 
+
+# T1S %>% as_gt() %>% opt_footnote_marks(marks = "letters") %>% gtsave("t1_GS.docx")
+# T1B %>% as_gt() %>% opt_footnote_marks(marks = "letters") %>% gtsave("t2_GB.docx")
+
+
 #n_fu   = function(ch){ ch |> --------------------------------------------------
 #  
 #} 

@@ -105,7 +105,23 @@ rgt |> as_gt() |>
 # t3_GB %>% opt_footnote_marks(marks = "letters") %>% gtsave("t3GB.docx")
 
 # as_gt %>% opt_footnote_marks(marks = "letters")
+ 
 
+
+FT = tbl_merge(list(lft, rgt), tab_spanner = c("**Gastric sleeve**", "**Gastric bypass**"))
+
+ft = FT |> as_gt() |>
+  rows_add( .list = rlang::list2("label" =  "GB >5.5 yr earlier", 
+                                 "stat_1_1" = as.character(N_op_a5$N_opr[1]),
+                                 "stat_2_1" = as.character(N_op_a5$N_opr[2]),
+                                 "stat_1_2" = as.character(N_op_a5$N_opr[3]),
+                                 "stat_2_2" = as.character(N_op_a5$N_opr[4])),
+                                               .before = 13) |>
+  rows_add( .n_empty = 1, .before = 13)
+
+ft |> opt_footnote_marks(marks = "letters") %>% gtsave("t3_begge.docx")
+
+ 
 tbl_stack( list(
 tbl_merge( list(
 tbl_stack(list(cnt_d30_GS, up_d30(d_elig_d30_GS))), 

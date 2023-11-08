@@ -64,6 +64,7 @@ dw_a5 = function(tb) { tb |>
                    subst ~ "Substitution ", 
                    vtap ~ "%TWL ", 
                    dBMI  ~ "d BMI "),
+      missing = "no",  #  remove TWL BMI but ?keep substitution--sol: add later?
       missing_text = "Missing data" 
     ) |>
     add_p()  # remove for a5_fu?
@@ -119,7 +120,9 @@ ft = FT |> as_gt() |>
                                                .before = 13) |>
   rows_add( .n_empty = 1, .before = 13)
 
-ft |> opt_footnote_marks(marks = "letters") %>% gtsave("t3_begge.docx")
+# add Substitution missing data?  after last row
+
+# ft |> opt_footnote_marks(marks = "letters") %>% gtsave("t3_begge.docx")
 
  
 tbl_stack( list(
@@ -220,9 +223,9 @@ sht_res  = function(tb) { tb |>
 #   }
   
 s_GS =  sht_res(d_act_d30_GS)
-l_GS =  lng_res(d_act_a5_GS)
+# l_GS =  lng_res(d_act_a5_GS)
 s_GB =  sht_res(d_act_d30_GB)
-l_GB =  lng_res(d_act_a5_GB)
+# l_GB =  lng_res(d_act_a5_GB)
 
 
 

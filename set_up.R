@@ -178,6 +178,8 @@ df %<>% mutate( vt_pr = b_ant_kmi - bmi_op,     # d BMI
 df$vent = as.integer(df$vent)
 df$ligg = as.integer(df$ligg)
  
+#2023-09-11:: For Stavanger og Bergen kan du sette alle pasientar til «Nei» på vektskule. 
+df <- df %>% mutate(o_preop_vektskole = ifelse(o_sykehus %in% c("Helse Stavanger HF", "Helse Bergen HF"), 0, o_preop_vektskole))
 ####################################     FILTER ------------------------------
 ## F1 primary operation?
 d_prim <- df %>% filter(op_primar)  #   primær

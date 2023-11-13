@@ -1,4 +1,4 @@
-# denominator for follow-up %
+# denominator for follow-up %,  numbers 
 N_op_d30 <- d_elig_d30 |>  group_by(trt) |> summarise(N_opr = n())
 N_op_a5  <- d_elig |>  group_by(trt) |> summarise(N_opr = n())  
 
@@ -14,7 +14,7 @@ cnt_d30 =    d_elig_d30 %>% tbl_summary(by = trt, include = c(u6_fu), label = u6
 cnt_d30_GS = d_elig_d30_GS %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
 cnt_d30_GB = d_elig_d30_GB %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
 
-#     Construct the upper part of T3 
+#     Construct the upper part of T3 -------------------------------------------
 up_d30 = function(tb) { tb |> 
     select(trt,  vent, vt_pr, ligg, reinn, alv_kmp) |>  
     tbl_summary( 
@@ -46,7 +46,7 @@ cnt_a5_GS = d_elig_GS %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_n
 cnt_a5_GB = d_elig_GB %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m") %>% add_p
 
 
-#     Construct the lower part of T3 
+#     Construct the lower part of T3 -------------------------------------------
 dw_a5 = function(tb) { tb |> 
     select(trt, vtap, dBMI, depr, subst, depr) |>  #  a5_fu, N_revop, 
     tbl_summary( 
@@ -72,10 +72,10 @@ tbl_stack(list(cnt_d30_GS, up_d30(d_elig_d30_GS), cnt_a5_GS, dw_a5(d_elig_GS) ))
 tbl_stack(list(cnt_d30_GB, up_d30(d_elig_d30_GB), cnt_a5_GB, dw_a5(d_elig_GB) )) 
 ))
 
-M_GS_l = matrix(c(690,688,1236,1088),
-                nrow = 2)
-Fi = fisher.test(M_GS_l)  #  p-value = 0.0713
-ch = chisq.test(M_GS_l)   #  p-value = 0.0722
+# M_GS_l = matrix(c(690,688,1236,1088),
+#                 nrow = 2)
+# Fi = fisher.test(M_GS_l)  #  p-value = 0.0713
+# ch = chisq.test(M_GS_l)   #  p-value = 0.0722
 
 
 
@@ -251,9 +251,9 @@ l_GB_gt  = l_GB |> as_gt() |>
             .before = 3 )
 
 
-M_GS = matrix(c(685, 676, 1222, 1066),
-              nrow = 2)
-fisher.test(M_GS)
+# M_GS = matrix(c(685, 676, 1222, 1066),
+#               nrow = 2)
+# fisher.test(M_GS)
 #--
 
 
@@ -273,10 +273,10 @@ l_GB_gt  = l_GB |> as_gt() |>
   #   decimals = 2
   # )
 
-
-M_GB = matrix(c(353, 791, 522, 1229),
-                         nrow = 2)
-fisher.test(M_GB)
+# 
+# M_GB = matrix(c(353, 791, 522, 1229),
+#                          nrow = 2)
+# fisher.test(M_GB)
 
 # ------
 tab3_GS =  tbl_stack(list(s_GS, l_GS))
@@ -347,12 +347,12 @@ tab3_GB  |> as_gt() |>
                                    "p.value" = 0.5624  ),   
             .before = 14 )  
 
-M_GB_s = matrix(c(1508, 1584, 3957, 4202),
-                nrow = 2)
-fisher.test(M_GB_s)  #  p-value = 0.7999
-chisq.test(M_GB_s)   #  p-value = 0.8127
-
-M_GB_l = matrix(c(353, 522, 791, 1229),
-                nrow = 2)
-fisher.test(M_GB_l)  # p-value = 0.5624
-chisq.test(M_GB_l)  #  p-value = 0.5774
+# M_GB_s = matrix(c(1508, 1584, 3957, 4202),
+#                 nrow = 2)
+# fisher.test(M_GB_s)  #  p-value = 0.7999
+# chisq.test(M_GB_s)   #  p-value = 0.8127
+# 
+# M_GB_l = matrix(c(353, 522, 791, 1229),
+#                 nrow = 2)
+# fisher.test(M_GB_l)  # p-value = 0.5624
+# chisq.test(M_GB_l)  #  p-value = 0.5774

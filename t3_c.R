@@ -119,6 +119,9 @@ ft = FT |> as_gt() |>
 
 # add Substitution missing data?  after last row
 
+#    https://stackoverflow.com/questions/77069718/how-to-add-row-with-confidence-intervals-for-each-column-using-gtsummary
+#  long term results, cohort: d_act_GS_nt6,  d_act_GB_nt6     
+
 # ft |> opt_footnote_marks(marks = "letters") %>% gtsave("t3_begge.docx")
 
  
@@ -132,92 +135,6 @@ tbl_stack(list(cnt_d30_GB, up_d30(d_elig_d30_GB)))
 
 
 
-  # short term results, cohort: d_act_GS_d30,  d_act_GB_d30
-sht_res  = function(tb) { tb |> 
-    select(trt, u6_fu, vent, vt_pr, ligg, reinn, alv_kmp) |>
-    tbl_summary( 
-      by = trt,
-      type = list( u6_fu ~ "dichotomous",
-                   vent ~  "continuous2",
-                   vt_pr ~ "continuous",
-                   ligg ~ "continuous",
-                   reinn   ~ "dichotomous",
-                   alv_kmp ~ "dichotomous"      ),
-      statistic = list(u6_fu ~ "{n}",
-                       vent ~ c("{median} ({p25}, {p75})", 
-                                "{mean} [{min} {max}]"),    #  !! fix CI
-                       vt_pr ~ "{mean} ({sd})", 
-                       ligg ~ "{median} ({min}; {max})",     ## median IQR per default !
-                       reinn ~ "{n} / {N} ({p}%)", 
-                       alv_kmp ~"{n} / {N} ({p}%)"),
-    #  digits = list(ligg ~ 2), 
-      label = list( u6_fu ~ "Follow-up 30 d",
-                    vent ~ "Waiting time (d)",
-                    vt_pr ~ "Pre-operative weight loss",
-                    ligg ~ "Postoperative days in hospital",
-                    reinn ~ "Readmission",
-                    alv_kmp ~ "Severe complications (30 d)"),
-      missing_text = "Missing data" 
-        ) |>
-    add_p() # |> 
-#    add_ci(include=c("vent", "ligg"), pattern = "{stat} ({ci})")
-}
-
-
-# up_d30 = function(tb) { tb |> 
-#     select(trt,  vent, vt_pr, ligg, reinn, alv_kmp) |> #  u6_fu,
-#     tbl_summary( 
-#       by = trt,
-#       type = list( # u6_fu ~ "dichotomous",
-#                    vent ~  "continuous2",
-#                    vt_pr ~ "continuous",
-#                    ligg ~ "continuous",
-#                    reinn   ~ "dichotomous",
-#                    alv_kmp ~ "dichotomous"      ),
-#       statistic = list(# u6_fu ~ "{n}",
-#                        vent ~ c("{median} ({p25}, {p75})", 
-#                                 "{mean} [{min} {max}]"),    #  !! fix CI
-#                        vt_pr ~ "{mean} ({sd})", 
-#                        ligg ~ "{median} ({min}; {max})",     ## median IQR per default !
-#                        reinn ~ "{n} / {N} ({p}%)", 
-#                        alv_kmp ~"{n} / {N} ({p}%)"),
-#       #  digits = list(ligg ~ 2), 
-#       label = list(# u6_fu ~ "Follow-up 30 d",
-#                     vent ~ "Waiting time (d)",
-#                     vt_pr ~ "Pre-operative weight loss",
-#                     ligg ~ "Postoperative days in hospital",
-#                     reinn ~ "Readmission",
-#                     alv_kmp ~ "Severe complications (30 d)"),
-#       missing_text = "Missing data" 
-#     ) |>
-#     add_p() # |>   #    add_ci(include=c("vent", "ligg"), pattern = "{stat} ({ci})")
-# }
-
-# dn_a5 
-
-
- #    https://stackoverflow.com/questions/77069718/how-to-add-row-with-confidence-intervals-for-each-column-using-gtsummary
-  #  long term results, cohort: d_act_GS_nt6,  d_act_GB_nt6     
-
-
-# lng_res  = function(tb) { tb |> 
-#     select(trt, a5_fu, vtap, dBMI, depr, subst, depr) |>  # N_revop, 
-#     tbl_summary( 
-#       by = trt,
-#       type = list( c(a5_fu, depr, subst) ~ "dichotomous"),   ##  c()
-#       statistic = list(a5_fu ~ "{n}", 
-#                        depr~ "{n} / {N} ({p}%)",
-#                        subst~ "{n} / {N} ({p}%)"),
-#       label = list(a5_fu ~ "Follow-up 5 yrs",
-#                  #  N_revop ~ "Revisions",
-#                    depr ~ "Depression ", 
-#                    subst ~ "Substitution ", 
-#                    vtap ~ "%TWL ", 
-#                    dBMI  ~ "d BMI "),
-#       missing_text = "Missing data" 
-#     ) |>
-#     add_p()  # remove for a5_fu?
-#   }
   
 s_GS =  up_d30(d_act_d30_GS)
  l_GS =  dw_a5(d_act_a5_GS)
@@ -271,16 +188,9 @@ tbl_stack(list(cnt_d30, cnt_a5))
 
 tbl_stack(list(cnt_d30_GS, up_d30(d_elig_d30_GS)))
 
-# tbl_stack(list(cnt_d30, up_d30(d_elig_d30), cnt_a5, lng_res(d_act_a5) ))
+#tbl_stack(list(cnt_d30, up_d30(d_elig_d30), cnt_a5, dw_a5(d_act_a5) ))
+#  only 1 col p-value 
 
-# fix in the denominator with gt 
-#  .list = rlang::list2( 
-
-# l_GS |> as_gt() |> rows_add(.list = rlang::list2(   "label" = "sdf",
-#                               "stat_1" = N_op_a5[1,2],
-#                               "stat_2" =  N_op_a5[2,2], 
-#                               "p.value" =0.05 ),   
-#                               .before = 2 )
 
 # l_GS$table_body 
 l_GS |> as_gt() |> 
@@ -346,17 +256,6 @@ M_GS = matrix(c(685, 676, 1222, 1066),
 fisher.test(M_GS)
 #--
 
-# l_GB_gt = l_GB |> as_gt() |> 
-#   rows_add( .list = rlang::list2(  "label" = "potential 5 yr",
-#                                    "stat_1" = as.character( N_op_a5[3,2]),
-#                                    "stat_2" = as.character( N_op_a5[4,2]),
-#                                    "p.value" = NA ),   
-#             .before = 2 )  |>
-#   rows_add( .list = rlang::list2(  "label" = "follow-up %; 5 yrs",
-#                                    "stat_1" = as.character( l_GB$df_by$n[1]/ N_op_a5[3,2]),
-#                                    "stat_2" = as.character( l_GB$df_by$n[2]/ N_op_a5[4,2]),
-#                                    "p.value" = 0.5624 ),   
-#             .before = 3 )
 
 l_GB_gt  = l_GB |> as_gt() |> 
   rows_add( .list = rlang::list2(  "label" = "Potential 5 yr follow-up",
@@ -380,13 +279,6 @@ M_GB = matrix(c(353, 791, 522, 1229),
 fisher.test(M_GB)
 
 # ------
-             # as_tibble_row("label"= "rw", "stat_1" = N_op_a5[1,2], "stat_2" =  N_op_a5[2,2], "p.value" =0.05  ),
-                  #          .before = 2    #   N_op_a5[1:2,2]
-  #   stack tables  tbl_stack  
-# tbl_stack( list(sht_res(d_act_GS_d30), lng_res(d_act_GS_nt6)))
-  #   merge tables
-
-#  tibble("label"= "rw", "stat_1" = N_op_a5[1,2], "stat_2" =  N_op_a5[2,2], "p.value" =0.05)
 tab3_GS =  tbl_stack(list(s_GS, l_GS))
 tab3_GB =  tbl_stack(list(s_GB, l_GB))
 

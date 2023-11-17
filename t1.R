@@ -41,11 +41,11 @@ n_cl = function(ch) {
   opm = lz_str(ch , "om")
 #  tb_sp = str_glue("{sts} for  \n {tim} {opm} follow-up \n N = {n}")
     ch |> 
-    select(bi_finans, p_alder_v_op, Female, bmi_0, b_beh_musk_skjsm, b_beh_depr,
+    select(b_finans, p_alder_v_op, Female, bmi_0, b_beh_musk_skjsm, b_beh_depr,
            b_beh_diab,  b_beh_hypert, b_beh_dyslip,  b_beh_sovnap, b_beh_dyspepsi,
            smoke, work) |>
     tbl_summary(
-      label = list(bi_finans ~ "Financing",
+      label = list(b_finans ~ "Financing",
                    p_alder_v_op ~ "Age",
                    bmi_0 ~ "BMI",
                    b_beh_musk_skjsm ~ "Muscular-sceletal pain",
@@ -74,12 +74,12 @@ n_opr = function(ch, op) {
                     TRUE ~ NA_integer_)
     T = ch |>
       filter(o_opmetode == om) |>
-      select(bi_finans, p_alder_v_op, Female, bmi_0, b_beh_musk_skjsm, b_beh_depr,
+      select(b_finans, p_alder_v_op, Female, bmi_0, b_beh_musk_skjsm, b_beh_depr,
              b_beh_diab,  b_beh_hypert, b_beh_dyslip,  b_beh_sovnap, b_beh_dyspepsi,
              smoke, work, trt) |>
       tbl_summary( 
         by = trt,
-        label = list(bi_finans ~ "Financing",
+        label = list(b_finans ~ "Financing",
                      p_alder_v_op ~ "Age",
                      bmi_0 ~ "BMI",
                      b_beh_musk_skjsm ~ "Muscular-sceletal pain",
@@ -181,10 +181,10 @@ tb2_GB =  tbl_merge( list(
 #} 
 
 cnt_N =   function(tb)  { tb %>% 
-    select(bi_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
+    select(b_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
            b_beh_hypert, b_beh_musk_skjsm, b_beh_depr, b_beh_sovnap, smoke, work ) %>%
     tbl_summary(
-      label = list(bi_finans ~ "Financing", p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
+      label = list(b_finans ~ "Financing", p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
                    work ~ "Working" , b_beh_musk_skjsm ~ "Muscular-sceletal pain",
                    b_beh_diab ~ "Diabetes", b_beh_hypert ~ "Hypertension", 
                    b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  
@@ -201,11 +201,11 @@ opr_N =   function(tb, op)  {
                   TRUE ~ NA_integer_)
   T =  tb   %>%
     filter(o_opmetode == om) %>%
-    select(bi_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
+    select(b_finans, p_alder_v_op, Female, bmi_0, b_beh_diab, b_beh_hypert, b_beh_dyslip, b_beh_dyspepsi,
            b_beh_hypert, b_beh_musk_skjsm, b_beh_depr, b_beh_sovnap, smoke, work, trt) %>%
     tbl_summary(
       by        = trt,
-      label = list(bi_finans ~ "Financing", p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
+      label = list(b_finans ~ "Financing", p_alder_v_op ~ "Age", bmi_0 ~ "BMI", smoke ~ "Smoking", 
                    work ~ "Working" , b_beh_musk_skjsm ~ "Muscular-sceletal pain",
                    b_beh_diab ~ "Diabetes", b_beh_hypert ~ "Hypertension", 
                    b_beh_dyslip ~ "Dyslipidemi", b_beh_dyspepsi ~ "GERD", b_beh_sovnap ~ "Sleep apnoea",  

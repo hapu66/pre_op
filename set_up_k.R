@@ -87,7 +87,9 @@ df <- df %>% group_by(p_pasientid) %>% mutate(N_revop = n()-1) %>% ungroup()
 df$a2_dato_oppf  = as.Date(df$a2_dato_oppf, format(c("%d.%m.%Y")))
 df$a5_dato_oppf  = as.Date(df$a5_dato_oppf, format(c("%d.%m.%Y")))
 
-df %<>% mutate(bmi_baseline = b_ant_vekt/(b_ant_hoyde/100)^2,
+ 
+df %<>% mutate( b_finans = dplyr::recode(b_finans, "1" = "Public", "2" = "Private", "3" = "Private", .default=NA_character_),
+               bmi_baseline = b_ant_vekt/(b_ant_hoyde/100)^2,
                bmi_op = o_ant_vekt/(b_ant_hoyde/100)^2,
                bmi_6v = u6_ant_vekt/(u6_ant_hoyde/100)^2,
                bmi_1a = a1_ant_vekt/(a1_ant_hoyde/100)^2,

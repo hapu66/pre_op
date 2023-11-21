@@ -24,8 +24,7 @@ up_d30 = function(tb) { tb |>
                    ligg ~ "continuous",
                    reinn   ~ "dichotomous",
                    alv_kmp ~ "dichotomous"      ),
-      statistic = list( vent ~ c("{median} ({p25}, {p75})",
-                                 "{mean} [{min} {max}]"),    #  !! fix CI
+      statistic = list( vent ~ c("{median} [{p25}, {p75}]", "{mean}"),
                         vt_pr ~ "{mean} ({sd})", 
                         ligg ~ "{median} ({min}; {max})",     ## median IQR per default !
                         reinn ~ "{n} / {N} ({p}%)", 
@@ -37,9 +36,11 @@ up_d30 = function(tb) { tb |>
         reinn ~ "Readmission",
         alv_kmp ~ "Severe complications (30 d)"),
       missing_text = "Missing data" 
-    ) |>
-    add_p(pvalue_fun = ~style_pvalue(.x, digits = 2)) #    #    add_ci(include=c("vent", "ligg"), pattern = "{stat} ({ci})")
-}
+    ) |>    add_p(pvalue_fun = ~style_pvalue(.x, digits = 2)) |>
+          add_ci(include=c("vent"), pattern = "{stat} ({ci})") 
+  #    #    add_ci(include=c("vent", "ligg"), pattern = "{stat} ({ci})")
+    #  include=c("vent") , pattern = "{stat} ({ci})"
+    }
 
 cnt_a5 =    d_elig %>% tbl_summary(by = trt, include = c(a5_nt), label =    a5_nt ~ "Followed up, 5yr +- 6m")
 cnt_a5_GS = d_elig_GS %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m") %>% add_p
@@ -48,7 +49,7 @@ cnt_a5_GB = d_elig_GB %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_n
 
 #     Construct the lower part of T3 -------------------------------------------
 dw_a5 = function(tb) { tb |> 
-    select(trt, vtap, dBMI, depr, subst, depr) |>  #  a5_fu, N_revop, 
+    select(trt, vtap, dBMI, depr, subst) |>  #  a5_fu, N_revop, 
     tbl_summary( 
       by = trt,
       type = list( c(  depr, subst) ~ "dichotomous"),   ##  c()
@@ -64,7 +65,7 @@ dw_a5 = function(tb) { tb |>
       missing = "no",  #  remove TWL BMI but ?keep substitution--sol: add later?
       missing_text = "Missing data" 
     ) |>
-    add_p(pvalue_fun = ~style_pvalue(.x, digits = 2))  #  
+    add_p(pvalue_fun = ~style_pvalue(.x, digits = 2))  #   include = list(c(vtap, dBMI, depr, subst))
 }
 
 tbl_merge( list(

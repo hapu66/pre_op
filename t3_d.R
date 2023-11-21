@@ -37,7 +37,7 @@ up_d30 = function(tb) { tb |>
         alv_kmp ~ "Severe complications (30 d)"),
       missing_text = "Missing data" 
     ) |>    add_p(pvalue_fun = ~style_pvalue(.x, digits = 2)) |>
-          add_ci(include=c("vent"), pattern = "{stat} ({ci})") 
+          add_ci(include=c("vent","ligg"), pattern = "{stat} ({ci})") 
   #    #    add_ci(include=c("vent", "ligg"), pattern = "{stat} ({ci})")
     #  include=c("vent") , pattern = "{stat} ({ci})"
     }

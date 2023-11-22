@@ -37,7 +37,7 @@ up_d30 = function(tb) { tb |>
         alv_kmp ~ "Severe complications (30 d)"),
       missing_text = "Missing data" 
     ) |>    add_p(pvalue_fun = ~style_pvalue(.x, digits = 2)) |>
-          add_ci(include=c("vent","ligg"), pattern = "{stat} ({ci})") 
+          add_ci(include=c("vent", "ligg"), pattern = "{stat} ({ci})") 
   #    #    add_ci(include=c("vent", "ligg"), pattern = "{stat} ({ci})")
     #  include=c("vent") , pattern = "{stat} ({ci})"
     }
@@ -48,7 +48,8 @@ cnt_a5_GB = d_elig_GB %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_n
 
 
 #     Construct the lower part of T3 -------------------------------------------
-dw_a5 = function(tb) { tb |> 
+dw_a5 = function(tb) { e_del = paste0(expression(paste(delta, "BMI (kg/m^2)")));
+    tb |> 
     select(trt, vtap, dBMI, depr, subst) |>  #  a5_fu, N_revop, 
     tbl_summary( 
       by = trt,
@@ -61,7 +62,7 @@ dw_a5 = function(tb) { tb |>
                    depr ~ "Depression ", 
                    subst ~ "Substitution ", 
                    vtap ~ "%TWL ", 
-                   dBMI  ~ "d BMI (kg/m^2)"),
+                   dBMI  ~ e_del),
       missing = "no",  #  remove TWL BMI but ?keep substitution--sol: add later?
       missing_text = "Missing data" 
     ) |>

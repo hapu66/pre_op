@@ -139,6 +139,7 @@ df %<>% mutate( vt_pr = b_ant_kmi - bmi_op,     # d BMI
                 TWL_pr = (b_ant_vekt - o_ant_vekt)/ b_ant_vekt *100,
                 vent = o_dato_op - b_dato_henv,
                 ligg = u6_dato_ut - o_dato_op,  #  -u6_pop_ligg
+                ligg_mx3 = ligg<4,
                 reinn = u6_innl_sykeh_d0_30 == 1,    #  0 Nei 1 Ja    2 Vet ikke
                 alv_komp = u6_komp_alvgrad > 3,             #    4. Grad III-b: Signifikant intervensjon i narkose.
                 alv_komp_na = !alv_komp | is.na(alv_komp),  #  not serious compl.

@@ -32,12 +32,12 @@ up_d30 = function(tb) { tb |>
       label = list(# u6_fu ~ "Follow-up 30 d",
         vent ~ "Waiting time (d)",
         vt_pr ~ "Pre-operative BMI loss (kg/m^2)",
-        ligg ~ "Postoperative days in hospital",
+        ligg_mx3 ~ "Mac 3 postoperative days in hospital",
         reinn ~ "Readmission",
         alv_kmp ~ "Severe complications (30 d)"),
       missing_text = "Missing data" 
     ) |>    add_p(pvalue_fun = ~style_pvalue(.x, digits = 2)) |>
-          add_ci(include=c("vent", "ligg"), pattern = "{stat} ({ci})") 
+          add_ci(include=c("vent" ), pattern = "{stat} ({ci})") 
   #    #    add_ci(include=c("vent", "ligg"), pattern = "{stat} ({ci})")
     #  include=c("vent") , pattern = "{stat} ({ci})"
     }

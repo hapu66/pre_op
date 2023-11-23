@@ -71,7 +71,7 @@ G + facet_wrap("o_sykehus")
 pp_sh(d_act_a5_GS)
 pp_sh(d_act_a5_GB)
 
-model1 <- lmer(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0 + o_preop_vektskole + (1|o_sykehus), 
+model1 <- lmer(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0 + o_preop_vektskole + (1 |o_sykehus), 
                data    = d_act_a5_GS)
 summary(model1)
 
@@ -80,7 +80,14 @@ dee$fixed <- predict(model1, re.form=NA)
 dee$rand <- predict(model1)
 
 
+plot(fitted(model1), resid(model1, type = "pearson"))# this will create the plot
+abline(0,0, col="red")
 
+qqnorm(resid(model1)) 
+qqline(resid(model1), col = "red") # add a perfect fit line
+
+# qqnorm(ranef(model1)$class[,1] )
+# qqline(ranef(model1)$class[,1], col = "red")
 
 
 

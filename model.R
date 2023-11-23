@@ -34,18 +34,23 @@ gr1+facet_wrap("o_sykehus")
 # ----------------------------------------------
 
 pp_sh = function(df){
-  dee = df  |> filter( !is.na(vt_pr), !is.na(o_preop_vektprog), o_opmetode %in% c(1,6))
+  dee = df  |> filter( !is.na(vt_pr), o_opmetode %in% c(1,6))
   ch_nm = deparse(substitute(df))
   sts  = ifelse(str_detect(ch_nm, "GS"),"Sleeve", 
                 ifelse(str_detect(ch_nm, "GB"),"Bypass", "not GS nor GB!!"))
   mg = paste0(sts,  ", 5 yr WL(%) vs. opr.age")
   
-  model1 <- lmer(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0 + o_opmetode + o_preop_vektskole +
-                   o_opmetode:o_preop_vektskole+ 
+  model1 <- lmer(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0 + # o_opmetode + o_preop_vektskole +
+                   o_opmetode*o_preop_vektskole+ 
                    bmi_0*o_preop_vektskole+
                   (1|o_sykehus), 
                  data    = dee)
-M=   summary(model1)  
+  
+  model2 <- lmer(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0   + 
+                   o_preop_vektskole + (1|o_sykehus), 
+                 data    = dee)
+  
+M=   summary(model2)  
   
 
   dee$fixed <- predict(model1, re.form=NA)
@@ -71,6 +76,7 @@ G<-G+geom_smooth(method = lm, aes(x=p_alder_v_op, y=rand),colour= 2, lwd=1)
 G + facet_wrap("o_sykehus") 
 }
 
+pp_sh(d_act_a5)
 pp_sh(d_act_a5_GS)
 pp_sh(d_act_a5_GB)
 

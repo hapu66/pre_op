@@ -34,13 +34,16 @@ gr1+facet_wrap("o_sykehus")
 # ----------------------------------------------
 
 pp_sh = function(df){
-  dee = df  |> filter( !is.na(vt_pr), !is.na(o_preop_vektprog))
+  dee = df  |> filter( !is.na(vt_pr), !is.na(o_preop_vektprog), o_opmetode %in% c(1,6))
   ch_nm = deparse(substitute(df))
   sts  = ifelse(str_detect(ch_nm, "GS"),"Sleeve", 
                 ifelse(str_detect(ch_nm, "GB"),"Bypass", "not GS nor GB!!"))
   mg = paste0(sts,  ", 5 yr WL(%) vs. opr.age")
   
-  model1 <- lmer(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0 + o_preop_vektprog + o_preop_vektskole + (1|o_sykehus), 
+  model1 <- lmer(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0 + o_opmetode + o_preop_vektskole +
+                   o_opmetode:o_preop_vektskole+ 
+                   bmi_0*o_preop_vektskole+
+                  (1|o_sykehus), 
                  data    = dee)
 M=   summary(model1)  
   
@@ -80,16 +83,18 @@ dee$fixed <- predict(model1, re.form=NA)
 dee$rand <- predict(model1)
 
 
-plot(fitted(model1), resid(model1, type = "pearson"))# this will create the plot
+plot(fitted(model1), resid(model1, type = "pearson"))  # this will create the plot
 abline(0,0, col="red")
 
 qqnorm(resid(model1)) 
 qqline(resid(model1), col = "red") # add a perfect fit line
 
-# qqnorm(ranef(model1)$class[,1] )
-# qqline(ranef(model1)$class[,1], col = "red")
+ qqnorm(ranef(model1)$o_sykehus[,1] )
+ qqline(ranef(model1)$o_sykehus[,1], col = "red")
 
-
+ qqnorm(ranef(model1)$o_sykehus[,2] )
+ qqline(ranef(model1)$o_sykehus[,2], col = "red")
+ 
 
 m_WL5 =  lmer(a5_TWL ~  p_alder_v_op + Female + o_preop_vektskole + (1|o_sykehus), data = d_act_a5)
 summary(m_WL5)

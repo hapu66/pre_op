@@ -21,4 +21,4 @@ plt_1 =  dl %>% ggplot(aes(x=time, y=value,
   scale_y_continuous(limits= c(15,60))+
   theme_bw(base_size = 16)
 
-plt_1
+plt_1   # ujusterte tall

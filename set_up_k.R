@@ -164,10 +164,10 @@ dt =  d_prim %>%
          a5_oppf_type %in%  c(1,2,3) &
    !is.na(a5_ant_vekt)  & a5_ant_vekt > 0,   # fu a5 i normtid,   3 st wrong with a5_ant_vekt == 0
          trt =   case_when(
-           o_preop_vektskole==1 & o_opmetode ==1 ~ "RYGB school",
-           o_preop_vektskole==0 & o_opmetode ==1 ~ "RYGB norm",
-           o_preop_vektskole==1 & o_opmetode ==6 ~ "GS school",
-           o_preop_vektskole==0 & o_opmetode ==6 ~ "GS norm"))
+           o_preop_vektskole==1 & o_opmetode ==1 ~ "RYGB EPEP",
+           o_preop_vektskole==0 & o_opmetode ==1 ~ "RYGB SPEP",
+           o_preop_vektskole==1 & o_opmetode ==6 ~ "GS EPEP",
+           o_preop_vektskole==0 & o_opmetode ==6 ~ "GS SPEP"))
 
 d =    dt %>% filter(!is.na(o_preop_vektskole), o_opmetode %in% c(1, 6)) %>%
   select(p_pasientid, ForlopsID, o_sykehus,  o_dato_op, p_alder_v_op, Sex, Female, 

@@ -19,12 +19,12 @@ up_d30 = function(tb) { tb |>
     select(trt,  vent, vt_pr, ligg, reinn, alv_kmp) |>  
     tbl_summary( 
       by = trt,
-      type = list( vent ~  "continuous2",
+      type = list( vent ~  "continuous",
                    vt_pr ~ "continuous",
                    ligg ~ "continuous",
                    reinn   ~ "dichotomous",
                    alv_kmp ~ "dichotomous"      ),
-      statistic = list( vent ~ c("{median} [{p25}, {p75}]", "{mean}"),
+      statistic = list( vent ~ c("{median} [{p25}, {p75}], {mean}"),
                         vt_pr ~ "{mean} ({sd})", 
                         ligg ~ "{median} ({min}; {max})",     ## median IQR per default !
                         reinn ~ "{n} / {N} ({p}%)", 

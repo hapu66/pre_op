@@ -16,17 +16,17 @@ cnt_d30_GB = d_elig_d30_GB %>% tbl_summary(by = trt, include = c(u6_fu), label =
 
 #     Construct the upper part of T3 -------------------------------------------
 up_d30 = function(tb) { tb |> 
-    select(trt,  vent, vt_pr, ligg, reinn, alv_kmp) |>  
+    select(trt,  vent, vt_pr, ligg_mx3, reinn, alv_kmp) |>  
     tbl_summary( 
       by = trt,
       type = list( vent ~  "continuous",
                    vt_pr ~ "continuous",
-                   ligg ~ "continuous",
+                   ligg_mx3 ~ "dichotomous",
                    reinn   ~ "dichotomous",
                    alv_kmp ~ "dichotomous"      ),
       statistic = list( vent ~ c("{median} [{p25}, {p75}], {mean}"),
                         vt_pr ~ "{mean} ({sd})", 
-                        ligg ~ "{median} ({min}; {max})",     ## median IQR per default !
+                        ligg_mx3 ~ "{n} / {N} ({p}%)",
                         reinn ~ "{n} / {N} ({p}%)", 
                         alv_kmp ~ "{n} / {N} ({p}%)"),      #  digits = list(ligg ~ 2), 
       label = list(# u6_fu ~ "Follow-up 30 d",

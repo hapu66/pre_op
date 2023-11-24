@@ -50,12 +50,16 @@ pp_sh = function(df){
                    o_preop_vektskole + (1|o_sykehus), 
                  data    = dee)
   
-M=   summary(model2)  
+  model3 <- lmer(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0   + 
+                   o_preop_vektskole + b_beh_depr + b_beh_diab + smoke +  (1|o_sykehus), 
+                 data    = dee)
   
+M =   summary(model3)  
+  dee$fixed <- predict(model3, re.form=NA)
+  dee$rand <- predict(model3)
 
-  dee$fixed <- predict(model1, re.form=NA)
-  dee$rand <- predict(model1)
-print(M) 
+print(M)     
+print(ranef(model3)) 
   
 G = ggplot(data = dee,
        aes(x = p_alder_v_op,

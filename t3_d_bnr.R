@@ -32,7 +32,7 @@ up_d30 = function(tb) { tb |>
       label = list(# u6_fu ~ "Follow-up 30 d",
         vent ~ "Waiting time (d)",
         vt_pr ~ "Pre-operative BMI loss (kg/m^2)",
-        ligg_mx3 ~ "Mac 3 postoperative days in hospital",
+        ligg_mx3 ~ "Max 3 postoperative days in hospital",
         reinn ~ "Readmission",
         alv_kmp ~ "Severe complications (30 d)"),
       missing_text = "Missing data" 
@@ -69,13 +69,13 @@ dw_a5 = function(tb) { e_del = paste0(expression(paste(delta, "BMI (kg/m^2)")));
     add_p(pvalue_fun = ~style_pvalue(.x, digits = 2))  #   include = list(c(vtap, dBMI, depr, subst))
 }
 
-
-tbl_stack(list(cnt_d30, up_d30(d_eli) ) ,cnt_a5)
-
 tbl_merge( list(
 tbl_stack(list(cnt_d30_GS, up_d30(d_elig_d30_GS), cnt_a5_GS, dw_a5(d_elig_GS) )),
 tbl_stack(list(cnt_d30_GB, up_d30(d_elig_d30_GB), cnt_a5_GB, dw_a5(d_elig_GB) )) 
 ))
+
+
+tbl_stack(list(cnt_d30, up_d30(d_elig_d30), cnt_a5, dw_a5(d_elig) ))
 
 # M_GS_l = matrix(c(690,688,1236,1088),
 #                 nrow = 2)

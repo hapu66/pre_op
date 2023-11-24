@@ -84,6 +84,44 @@ pp_sh(d_act_a5)
 pp_sh(d_act_a5_GS)
 pp_sh(d_act_a5_GB)
 
+
+mdl  <- lmer(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0   + 
+                       o_preop_vektskole + b_beh_depr + b_beh_diab + smoke +(1|o_sykehus), 
+                       data    = d_act_a5)
+summary(mdl)
+RE = ranef(mdl)
+RE_tbbl = as_tibble(RE)
+
+d_act_a5 %>% left_join(RE_tbbl, by= c("o_sykkehus"=  "grp"))
+  
+# plot(mdl, sqrt(abs(resid(.))) ~ fitted(.),   type = c("p", "smooth"))
+
+
+just = function(o_sykehus){
+  RE_tbbl |> filter(grp == o_sykehus) |> pull(condval)
+}
+
+# > just("Vestre Viken HF")
+# numeric(0)
+# > just("Helse Bergen HF")
+# [1] 2.065264 
+d_act_a5_j =  d_act_a5 |> filter(o_sykehus != "Vestre Viken HF") |> mutate(a5_TWL_j =  a5_TWL - o_sykehus |> map( just) |> unlist(),
+                                                                           vtap = a5_TWL_j)
+
+epep_j =   tbl_stack(list(cnt_d30, up_d30(d_act_d30), cnt_a5, dw_a5(d_act_a5_j)))
+
+epep_j |>  as_gt() |>  
+  rows_add( .list = rlang::list2("label" =  "Opr.  >5.5 yr earlier",
+                                 "stat_1" = as.character(N_op_a5$N_opr[1]),
+                                 "stat_2" = as.character(N_op_a5$N_opr[2])),
+            .before = 9 ) |> 
+  rows_add( .n_empty = 1, .before = 9)
+
+
+
+
+
+
 model1 <- lmer(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0 + o_preop_vektskole + (1 |o_sykehus), 
                data    = d_act_a5_GS)
 summary(model1)

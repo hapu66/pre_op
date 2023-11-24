@@ -10,7 +10,7 @@ N_act_a5  <- d_act_a5 |> group_by(trt) |> summarise(N_opr = n())
 fup_d30 =  N_act_d30$N_opr / N_op_d30$N_opr
 fup_a5 =  N_act_a5$N_opr / N_op_a5$N_opr
 #
-cnt_d30 =    d_elig_d30 %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
+cnt_d30 =    d_elig_d30 %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d") %>% add_p()
 cnt_d30_GS = d_elig_d30_GS %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
 cnt_d30_GB = d_elig_d30_GB %>% tbl_summary(by = trt, include = c(u6_fu), label = u6_fu ~ "Followed up, 30d")
 
@@ -42,13 +42,13 @@ up_d30 = function(tb) { tb |>
     #  include=c("vent") , pattern = "{stat} ({ci})"
     }
 
-cnt_a5 =    d_elig %>% tbl_summary(by = trt, include = c(a5_nt), label =    a5_nt ~ "Followed up, 5yr +- 6m")
+cnt_a5 =    d_elig %>% tbl_summary(by = trt, include = c(a5_nt), label =    a5_nt ~ "Followed up, 5yr +- 6m") %>% add_p
 cnt_a5_GS = d_elig_GS %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m") %>% add_p
 cnt_a5_GB = d_elig_GB %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m") %>% add_p
 
 
 #     Construct the lower part of T3 -------------------------------------------
-dw_a5 = function(tb) { e_del = paste0(expression(paste(delta, "BMI (kg/m^2)")));
+dw_a5 = function(tb) { e_del = paste0("Delta BMI (kg/m^2)");
     tb |> 
     select(trt, vtap, dBMI, depr, subst) |>  #  a5_fu, N_revop, 
     tbl_summary( 
@@ -63,7 +63,7 @@ dw_a5 = function(tb) { e_del = paste0(expression(paste(delta, "BMI (kg/m^2)")));
                    subst ~ "Substitution ", 
                    vtap ~ "%TWL ", 
                    dBMI  ~ e_del),
-      missing = "no",  #  remove TWL BMI but ?keep substitution--sol: add later?
+#     missing = "no",  #  remove TWL BMI but ?keep substitution--sol: add later?
       missing_text = "Missing data" 
     ) |>
     add_p(pvalue_fun = ~style_pvalue(.x, digits = 2))  #   include = list(c(vtap, dBMI, depr, subst))
@@ -75,7 +75,18 @@ tbl_stack(list(cnt_d30_GB, up_d30(d_elig_d30_GB), cnt_a5_GB, dw_a5(d_elig_GB) ))
 ))
 
 
-tbl_stack(list(cnt_d30, up_d30(d_elig_d30), cnt_a5, dw_a5(d_elig) ))
+epep =   tbl_stack(list(cnt_d30, up_d30(d_elig_d30), cnt_a5, dw_a5(d_elig)))
+
+epep |>  as_gt() |>  
+  rows_add( .list = rlang::list2("label" =  "Opr.  >5.5 yr earlier",
+                                 "stat_1" = as.character(N_op_a5$N_opr[1]),
+                                 "stat_2" = as.character(N_op_a5$N_opr[2])),
+            .before = 11 ) |> 
+  rows_add( .n_empty = 1, .before = 11)
+
+
+
+
 
 # M_GS_l = matrix(c(690,688,1236,1088),
 #                 nrow = 2)

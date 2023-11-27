@@ -24,7 +24,7 @@ up_d30 = function(tb) { tb |>
                    ligg_mx3 ~ "dichotomous",
                    reinn   ~ "dichotomous",
                    alv_kmp ~ "dichotomous"      ),
-      statistic = list( vent ~ c("{median} [{p25}, {p75}] "),
+      statistic = list(# vent ~ c("{median} [{p25}, {p75}] "),
                         vt_pr ~ "{mean} ({sd})", 
                         ligg_mx3 ~ "{n} / {N} ({p}%)",
                         reinn ~ "{n} / {N} ({p}%)", 
@@ -56,7 +56,7 @@ dw_a5 = function(tb) { e_del = paste0("Delta BMI (kg/m^2)");
       type = list( c(    subst) ~ "dichotomous"),   ##  c()
       statistic = list( subst~ "{n} / {N} ({p}%)"),
       label = list(subst ~ "Substitution ", 
-                   vtap ~ "%TWL ", 
+                   vtap ~ "%TWL", 
                    dBMI  ~ e_del),
 #     missing = "no",  #  remove TWL BMI but ?keep substitution--sol: add later?
       missing_text = "Missing data" 
@@ -89,7 +89,7 @@ epep |>  as_gt() |>
 # ch = chisq.test(M_GS_l)   #  p-value = 0.0722
 
 
-
+i
 lft  =  tbl_stack(list(cnt_d30_GS, up_d30(d_elig_d30_GS), cnt_a5_GS, dw_a5(d_elig_GS) ))
 rgt =  tbl_stack(list(cnt_d30_GB, up_d30(d_elig_d30_GB), cnt_a5_GB, dw_a5(d_elig_GB) )) 
 

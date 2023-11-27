@@ -119,7 +119,13 @@ just = function(o_sykehus){
 d_act_a5_j =  d_act_a5 |> filter(o_sykehus != "Vestre Viken HF") |> mutate(a5_TWL_j =  a5_TWL - o_sykehus |> map( just) |> unlist(),
                                                                            vtap = a5_TWL_j)
 
-epep_j =   tbl_stack(list(cnt_d30, up_d30(d_act_d30), cnt_a5, dw_a5(d_elig |> filter(!is.na(a5_nt))   ))) # !=  d_act_a5_j
+d_c5 = d_elig |> filter(!is.na(a5_nt), !is.na(a5_TWL))
+
+justrd = d_c5  |>  filter(o_sykehus != "Vestre Viken HF") |> 
+  mutate(a5_TWL_j =  a5_TWL - o_sykehus |> map( just) |> unlist(),
+         vtap = a5_TWL_j)
+
+epep_j =   tbl_stack(list(cnt_d30, up_d30(d_act_d30), cnt_a5, dw_a5(justrd  ))) # !=  d_act_a5_j
 
 EP = epep_j |>  as_gt() |>  
   rows_add( .list = rlang::list2("label" =  "Opr.  >5.5 yr earlier",
@@ -130,7 +136,7 @@ EP = epep_j |>  as_gt() |>
 
 
 
-EP  %>% opt_footnote_marks(marks = "letters") %>% gtsave("Table3c.docx")
+EP  %>% opt_footnote_marks(marks = "letters") %>% gtsave("Tabl3_subst.docx")
 
 
 model1 <- lmer(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0 + o_preop_vektskole + (1 |o_sykehus), 

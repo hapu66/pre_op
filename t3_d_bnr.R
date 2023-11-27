@@ -54,19 +54,14 @@ dw_a5 = function(tb) { e_del = paste0("Delta BMI (kg/m^2)");
     tbl_summary( 
       by = trt,
       type = list( c(    subst) ~ "dichotomous"),   ##  c()
-      statistic = list(# a5_fu ~ "{n}", 
-                       # depr~ "{n} / {N} ({p}%)",
-                       subst~ "{n} / {N} ({p}%)"),
-      label = list(# a5_fu ~ "Follow-up 5 yrs",
-                   #  N_revop ~ "Revisions",
-                   # depr ~ "Depression ", 
-                   subst ~ "Substitution ", 
+      statistic = list( subst~ "{n} / {N} ({p}%)"),
+      label = list(subst ~ "Substitution ", 
                    vtap ~ "%TWL ", 
                    dBMI  ~ e_del),
 #     missing = "no",  #  remove TWL BMI but ?keep substitution--sol: add later?
       missing_text = "Missing data" 
     ) |>
-    add_p(pvalue_fun = ~style_pvalue(.x, digits = 2))  #   include = list(c(vtap, dBMI, depr, subst))
+    add_p(pvalue_fun = ~style_pvalue(.x, digits = 2))  
 }
 
 tbl_merge( list(

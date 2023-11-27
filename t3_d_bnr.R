@@ -24,7 +24,7 @@ up_d30 = function(tb) { tb |>
                    ligg_mx3 ~ "dichotomous",
                    reinn   ~ "dichotomous",
                    alv_kmp ~ "dichotomous"      ),
-      statistic = list( vent ~ c("{median} [{p25}, {p75}], {mean}"),
+      statistic = list( vent ~ c("{median} [{p25}, {p75}] "),
                         vt_pr ~ "{mean} ({sd})", 
                         ligg_mx3 ~ "{n} / {N} ({p}%)",
                         reinn ~ "{n} / {N} ({p}%)", 
@@ -36,8 +36,8 @@ up_d30 = function(tb) { tb |>
         reinn ~ "Readmission",
         alv_kmp ~ "Severe complications (30 d)"),
       missing_text = "Missing data" 
-    ) |>    add_p(pvalue_fun = ~style_pvalue(.x, digits = 2)) |>
-          add_ci(include=c("vent" ), pattern = "{stat} ({ci})") 
+    ) |>    add_p(pvalue_fun = ~style_pvalue(.x, digits = 2)) #|>
+         # add_ci(include=c("vent" ), pattern = "{stat} ({ci})") 
   #    #    add_ci(include=c("vent", "ligg"), pattern = "{stat} ({ci})")
     #  include=c("vent") , pattern = "{stat} ({ci})"
     }
@@ -50,16 +50,16 @@ cnt_a5_GB = d_elig_GB %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_n
 #     Construct the lower part of T3 -------------------------------------------
 dw_a5 = function(tb) { e_del = paste0("Delta BMI (kg/m^2)");
     tb |> 
-    select(trt, vtap, dBMI, depr, subst) |>  #  a5_fu, N_revop, 
+    select(trt, vtap, dBMI,   subst) |>  #  a5_fu, N_revop, 
     tbl_summary( 
       by = trt,
-      type = list( c(  depr, subst) ~ "dichotomous"),   ##  c()
+      type = list( c(    subst) ~ "dichotomous"),   ##  c()
       statistic = list(# a5_fu ~ "{n}", 
-                       depr~ "{n} / {N} ({p}%)",
+                       # depr~ "{n} / {N} ({p}%)",
                        subst~ "{n} / {N} ({p}%)"),
       label = list(# a5_fu ~ "Follow-up 5 yrs",
                    #  N_revop ~ "Revisions",
-                   depr ~ "Depression ", 
+                   # depr ~ "Depression ", 
                    subst ~ "Substitution ", 
                    vtap ~ "%TWL ", 
                    dBMI  ~ e_del),

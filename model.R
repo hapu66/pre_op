@@ -102,6 +102,24 @@ RE2 = ranef(mdl_2)
 RE_tbbl = as_tibble(RE)
 RE2_tbbl = as_tibble(RE2)
 
+# -------------- Follow-up model
+mdl_fu  <- lmer(formula = a5_nt ~  a5_TWL + vt_pr + p_alder_v_op + Female + bmi_0   + 
+                 o_preop_vektskole + b_beh_diab + smoke +(1|o_sykehus),  #    UTEN + b_beh_depr
+               data    = d_elig)
+summary(mdl_fu)
+RE2 = ranef(mdl_fu)
+
+mdl_fu2  <- lmer(formula = a5_nt ~    Female + bmi_0   + (1|o_sykehus),      
+                data    = d_elig)
+summary(mdl_fu2)
+RE2 = ranef(mdl_fu2)
+
+
+mdl_fu3  <- lmer(formula = a5_nt ~     bmi_0   + (1|o_sykehus),      
+                 data    = d_elig)
+summary(mdl_fu3)
+RE2 = ranef(mdl_fu3)
+# -------------------------------------
 
 # d_act_a5 %>% left_join(RE_tbbl, by= c("o_sykkehus"=  "grp"))
   

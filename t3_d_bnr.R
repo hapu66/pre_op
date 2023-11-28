@@ -55,6 +55,7 @@ dw_a5 = function(tb) { e_del = paste0("Delta BMI (kg/m^2)");
       by = trt,
       type = list( c(    subst) ~ "dichotomous"),   ##  c()
       statistic = list( subst~ "{n} / {N} ({p}%)"),
+      digits = all_continuous() ~ 1,
       label = list(subst ~ "Substitution ", 
                    vtap ~ "%TWL", 
                    dBMI  ~ e_del),

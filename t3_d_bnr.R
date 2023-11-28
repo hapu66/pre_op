@@ -75,7 +75,7 @@ tbl_stack(list(cnt_d30_GB, up_d30(d_elig_d30_GB), cnt_a5_GB, dw_a5(d_elig_GB) ))
 ))
 
 
-epep =   tbl_stack(list(cnt_d30, up_d30(d_elig_d30), cnt_a5, dw_a5(d_elig)))
+epep =   tbl_stack(list(cnt_d30, up_d30(d_elig_d30), cnt_a5, dw_a5(d_elig |> filter(a5_nt))))
 
 epep |>  as_gt() |>  
   rows_add( .list = rlang::list2("label" =  "Eligible for 5 yrs follow up",

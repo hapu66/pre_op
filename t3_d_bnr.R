@@ -16,23 +16,26 @@ cnt_d30_GB = d_elig_d30_GB %>% tbl_summary(by = trt, include = c(u6_fu), label =
 
 #     Construct the upper part of T3 -------------------------------------------
 up_d30 = function(tb) { tb |> 
-    select(trt,  vent, vt_pr, ligg_mx3, reinn, alv_kmp) |>  
+    select(trt,  vent, TWL_pr, vt_pr, ligg_mn4, reinn, alv_kmp) |>  
     tbl_summary( 
       by = trt,
       type = list( vent ~  "continuous",
+                   TWL_pr ~ "continuous",
                    vt_pr ~ "continuous",
-                   ligg_mx3 ~ "dichotomous",
+                   ligg_mn4 ~ "dichotomous",
                    reinn   ~ "dichotomous",
                    alv_kmp ~ "dichotomous"      ),
       statistic = list(# vent ~ c("{median} [{p25}, {p75}] "),
+                       TWL_pr ~ "{mean} ({sd})",
                         vt_pr ~ "{mean} ({sd})", 
-                        ligg_mx3 ~ "{n} / {N} ({p}%)",
+                        ligg_mn4 ~ "{n} / {N} ({p}%)",
                         reinn ~ "{n} / {N} ({p}%)", 
                         alv_kmp ~ "{n} / {N} ({p}%)"),      #  digits = list(ligg ~ 2), 
       label = list(# u6_fu ~ "Follow-up 30 d",
         vent ~ "Waiting time (d)",
+        TWL_pr ~ "%TWL preop",
         vt_pr ~ "Pre-operative BMI loss (kg/m^2)",
-        ligg_mx3 ~ "Max 3 postoperative days in hospital",
+        ligg_mn4 ~ "Over 3 postoperative days in hospital",
         reinn ~ "Readmission",
         alv_kmp ~ "Severe complications (30 d)"),
       missing_text = "Missing data" 
@@ -42,7 +45,7 @@ up_d30 = function(tb) { tb |>
     #  include=c("vent") , pattern = "{stat} ({ci})"
     }
 
-cnt_a5 =    d_elig %>% tbl_summary(by = trt, include = c(a5_nt), label =    a5_nt ~ "Followed up, 5yr +- 6m") %>% add_p
+cnt_a5 =    d_elig %>% tbl_summary(by = trt, include = c(a5_nt), label =    a5_nt ~ "Follow up 5 yrs") %>% add_p
 cnt_a5_GS = d_elig_GS %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m") %>% add_p
 cnt_a5_GB = d_elig_GB %>% tbl_summary(by = trt, include = c(a5_nt), label = a5_nt ~ "Followed up, 5yr +- 6m") %>% add_p
 
@@ -54,7 +57,8 @@ dw_a5 = function(tb) { e_del = paste0("Delta BMI (kg/m^2)");
     tbl_summary( 
       by = trt,
       type = list( c(    subst) ~ "dichotomous"),   ##  c()
-      statistic = list( subst~ "{n} / {N} ({p}%)"),
+      statistic = list(vtap ~ "{mean} ({sd})",
+                       subst~ "{n} / {N} ({p}%)"),
       digits = all_continuous() ~ 1,
       label = list(subst ~ "Substitution ", 
                    vtap ~ "%TWL", 
@@ -74,7 +78,7 @@ tbl_stack(list(cnt_d30_GB, up_d30(d_elig_d30_GB), cnt_a5_GB, dw_a5(d_elig_GB) ))
 epep =   tbl_stack(list(cnt_d30, up_d30(d_elig_d30), cnt_a5, dw_a5(d_elig)))
 
 epep |>  as_gt() |>  
-  rows_add( .list = rlang::list2("label" =  "Opr.  >5.5 yr earlier",
+  rows_add( .list = rlang::list2("label" =  "Eligible for 5 yrs follow up",
                                  "stat_1" = as.character(N_op_a5$N_opr[1]),
                                  "stat_2" = as.character(N_op_a5$N_opr[2])),
             .before = 11 ) |> 

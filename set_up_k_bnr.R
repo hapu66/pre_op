@@ -139,7 +139,7 @@ df %<>% mutate( vt_pr = b_ant_kmi - bmi_op,     # d BMI
                 TWL_pr = (b_ant_vekt - o_ant_vekt)/ b_ant_vekt *100,
                 vent = o_dato_op - b_dato_henv,
                 ligg = u6_dato_ut - o_dato_op,  #  -u6_pop_ligg
-                ligg_mx3 = ligg<4,
+                ligg_mn4 = ligg>3,
                 reinn = u6_innl_sykeh_d0_30 == 1,    #  0 Nei 1 Ja    2 Vet ikke
                 alv_komp = u6_komp_alvgrad > 3,             #    4. Grad III-b: Signifikant intervensjon i narkose.
                 alv_komp_na = !alv_komp | is.na(alv_komp),  #  not serious compl.
@@ -173,7 +173,7 @@ d =    dt %>% filter(!is.na(o_preop_vektskole), o_opmetode %in% c(1, 6)) %>%
          o_preop_vektskole, o_preop_vektprog, o_opmetode, smoke, work,
          b_finans,  u6_ferdigstill, u6_oppf_type, a5_oppf_type,
          contains("bmi_"),  contains("b_beh"),  vt_pr, TWL_pr,
-         vent,   ligg_mx3,   alv_kmp,  subst,  N_revop,
+         vent,   ligg_mn4,   alv_kmp,  subst,  N_revop,
          reinn,  depr,   vtap,   dBMI,   u6_fu, a5_fu, a5_nt, trt,
          o_dato_op, a5_ferdigstill, a5_ant_vekt, a5_dato_oppf, bmi_5a,  a5_TWL) %>% 
   mutate(bmi_0 = bmi_baseline, bmi_0o = bmi_op, bmi_0u6 = bmi_6v) %>%

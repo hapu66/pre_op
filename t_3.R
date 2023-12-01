@@ -127,7 +127,7 @@ T3_j = tbl3_j |>  as_gt() |>
             .before = 11 ) |> 
   rows_add( .n_empty = 1, .before = 11)
 
-T3_j |> opt_footnote_marks(marks = "letters") %>% gtsave("T3c.docx")
+# T3_j |> opt_footnote_marks(marks = "letters") %>% gtsave("T3c.docx")
 
 ## ---- both d30 and a5 justert
 

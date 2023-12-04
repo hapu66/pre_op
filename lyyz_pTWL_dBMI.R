@@ -29,7 +29,7 @@ cm <- function(p1, p2){
 }  
 
  
-
+dt |> filter(!is.na(a5_TWL)) |> select(a5_TWL, dBMI) |> cor() # -0.9476145
 
 
   cmpr <- function( p1, p2){

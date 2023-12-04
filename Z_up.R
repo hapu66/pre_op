@@ -204,6 +204,13 @@ d_act_a5 = d %>% filter(a5_nt)  # follow-up 5 yr
 d_act_a5_GS = d_act_a5 %>% filter(o_opmetode == 6)  # OBS normtid = +- 6 months
 d_act_a5_GB = d_act_a5 %>% filter(o_opmetode == 1)
 ## -----
+
+# df |> filter(o_sykehus == "Vestre Viken HF", !is.na(a5_dato_oppf))  |> pull(o_opmetode) |> table()
+
+# 1   6 
+# 106  49 
+
+
  
 
 

@@ -14,22 +14,22 @@ cnt_a5 = d_elig %>% tbl_summary(by = trt,
 
 #     Construct the upper part of T3 -------------------------------------------
 up_d30 = function(tb) { tb |> 
-    select(trt,  vent, TWL_pr, vt_pr, ligg_mn4, reinn, alv_kmp) |>  
+    select(trt,  vent, vtap, vt_pr, ligg_mn4, reinn, alv_kmp) |>  
     tbl_summary( 
       by = trt,
       type = list( vent ~  "continuous",
-                   TWL_pr ~ "continuous",
+                   vtap ~ "continuous",  # 
                    vt_pr ~ "continuous",
                    ligg_mn4 ~ "dichotomous",
                    reinn   ~ "dichotomous",
                    alv_kmp ~ "dichotomous"  ),
-      statistic = list( TWL_pr ~ "{mean} ({sd})",
+      statistic = list( vtap ~ "{mean} ({sd})",
                         vt_pr ~ "{mean} ({sd})",
                         ligg_mn4 ~ "{n} / {N} ({p}%)",
                         reinn ~ "{n} / {N} ({p}%)",
                         alv_kmp ~ "{n} / {N} ({p}%)"),      #  digits = list(ligg ~ 2), 
       label = list( vent ~ "Waiting time (d)",
-                    TWL_pr ~ "%TWL preop",
+                    vtap ~ "%TWL preop",
                     vt_pr ~ "Pre-operative BMI loss (kg/m^2)",
                     ligg_mn4 ~ "Over 3 postoperative days in hospital",
                     reinn ~ "Readmission",
@@ -141,3 +141,5 @@ final_T3_bj = tbl3_bj |>  as_gt() |>
             .before = 11 ) |> 
   rows_add( .n_empty = 1, .before = 11)
 
+
+final_T3_bj |> opt_footnote_marks(marks = "letters") %>% gtsave("T3c2.docx")

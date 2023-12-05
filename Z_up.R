@@ -177,7 +177,7 @@ d =    dt %>% filter(!is.na(o_preop_vektskole), o_opmetode %in% c(1, 6)) %>%
          reinn,  depr,   vtap,   dBMI,   u6_fu, a5_fu, a5_nt, trt,
          o_dato_op, a5_ferdigstill, a5_ant_vekt, a5_dato_oppf, bmi_5a,  a5_TWL) %>% 
   mutate(bmi_0 = bmi_baseline, bmi_0o = bmi_op, bmi_0u6 = bmi_6v) %>%
-  select(-bmi_baseline, -bmi_op, -bmi_6v)
+  select(-bmi_baseline, -bmi_op, -bmi_6v) 
 
 eo_dato_d30 = as.Date("2023-06-30")
 eo_dato_a5 = as.Date("2018-04-15")
@@ -187,7 +187,8 @@ eo_dato_a5 = as.Date("2018-04-15")
 #
 ## d_elig    =  d %>% filter(o_dato_op <  Sys.Date() - years(5) - months(6))  
 ## Setting up data tables:
-d_elig    =  d %>% filter(o_dato_op <  Sys.Date() - days(2007))  # -5.5 yr prb: 2023-10-31
+d_elig    =  d %>% filter(o_dato_op <  Sys.Date() - days(2007)) |>  # -5.5 yr prb: 2023-10-31
+  filter(o_sykehus != "Vestre Viken HF")  # 4 st
 
 d_elig_GS  = d_elig  %>% filter(o_opmetode == 6)
 d_elig_GB  = d_elig  %>% filter(o_opmetode == 1)
@@ -204,7 +205,7 @@ d_act_a5 = d %>% filter(a5_nt)  # follow-up 5 yr
 d_act_a5_GS = d_act_a5 %>% filter(o_opmetode == 6)  # OBS normtid = +- 6 months
 d_act_a5_GB = d_act_a5 %>% filter(o_opmetode == 1)
 ## -----
-d_elig_d30 <- d_elig_d30 |> mutate(vtap_30 = TWL_pr)
+d_elig_d30 <- d_elig_d30 |> mutate(vtap_30 = TWL_pr) 
 
 # df |> filter(o_sykehus == "Vestre Viken HF", !is.na(a5_dato_oppf))  |> pull(o_opmetode) |> table()
 

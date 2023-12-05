@@ -68,14 +68,21 @@ tbl3 |>  as_gt() |>
             .before = 13 ) |> 
   rows_add( .n_empty = 1, .before = 13)
 
-# ------------------------------------  LME Models -----------------------------
-#  5 yr model
+# ---------------------- 5 yr linear model ------------------------------------  LME Models -----------------------------
+m_00   <- lm(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0   + 
+                o_preop_vektskole + b_beh_diab + smoke  ,  
+              data = d_act_a5)
+summary(m_00)
+
+# 
 m_0   <- lmer(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0   + 
                         o_preop_vektskole + b_beh_diab + smoke +(1|o_sykehus),  
                data = d_act_a5)
 summary(m_0)
 REff  = ranef(m_0)
 RE_tbbl = as_tibble(REff)
+
+plot(  m_0) # residuals
 
 # df |> group_by(o_sykehus) |> summarise(n()) |> print(n=22)
 library(lattice)
@@ -88,6 +95,8 @@ m_u6  <- lmer(formula = TWL_pr ~ vt_pr + p_alder_v_op + Female + bmi_0   +
 summary(m_u6)
 REff_u6  = ranef(m_u6)
 RE_tbbl_u6 = as_tibble(REff_u6)
+plot(m_u6)
+
 
 m_u6b  <- lmer(formula = TWL_pr ~ vt_pr + p_alder_v_op + Female + bmi_0   + 
                 o_preop_vektskole +(1|o_sykehus),  
@@ -95,12 +104,15 @@ m_u6b  <- lmer(formula = TWL_pr ~ vt_pr + p_alder_v_op + Female + bmi_0   +
 summary(m_u6b)
 REff_u6b  = ranef(m_u6b)
 RE_tbbl_u6 = as_tibble(REff_u6b)
+plot(m_u6b)
 
 m_u6c  <- lmer(formula = TWL_pr ~ vt_pr + p_alder_v_op + bmi_0 + o_preop_vektskole +(1|o_sykehus),  
                data = d_act_d30)
 summary(m_u6c)
 REff_u6c  = ranef(m_u6c)
 RE_tbbl_u6 = as_tibble(REff_u6c)
+
+plot(m_u6c)
 
 just_u6 = function(o_sykehus){
   RE_tbbl_u6 |> filter(grp == o_sykehus) |> pull(condval)

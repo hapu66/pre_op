@@ -51,7 +51,7 @@ tb |>
     digits = all_continuous() ~ 2,
     label = list(subst ~ "Substitution", 
                  vtap ~ "%TWL", 
-                 dBMI  ~ "Five year BMI loss $(kg/m^2)$"),
+                 dBMI  ~ "Five year BMI loss (kg/m^2)"),
     #     missing = "no",  #  remove TWL BMI but ?keep substitution--sol: add later?
     missing_text = "Missing data" 
   ) |>

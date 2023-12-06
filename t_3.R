@@ -71,7 +71,7 @@ tbl3 |>  as_gt() |>
 # ---------------------- 5 yr linear model ------------------------------------  LME Models -----------------------------
 m_00   <- lm(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0   + 
                 o_preop_vektskole + b_beh_diab + smoke  ,  
-              data = d_act_a5)
+              data = d_elig |> filter(a5_nt))
 summary(m_00)
 
 # 
@@ -81,6 +81,8 @@ m_0   <- lmer(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0   +
 summary(m_0)
 REff  = ranef(m_0)
 RE_tbbl = as_tibble(REff)
+library(lattice)
+dotplot( ranef(m_0))
 
 plot(  m_0) # residuals
 

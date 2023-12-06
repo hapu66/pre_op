@@ -44,7 +44,7 @@ tb |>
   select(trt, vtap, dBMI,   subst) |>  
   tbl_summary( 
     by = trt,
-    type = list( c( subst) ~ "dichotomous"),    
+    type = list(vtap ~ "continuous", dBMI ~ "continuous" , subst ~ "dichotomous"),    
     statistic = list( vtap ~ "{mean} ({sd})",
                       dBMI ~ "{mean} ({sd})",
                       subst~ "{n} / {N} ({p}%)"),
@@ -150,7 +150,6 @@ just = function(o_sykehus){
 
 
 d_a5_j = d_elig |> filter(a5_nt) |> 
-  filter(o_sykehus != "Vestre Viken HF") |> 
   mutate(a5_TWL_j =  a5_TWL - o_sykehus |> map( just) |> unlist(),
          vtap = a5_TWL_j)
 

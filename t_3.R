@@ -39,7 +39,7 @@ up_d30 = function(tb) { tb |>
     ) |>    add_p(pvalue_fun = ~style_pvalue(.x, digits = 2))  }
 
 #     Construct the lower part of T3 -------------------------------------------
-dw_a5 = function(tb) { e_del = paste0("Delta BMI (kg/m^2)");
+dw_a5 = function(tb) { # e_del = paste0("Delta BMI (kg/m^2)");
 tb |> 
   select(trt, vtap, dBMI,   subst) |>  
   tbl_summary( 
@@ -48,10 +48,10 @@ tb |>
     statistic = list( vtap ~ "{mean} ({sd})",
                       dBMI ~ "{mean} ({sd})",
                       subst~ "{n} / {N} ({p}%)"),
-    digits = all_continuous() ~ 1,
+    digits = all_continuous() ~ 2,
     label = list(subst ~ "Substitution", 
                  vtap ~ "%TWL", 
-                 dBMI  ~ e_del),
+                 dBMI  ~ "Five year BMI loss $(kg/m^2)$"),
     #     missing = "no",  #  remove TWL BMI but ?keep substitution--sol: add later?
     missing_text = "Missing data" 
   ) |>
@@ -77,7 +77,7 @@ summary(m_00)
 # 
 m_0   <- lmer(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0   + 
                         o_preop_vektskole + b_beh_diab + smoke +(1|o_sykehus),  
-               data = d_act_a5)
+               data = d_elig |> filter(a5_nt))  # d_act_a5 has NOT -5.5år -filter
 summary(m_0)
 REff  = ranef(m_0)
 RE_tbbl = as_tibble(REff)
@@ -113,6 +113,24 @@ REff_u6c  = ranef(m_u6c)
 RE_tbbl_u6 = as_tibble(REff_u6c)
 
 plot(m_u6c)
+### ---------------------------------
+m_u6d  <- lmer(formula = TWL_pr ~   p_alder_v_op + bmi_0 + o_preop_vektskole +(1|o_sykehus),  
+               data = d_act_d30)
+summary(m_u6d)
+REff_u6d  = ranef(m_u6d)
+RE_tbbl_u6 = as_tibble(REff_u6d)
+
+plot(m_u6d)
+
+m_u6e  <- lmer(formula = TWL_pr ~  p_alder_v_op + Female + bmi_0   + 
+                 o_preop_vektskole   + smoke +(1|o_sykehus),  
+               data = d_act_d30)
+summary(m_u6e)
+REff_u6e  = ranef(m_u6e)
+RE_tbbl_u6 = as_tibble(REff_u6e)
+
+plot(m_u6e)
+
 
 just_u6 = function(o_sykehus){
   RE_tbbl_u6 |> filter(grp == o_sykehus) |> pull(condval)
@@ -156,7 +174,7 @@ Tb3_uj = tbl3_uj |>  as_gt() |>
             .before = 11 ) |> 
   rows_add( .n_empty = 1, .before = 11)
 
-Tb3_uj |> opt_footnote_marks(marks = "letters") %>% gtsave("T3_uj.docx")
+Tb3_uj |> opt_footnote_marks(marks = "letters") %>% gtsave("T3_wo_just.docx")
 
 ## ---- both d30 and a5 justert
 
@@ -170,4 +188,4 @@ final_T3_bj = tbl3_bj |>  as_gt() |>
   rows_add( .n_empty = 1, .before = 11)
 
 
-final_T3_bj |> opt_footnote_marks(marks = "letters") %>% gtsave("T3c2.docx")
+final_T3_bj |> opt_footnote_marks(marks = "letters") %>% gtsave("T3_w_just.docx")

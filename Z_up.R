@@ -1,7 +1,4 @@
-# make start_up.R
-#
- 
-# tools
+# 
   library(tidyverse)
   library(magrittr)
   library(gtsummary)    
@@ -147,7 +144,7 @@ df %<>% mutate( vt_pr = b_ant_kmi - bmi_op,     # d BMI
                 subst = a5_sub,
                 depr = b_beh_depr,
                 vtap = a5_TWL,
-                dBMI = bmi_5a - bmi_baseline )
+                dBMI = -(bmi_5a - bmi_baseline ))
 df$vent = as.integer(df$vent)
 df$ligg = as.integer(df$ligg)
  

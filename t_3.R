@@ -163,8 +163,7 @@ T3_j = tbl3_j |>  as_gt() |>
             .before = 11 ) |> 
   rows_add( .n_empty = 1, .before = 11)
 
-# T3_j |> opt_footnote_marks(marks = "letters") %>% gtsave("T3c.docx")
-
+ 
 
 tbl3_uj =  tbl_stack(list(cnt_d30, up_d30(d_elig_d30 |> filter(u6_fu)), cnt_a5, dw_a5(d_elig |> filter(a5_nt )) ))
 
@@ -175,7 +174,7 @@ Tb3_uj = tbl3_uj |>  as_gt() |>
             .before = 11 ) |> 
   rows_add( .n_empty = 1, .before = 11)
 
-Tb3_uj |> opt_footnote_marks(marks = "letters") %>% gtsave("T3_wo_just.docx")
+### Tb3_uj |> opt_footnote_marks(marks = "letters") %>% gtsave("T3_wo_just.docx")
 
 ## ---- both d30 and a5 justert
 
@@ -188,5 +187,19 @@ final_T3_bj = tbl3_bj |>  as_gt() |>
             .before = 11 ) |> 
   rows_add( .n_empty = 1, .before = 11)
 
+library(rstatix)
+ligg_p  =  p_round( Tb3_uj$`_data`$p.value[8], digits = 2)
+readm_p =  p_round(  Tb3_uj$`_data`$p.value[9])
+compl_p =  p_round(  Tb3_uj$`_data`$p.value[10])
+fu5_p =    p_round(  Tb3_uj$`_data`$p.value[13])
 
-final_T3_bj |> opt_footnote_marks(marks = "letters") %>% gtsave("T3_w_just.docx")
+n_EPEP_30 = Tb3_uj$`_data`$stat_1[1]
+n_SPEP_30 = Tb3_uj$`_data`$stat_2[1]
+
+p_EPEP_a5 = Tb3_uj$`_data`$stat_1[12]
+p_SPEP_a5 =  Tb3_uj$`_data`$stat_2[12]
+n_EPEP_a5 = Tb3_uj$`_data`$stat_1[13]
+n_SPEP_a5 =  Tb3_uj$`_data`$stat_2[13]
+
+
+### final_T3_bj |>opt_stylize(style = 6) |> opt_footnote_marks(marks = "letters") %>% gtsave("T3_w_just.docx")

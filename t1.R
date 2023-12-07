@@ -176,6 +176,7 @@ tb2_GB =  tbl_merge( list(
 # T1B %>% as_gt() %>% opt_footnote_marks(marks = "letters") %>% gtsave("t2_GB.docx")
 
 
+
 #n_fu   = function(ch){ ch |> --------------------------------------------------
 #  
 #} 

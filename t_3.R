@@ -188,6 +188,32 @@ final_T3_bj = tbl3_bj |>  as_gt() |>
   rows_add( .n_empty = 1, .before = 11)
 
 library(rstatix)
+
+ 
+n_GS_e30 = nrow(d_elig_d30_GS)
+n_GS_ea5  =  nrow(d_elig_GS)
+n_GB_e30 = nrow(d_elig_d30_GB)
+n_GB_ea5  =   nrow(d_elig_GB)
+
+n_tot_d30 = n_GS_e30 + n_GB_e30
+n_tot_a5 = n_GS_ea5 + n_GB_ea5
+
+n_GS_a30  = nrow(d_act_d30_GS)
+n_GS_a30EP = sum(d_act_d30_GS$o_preop_vektskole)
+n_GB_a30  = nrow(d_act_d30_GB)
+n_GB_a30EP = sum(d_act_d30_GB$o_preop_vektskole)
+
+n_GS_a5 = nrow(d_act_a5_GS)
+n_GS_a5EP = sum(d_act_a5_GS$o_preop_vektskole)
+n_GB_a5  = nrow(d_act_a5_GB)
+n_GB_a5EP = sum(d_act_a5_GB$o_preop_vektskole)
+
+
+
+
+
+
+
 ligg_p  =  p_round( Tb3_uj$`_data`$p.value[8], digits = 2)
 readm_p =  p_round(  Tb3_uj$`_data`$p.value[9])
 compl_p =  p_round(  Tb3_uj$`_data`$p.value[10])

@@ -211,16 +211,13 @@ n_GB_a5EP = sum(d_act_a5_GB$o_preop_vektskole)
 
 
 
-
-
-
 ligg_p  =  p_round( Tb3_uj$`_data`$p.value[8], digits = 2)
 readm_p =  p_round(  Tb3_uj$`_data`$p.value[9])
-compl_p =  p_round(  Tb3_uj$`_data`$p.value[10])
+compl_p =  p_round(  Tb3_uj$`_data`$p.value[10], digits = 2)
 fu5_p =    p_round(  Tb3_uj$`_data`$p.value[13])
 
-n_EPEP_30 = Tb3_uj$`_data`$stat_1[1]
-n_SPEP_30 = Tb3_uj$`_data`$stat_2[1]
+n_EPEP_30 = n_GS_a30EP + n_GB_a30EP            # Tb3_uj$`_data`$stat_1[1]
+n_SPEP_30 = n_GS_a30 + n_GB_a30 - n_EPEP_30    # Tb3_uj$`_data`$stat_2[1]
 
 p_EPEP_a5 = Tb3_uj$`_data`$stat_1[12]
 p_SPEP_a5 =  Tb3_uj$`_data`$stat_2[12]

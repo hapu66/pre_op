@@ -9,8 +9,8 @@ lz2_str =  function(ch, ag){
     opm  = ifelse(str_detect(ch_nm, "GS"), "GS", ifelse(str_detect(ch_nm, "GB"),  "GB",  "opm ERROR!"))
     
     str = case_when( ag == "st" ~  sts,
-                        ag == "ti" ~ tim,
-                       ag == "om" ~ opm,
+                     ag == "ti" ~ tim,
+                     ag == "om" ~ opm,
                TRUE ~  "Error: ag = st/ti/om") 
     str
 }

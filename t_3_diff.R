@@ -36,7 +36,8 @@ up_d30 = function(tb) { tb |>
                     reinn ~ "Readmission",
                     alv_kmp ~ "Severe complications (30 d)"),
       missing_text = "Missing data" 
-    ) |>    add_difference()  }
+    ) |>    add_difference(pvalue_fun = ~style_pvalue(.x, digits = 2)) }
+  # ,       estimate_fun = list(all_continuous() ~ style_sigfig, all_categorical() ~ function(x) paste0(style_sigfig(x), "%")))  }
 #  add_p(pvalue_fun = ~style_pvalue(.x, digits = 2) )
 #     Construct the lower part of T3 -------------------------------------------
 dw_a5 = function(tb) { # e_del = paste0("Delta BMI (kg/m^2)");
@@ -54,7 +55,8 @@ tb |>
                  dBMI  ~ "Five year BMI loss (kg/m^2)"),
     #     missing = "no",  #  remove TWL BMI but ?keep substitution--sol: add later?
     missing_text = "Missing data" 
-  ) |>  add_difference()  
+  ) |>  add_difference(pvalue_fun = ~style_pvalue(.x, digits = 2),
+                       estimate_fun = list(all_continuous() ~ style_sigfig, all_categorical() ~ function(x) paste0(style_sigfig(x), "%"))) 
 }
 #  add_p(pvalue_fun = ~style_pvalue(.x, digits = 2) )
 
@@ -222,8 +224,10 @@ n_GS_a5EP = sum(d_act_a5_GS$o_preop_vektskole)
 n_GB_a5  = nrow(d_act_a5_GB)
 n_GB_a5EP = sum(d_act_a5_GB$o_preop_vektskole)
 
+n_EPEP =  table(d_elig_d30$o_preop_vektskole)[[2]]
+n_SPEP =  table(d_elig_d30$o_preop_vektskole)[[1]]
 
-
+n_PEP  = nrow(d_elig_d30)
 
 ligg_p  =  p_round( Tb3_uj$`_data`$p.value[8], digits = 2)
 readm_p =  p_round(  Tb3_uj$`_data`$p.value[9])
@@ -253,5 +257,7 @@ dBMI_SPEP =  Tb3_uj$`_data`$stat_2[15]
 TWL_GS = signif(mean(d_elig_GS$a5_TWL, na.rm = T), 3)
 TWL_GB = signif(mean(d_elig_GB$a5_TWL, na.rm = T), 3)
 
-p_opm
+PEPjust_p = final_T3_bj$`_data`$p.value[14]
+
+# p_opm
 

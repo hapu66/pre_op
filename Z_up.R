@@ -209,7 +209,8 @@ d_elig_d30 <- d_elig_d30 |> mutate(vtap_30 = TWL_pr)
 # 1   6 
 # 106  49 
 
+last_op_d30 = max(d_elig_d30$o_dato_op)
+last_op_a5  = max(d_elig$o_dato_op)
 
- 
 
 

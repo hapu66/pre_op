@@ -45,18 +45,24 @@ tb |>
   select(trt, vtap, dBMI,   subst) |>  
   tbl_summary( 
     by = trt,
-    type = list(vtap ~ "continuous", dBMI ~ "continuous" , subst ~ "dichotomous"),    
+    type = list(vtap ~ "continuous", 
+                dBMI ~ "continuous" , 
+                subst ~ "dichotomous"),    
     statistic = list( vtap ~ "{mean} ({sd})",
                       dBMI ~ "{mean} ({sd})",
-                      subst~ "{n} / {N} ({p}%)"),
+                      subst~ "{n} / {N} ({p})"),
     digits = all_continuous() ~ 2,
-    label = list(subst ~ "Substitution", 
-                 vtap ~ "%TWL", 
-                 dBMI  ~ "Five year BMI loss (kg/m^2)"),
+    label = list( vtap ~ "%TWL", 
+    dBMI  ~ "Five year BMI loss (kg/m^2)",
+    subst ~ "Substitution"),
     #     missing = "no",  #  remove TWL BMI but ?keep substitution--sol: add later?
     missing_text = "Missing data" 
-  ) |>  add_difference(pvalue_fun = ~style_pvalue(.x, digits = 2),
-                       estimate_fun = list(all_continuous() ~ style_sigfig, all_categorical() ~ function(x) paste0(style_sigfig(x), "%"))) 
+  ) |>  
+    add_difference(
+      pvalue_fun = ~style_pvalue(.x, digits = 2),
+     estimate_fun = list(all_continuous() ~ function(x) paste0(style_sigfig(x)), 
+                         all_dichotomous() ~ function(x) paste0(style_sigfig(x * 100), "%")) 
+     ) 
 }
 #  add_p(pvalue_fun = ~style_pvalue(.x, digits = 2) )
 
@@ -253,6 +259,7 @@ TWL_SPEP =  Tb3_uj$`_data`$stat_2[14]
 dBMI_EPEP =  Tb3_uj$`_data`$stat_1[15]
 dBMI_SPEP =  Tb3_uj$`_data`$stat_2[15]
 
+p_TWL_a5 = Tb3_uj$`_data`$p.value[14]
  
 TWL_GS = signif(mean(d_elig_GS$a5_TWL, na.rm = T), 3)
 TWL_GB = signif(mean(d_elig_GB$a5_TWL, na.rm = T), 3)

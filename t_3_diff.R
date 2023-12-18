@@ -23,7 +23,8 @@ up_d30 = function(tb) { tb |>
                    ligg_mn4 ~ "dichotomous",
                    reinn   ~ "dichotomous",
                    alv_kmp ~ "dichotomous"  ),
-      statistic = list( vtap_30 ~ "{mean} ({sd})",
+      statistic = list( vent ~ "{median} ({p25}, {p75})",
+                        vtap_30 ~ "{mean} ({sd})",
                         vt_pr ~ "{mean} ({sd})",
                         ligg_mn4 ~ "{n} / {N} ({p}%)",
                         reinn ~ "{n} / {N} ({p}%)",
@@ -36,35 +37,44 @@ up_d30 = function(tb) { tb |>
                     reinn ~ "Readmission",
                     alv_kmp ~ "Severe complications (30 d)"),
       missing_text = "Missing data" 
-    ) |>    add_difference(pvalue_fun = ~style_pvalue(.x, digits = 2)) }
-  # ,       estimate_fun = list(all_continuous() ~ style_sigfig, all_categorical() ~ function(x) paste0(style_sigfig(x), "%")))  }
-#  add_p(pvalue_fun = ~style_pvalue(.x, digits = 2) )
+    ) |>    add_difference(pvalue_fun = ~style_pvalue(.x, digits = 2),
+                           estimate_fun = all_categorical() ~ function(x) paste0(style_sigfig(100*x), "%"),
+                           include = c(vtap_30,vt_pr,ligg_mn4,reinn,alv_kmp)) }
+
+  # ,       estimate_fun = list(all_continuous() ~ style_sigfig, 
+#  all_categorical() ~ function(x) paste0(style_sigfig(x), "%")))  }
+#  add_p(pvalue_fun = ~style_pvalue(.x, digits = 2) )   # e_del = paste0("Delta BMI (kg/m^2)"); 
+#     missing = "no",  #  remove TWL BMI but ?keep substitution--sol: add later?
+
 #     Construct the lower part of T3 -------------------------------------------
-dw_a5 = function(tb) { # e_del = paste0("Delta BMI (kg/m^2)");
-tb |> 
-  select(trt, vtap, dBMI,   subst) |>  
+dw_a5 = function(tb) {tb |> 
+  select(trt, vtap, dBMI, subst) |>  
   tbl_summary( 
-    by = trt,
-    type = list(vtap ~ "continuous", 
-                dBMI ~ "continuous" , 
-                subst ~ "dichotomous"),    
-    statistic = list( vtap ~ "{mean} ({sd})",
-                      dBMI ~ "{mean} ({sd})",
-                      subst~ "{n} / {N} ({p})"),
-    digits = all_continuous() ~ 2,
-    label = list( vtap ~ "%TWL", 
-    dBMI  ~ "Five year BMI loss (kg/m^2)",
-    subst ~ "Substitution"),
-    #     missing = "no",  #  remove TWL BMI but ?keep substitution--sol: add later?
-    missing_text = "Missing data" 
-  ) |>  
-    add_difference(
-      pvalue_fun = ~style_pvalue(.x, digits = 2),
-     estimate_fun = list(all_continuous() ~ function(x) paste0(style_sigfig(x)), 
-                         all_dichotomous() ~ function(x) paste0(style_sigfig(x * 100), "%")) 
-     ) 
+  by = trt,
+type = list(vtap ~ "continuous", 
+    dBMI ~ "continuous" , 
+    subst ~ "dichotomous"),    
+statistic = list( vtap ~ "{mean} ({sd})",
+    dBMI ~ "{mean} ({sd})",
+    subst~ "{n} / {N} ({p}%)"),
+digits = all_continuous() ~ 1,
+label = list( vtap ~ "%TWL", 
+  dBMI  ~ "Five year BMI loss (kg/m^2)",
+  subst ~ "Substitution"),
+missing_text = "Missing data") |>  
+ add_difference(  pvalue_fun = ~style_pvalue(.x, digits = 2),
+estimate_fun = list(
+ all_continuous() ~ function(x) paste0(style_sigfig(x, digits = 2)),  
+ all_categorical() ~ function(x) paste0(style_sigfig(100*x), "%")),
+include =c(vtap, dBMI, subst)) 
 }
 #  add_p(pvalue_fun = ~style_pvalue(.x, digits = 2) )
+#  list( 
+# vtap ~ function(x) paste0(style_sigfig(x, digits =2, scale = 1)),
+# dBMI ~ function(x) paste0(style_sigfig(x, digits =2, scale = 1)),
+# subst ~ function(x) paste0(style_sigfig(x, digits = 2, scale = 100))),
+
+
 
 tbl3 = tbl_stack(list(cnt_d30, up_d30(d_elig_d30 |> filter(u6_fu)), 
                       cnt_a5, dw_a5(d_elig |> filter(a5_nt))))

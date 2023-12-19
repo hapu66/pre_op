@@ -39,7 +39,7 @@ up_d30 = function(tb) { tb |>
       missing_text = "Missing data" 
     ) |>    add_difference(pvalue_fun = ~style_pvalue(.x, digits = 2),
                            estimate_fun = all_categorical() ~ function(x) paste0(style_sigfig(100*x), "%"),
-                           include = c(vtap_30,vt_pr,ligg_mn4,reinn,alv_kmp)) }
+                           include = c(vtap_30, vt_pr, ligg_mn4, reinn, alv_kmp)) }
 
   # ,       estimate_fun = list(all_continuous() ~ style_sigfig, 
 #  all_categorical() ~ function(x) paste0(style_sigfig(x), "%")))  }
@@ -54,18 +54,19 @@ dw_a5 = function(tb) {tb |>
 type = list(vtap ~ "continuous", 
     dBMI ~ "continuous" , 
     subst ~ "dichotomous"),    
-statistic = list( vtap ~ "{mean} ({sd})",
-    dBMI ~ "{mean} ({sd})",
-    subst~ "{n} / {N} ({p}%)"),
+statistic = list( 
+  vtap ~ "{mean} ({sd})",
+  dBMI ~ "{mean} ({sd})",
+  subst~ "{n} / {N} ({p}%)"),
 digits = all_continuous() ~ 1,
 label = list( vtap ~ "%TWL", 
   dBMI  ~ "Five year BMI loss (kg/m^2)",
   subst ~ "Substitution"),
 missing_text = "Missing data") |>  
  add_difference(  pvalue_fun = ~style_pvalue(.x, digits = 2),
-estimate_fun = list(
- all_continuous() ~ function(x) paste0(style_sigfig(x, digits = 2)),  
- all_categorical() ~ function(x) paste0(style_sigfig(100*x), "%")),
+estimate_fun = all_categorical() ~ function(x) paste0(style_sigfig(100*x), "%"),
+# list(
+#  all_continuous() ~ function(x) paste0(style_sigfig(x, digits = 2)),  
 include =c(vtap, dBMI, subst)) 
 }
 #  add_p(pvalue_fun = ~style_pvalue(.x, digits = 2) )
@@ -193,16 +194,23 @@ T3_j = tbl3_j |>  as_gt() |>
             .before = 11 ) |> 
   rows_add( .n_empty = 1, .before = 11)
 
- 
+# S1 = tbl_stack(list(cnt_d30, up_d30(d_elig_d30 |> filter(u6_fu))))
+# S2 = tbl_stack( list(cnt_a5, dw_a5(d_elig |> filter(a5_nt ))))
+# tbl3_uj =  tbl_stack(list(S1,S2)) 
 
-tbl3_uj =  tbl_stack(list(cnt_d30, up_d30(d_elig_d30 |> filter(u6_fu)), cnt_a5, dw_a5(d_elig |> filter(a5_nt )) ))
+tbl3_uj = tbl_stack(list(cnt_d30, up_d30(d_elig_d30 |> filter(u6_fu)), cnt_a5, dw_a5(d_elig |> filter(a5_nt )) ))
 
-Tb3_uj = tbl3_uj |>  as_gt() |>  
-  rows_add( .list = rlang::list2("label" =  "Eligible for 5 yrs follow up",
-                                 "stat_1" = as.character(N_op_a5$N_opr[1]),
-                                 "stat_2" = as.character(N_op_a5$N_opr[2])),
-            .before = 11 ) |> 
+Tb3_uj = tbl3_uj |>  as_gt()  |>
+  rows_add( .list = rlang::list2(
+    "label" =  "Eligible for 5 yrs follow up",
+    "stat_1" = as.character(N_op_a5$N_opr[1]),
+    "stat_2" = as.character(N_op_a5$N_opr[2]),
+   "estimate" = NA,
+   "ci" = NA,
+   "p.value" = NA),
+    .before = 11 )  |>  
   rows_add( .n_empty = 1, .before = 11)
+ 
 
 ### Tb3_uj |> opt_footnote_marks(marks = "letters") %>% gtsave("T3_wo_just_diff.docx")
 

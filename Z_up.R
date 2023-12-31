@@ -190,7 +190,7 @@ d_elig    =  d %>% filter(o_dato_op <  Sys.Date() - days(2007)) |>  # -5.5 yr pr
 d_elig_GS  = d_elig  %>% filter(o_opmetode == 6)
 d_elig_GB  = d_elig  %>% filter(o_opmetode == 1)
 
-d_elig_d30 = d %>% filter(o_dato_op <  Sys.Date()   - months(3))  # - 3 m
+d_elig_d30 = d %>% filter(o_dato_op <  Sys.Date()   - days(90))  # - 3 m
 d_elig_d30_GS = d_elig_d30 %>% filter(o_opmetode == 6)
 d_elig_d30_GB = d_elig_d30 %>% filter(o_opmetode == 1)
 

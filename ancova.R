@@ -9,24 +9,26 @@
 dt = d_elig |> filter(a5_nt)
 
 # generalized model
-md_gen = lm(a5_TWL ~ vt_pr* o_sykehus + p_alder_v_op* o_sykehus +
-    Female*o_sykehus+ bmi_0* o_sykehus + o_preop_vektskole* o_sykehus +
-   b_beh_diab* o_sykehus + smoke* o_sykehus, data = dt) 
+md_gen = lm(a5_TWL ~ vt_pr * o_sykehus + p_alder_v_op  * o_sykehus +
+    Female * o_sykehus+ bmi_0 * o_sykehus + o_preop_vektskole * o_sykehus +
+   b_beh_diab * o_sykehus + smoke * o_sykehus, data = dt) 
 
 md_gen2 = lm(a5_TWL ~ vt_pr* o_sykehus + p_alder_v_op  +
     Female + bmi_0* o_sykehus + o_preop_vektskole  +
     b_beh_diab + smoke , data = dt) 
 
-
-
-
 #ancova
 md_ancova  = lm(a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0 + 
     o_preop_vektskole + b_beh_diab + smoke + o_sykehus, data = dt)
 
+# reduced model
 md_red = lm(a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0 + 
     o_preop_vektskole + b_beh_diab + smoke  , data = dt)
 
+summary(md_gen)
+summary(md_gen2)
+summary(md_ancova)
+summary(md_red)
 
 anova(md_gen, md_ancova)
 anova(md_gen2, md_ancova)

@@ -277,7 +277,7 @@ TWL_SPEP =  Tb3_uj$`_data`$stat_2[14]
 dBMI_EPEP =  Tb3_uj$`_data`$stat_1[15]
 dBMI_SPEP =  Tb3_uj$`_data`$stat_2[15]
 
-p_TWL_a5 = Tb3_uj$`_data`$p.value[14]
+p_TWL_a5 = round(Tb3_uj$`_data`$p.value[14], 4)
  
 TWL_GS = signif(mean(d_elig_GS$a5_TWL, na.rm = T), 3)
 TWL_GB = signif(mean(d_elig_GB$a5_TWL, na.rm = T), 3)

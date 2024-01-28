@@ -175,6 +175,11 @@ tb2_GB =  tbl_merge( list(
 # T1S %>% as_gt() %>% opt_footnote_marks(marks = "letters") %>% gtsave("t1_GS.docx")
 # T1B %>% as_gt() %>% opt_footnote_marks(marks = "letters") %>% gtsave("t2_GB.docx")
 
+T1 =  tbl_merge( list( n_cl(d_elig_d30), n_cl(d_act_d30)),
+                   tab_spanner = FALSE)
+T2 =  tbl_merge( list( n_cl(d_elig), n_cl(d_act_a5)),
+                 tab_spanner = FALSE)
+
 
 
 #n_fu   = function(ch){ ch |> --------------------------------------------------

@@ -235,7 +235,7 @@ T1 = tbl_merge( list(
   cmb(d_elig, d_act_a5)
 ), tab_spanner = c("**Results for 30 days**", "**Results for 5 years**"))
 
-T2 = tbl_merge( list(
+T2 = tbl_merge( list(     # eligible,  actual
   cmb(d_elig_d30, d_act_d30),
   cmb(d_elig, d_act_a5)
 ), tab_spanner = FALSE)

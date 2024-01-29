@@ -209,7 +209,7 @@ n_op = function(ch) {  #   put both GS and GB in the same table
 cmb = function(ch_e, ch_fu){
   el_nm = deparse(substitute(ch_e))  # name of the eligible tb
   fu_nm = deparse(substitute(ch_fu)) #             follow-up
-  opr_mt = "BS"
+  opr_mt = "Pre-operative program"
   
   fu_t = ifelse(str_detect(fu_nm, "d30"), "d30", 
                 ifelse(str_detect(fu_nm, "a5"), "a5",  "ERROR!"))

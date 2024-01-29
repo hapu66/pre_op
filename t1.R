@@ -174,7 +174,8 @@ tb2_GB =  tbl_merge( list(
 
 # T1S %>% as_gt() %>% opt_footnote_marks(marks = "letters") %>% gtsave("t1_GS.docx")
 # T1B %>% as_gt() %>% opt_footnote_marks(marks = "letters") %>% gtsave("t2_GB.docx")
-n_op = function(ch) {  
+
+n_op = function(ch) {  #   put both GS and GB in the same table
   T = ch |>
 # filter(o_opmetode == om) |>
     select(b_finans, p_alder_v_op, Female, bmi_0, b_beh_musk_skjsm, b_beh_depr,
@@ -205,13 +206,44 @@ n_op = function(ch) {
 }
 
 
+cmb = function(ch_e, ch_fu){
+  el_nm = deparse(substitute(ch_e))  # name of the eligible tb
+  fu_nm = deparse(substitute(ch_fu)) #             follow-up
+  opr_mt = "BS"
+  
+  fu_t = ifelse(str_detect(fu_nm, "d30"), "d30", 
+                ifelse(str_detect(fu_nm, "a5"), "a5",  "ERROR!"))
+  tb_sp1 = str_glue("Eligible for  \n {fu_t} follow-up")
+  tb_sp2 = str_glue("Actual        \n {fu_t} follow-up")
+  tb_sp3 = str_glue("{opr_mt}")   
+  
+  tb_span = c(tb_sp1, tb_sp2, tb_sp3)
+  cl_1  = n_cl(ch_e)
+  cl_2  = n_cl(ch_fu)
+  cl_34 = n_op(ch_fu)
+  T = tbl_merge( tbls = list(cl_1, cl_2, cl_34), tab_spanner =  tb_span )
+  T
+}
 
 
+# cmb(d_elig_d30, d_act_d30)
+# cmb(d_elig, d_act_a5)
 
-T1 =  tbl_merge( list( n_cl(d_elig_d30), n_cl(d_act_d30)),
-                   tab_spanner = FALSE)
-T2 =  tbl_merge( list( n_cl(d_elig), n_cl(d_act_a5)),
-                 tab_spanner = FALSE)
+
+T1 = tbl_merge( list(
+  cmb(d_elig_d30, d_act_d30),
+  cmb(d_elig, d_act_a5)
+), tab_spanner = c("**Results for 30 days**", "**Results for 5 years**"))
+
+T2 = tbl_merge( list(
+  cmb(d_elig_d30, d_act_d30),
+  cmb(d_elig, d_act_a5)
+), tab_spanner = FALSE)
+
+
+# T1  %>% as_gt() %>% opt_footnote_marks(marks = "letters") %>% gtsave("t1a.docx")
+# T2  %>% as_gt() %>% opt_footnote_marks(marks = "letters") %>% gtsave("t1b.docx")
+
 
 
 

@@ -17,7 +17,6 @@ dl_1 = dl %>% filter(o_preop_vektskole == 1)
 
 plt_1 =  dl %>% ggplot(aes(x=time, y=value, 
                            fill=factor(o_preop_vektskole)))+
- # scale_fill_discrete(name = "Program", labels = c("SPEP", "EPEP"))+ # labs(fill ="Program") +  
   stat_dotsinterval(data=dl_0, side = "bottom", scale=0.5, quantiles = 600, point_interval = mode_hdci  ) +
   stat_dotsinterval(data=dl_1,  side = "top", scale=0.5, quantiles = 600, point_interval = mode_hdci  ) +
   geom_boxplot(notch = TRUE, width=0.3, outlier.colour = "red", outlier.shape = 1) +
@@ -26,7 +25,7 @@ plt_1 =  dl %>% ggplot(aes(x=time, y=value,
   scale_y_continuous(limits= c(15,60))+
   theme_bw(base_size = 16)
 
-plt_1 + labs(y= "BMI") +  # ujusterte tall
+plt_1 + labs(x = "Time") +labs(y= "BMI") +  # ujusterte tall
 scale_x_discrete(labels=c("bmi_0" = "baseline", "bmi_0o" = "operation",
                           "bmi_0u6" = "1 month","bmi_1a"="1 year","bmi_2a"="2 years","bmi_5a"="5 years"))
 # +scale_fill_discrete(name = "Program", labels = c("SPEP", "EPEP"))  # labs(fill ="Program") 

@@ -1,0 +1,42 @@
+---
+title: "sw"
+author: "Hannu"
+date: "2024-01-29"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(consort)
+source("Z_up.R")
+source("t1.R")
+```
+
+```{r consort, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+  d_cs <-  d_elig_d30 |> 
+    mutate(arm = ifelse(o_preop_vektskole, "EPEP", "SPEP"),
+   fow1 =  ifelse (!u6_fu & a5_fu, "Did attend to a5 Follow-up", 
+                   ifelse( !u6_fu,"lost of FU (u6)", NA)),
+   fow2 = ifelse(is.na(a5_fu), "Not yet", ifelse(a5_fu, NA, "Lost of FU (a5)")))
+  
+
+  ordrs = c( # p_pasientid = "Finished Followup",
+              arm     = "Pre-operative program",
+             fow1    = "Lost of Follow-up",
+             p_pasientid = "30d Follow-up",
+             fow2    = "Not evaluable",
+             p_pasientid = "a5 Follow-up")
+  
+  
+consort_plot( data = d_cs,
+              orders =  ordrs, 
+              allocation = "arm",
+              side_box = c( "fow1", "fow2") 
+              )
+
+```
+ 
+ 

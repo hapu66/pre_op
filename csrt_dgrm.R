@@ -4,7 +4,7 @@ library(consort)
 
   d_cs <-  d_elig_d30 |> 
     mutate(arm = ifelse(o_preop_vektskole, "EPEP", "SPEP"),
-   fow1 =  ifelse (!u6_fu & a5_fu, "Did attend a5 Follow-up", 
+   fow1 =  ifelse (!u6_fu & a5_fu, "Did attend to a5 Follow-up", 
                    ifelse( !u6_fu,"lost of FU (u6)", NA)),
    fow2 = ifelse(is.na(a5_fu), "Not yet", ifelse(a5_fu, NA, "Lost of FU (a5)")))
   

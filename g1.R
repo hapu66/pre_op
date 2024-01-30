@@ -1,7 +1,7 @@
 # source("set_up.R")
 library(ggdist)
 
-dl =    d_act_a5_GS %>% pivot_longer(cols = contains("bmi_"), names_to = "time", values_to = "value")   
+dl =    d_act_a5 %>% pivot_longer(cols = contains("bmi_"), names_to = "time", values_to = "value")   
 
 dl_SG = d %>% filter(o_opmetode == 6) %>% pivot_longer(cols = contains("bmi"), names_to = "time", values_to = "value")  
 dl_GB = d %>% filter(o_opmetode == 1) %>% pivot_longer(cols = contains("bmi"), names_to = "time", values_to = "value")  

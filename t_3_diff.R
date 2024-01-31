@@ -1,16 +1,16 @@
 library(lme4)
 library(lmerTest)
 
+N_op_d30  <- d_elig_d30 |>  group_by(trt) |> summarise(N_opr = n())  
 N_op_a5  <- d_elig |>  group_by(trt) |> summarise(N_opr = n())  
-
 
 cnt_d30 = d_elig_d30 %>% tbl_summary(by = trt, 
                                         include = c(u6_fu), 
-                                        label = u6_fu ~ "Followed up, 30d") %>% add_difference()
+                                        label = u6_fu ~ "Actual 30d follow-up") %>% add_difference()
 
 cnt_a5 = d_elig %>% tbl_summary(by = trt, 
                                 include = c(a5_nt), 
-                                label = a5_nt ~ "Follow up 5 yrs") %>% add_difference()
+                                label = a5_nt ~ "Actual 5 yr follow-up") %>% add_difference()
 
 #     Construct the upper part of T3 -------------------------------------------
 up_d30 = function(tb) { tb |> 
@@ -81,11 +81,15 @@ tbl3 = tbl_stack(list(cnt_d30, up_d30(d_elig_d30 |> filter(u6_fu)),
                       cnt_a5, dw_a5(d_elig |> filter(a5_nt))))
 
 tbl3 |>  as_gt() |>  
+  rows_add( .list = rlang::list2("label" =  "Eligible for 30 d follow-up",
+                                                    "stat_1" = as.character(N_op_d30$N_opr[1]),
+                                                    "stat_2" = as.character(N_op_d30$N_opr[2])),
+                               .before = 1 ) |> 
   rows_add( .list = rlang::list2("label" =  "Eligible for 5 yrs follow-up",
                                  "stat_1" = as.character(N_op_a5$N_opr[1]),
                                  "stat_2" = as.character(N_op_a5$N_opr[2])),
-            .before = 13 ) |> 
-  rows_add( .n_empty = 1, .before = 13)
+            .before = 12 ) |> 
+  rows_add( .n_empty = 1, .before = 12)
 
 # ---- interaction EPEP -- opmetode
 m_opm =  lm( formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0 + o_preop_vektskole*o_opmetode +  b_beh_diab + smoke  , data = filter(d_elig, a5_nt))

@@ -204,7 +204,7 @@ T3_j = tbl3_j |>  as_gt() |>
             .before = 12 ) |> 
   rows_add( .n_empty = 1, .before = 12)
 
-  
+# T3_j |> opt_footnote_marks(marks = "letters") %>% gtsave("T3_w_just_diff.docx")  
   # 
   # rows_add( .list = rlang::list2("label" =  "Eligible for 5 yrs follow up",
   #                                "stat_1" = as.character(N_op_a5$N_opr[1]),

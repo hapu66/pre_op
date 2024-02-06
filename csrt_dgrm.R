@@ -8,16 +8,16 @@ library(consort)
   d_cs <-  d_elig_d30 |> 
     mutate(arm = ifelse(o_preop_vektskole, "EPEP", "SPEP"),
    fow1 =  ifelse (!u6_fu & a5_nt, "Did attend to a5 Follow-up", 
-                   ifelse( !u6_fu,"lost of FU (u6)", NA)),
-   fow2 = ifelse(is.na(a5_nt), "Not yet", ifelse(a5_nt, NA, "Lost of FU (a5)")))
+     ifelse( !u6_fu,"Lost to Follow-up (30d)", NA)),
+   fow2 = ifelse(o_dato_op >=  Sys.Date() - days(2007), "Not yet", ifelse(!a5_nt, "Lost to Follow-up (a5)", NA)))
   
 
   ordrs = c( # p_pasientid = "Finished Followup",
-              arm     = "Pre-operative program",
-             fow1    = "Lost of Follow-up",
-             p_pasientid = "30d Follow-up",
-             fow2    = "Not evaluable",
-             p_pasientid = "a5 Follow-up")
+    arm     = "Pre-operative program",
+   fow1    = "No 30d Follow-up",
+   p_pasientid = "30d Follow-up",
+   fow2    = "Not evaluable",
+   p_pasientid = "5 yr Follow-up, normal time")
   
   
 consort_plot( data = d_cs,

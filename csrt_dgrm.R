@@ -2,11 +2,14 @@ library(consort)
 # run Z_up, t1 first
 ##
 
+# tbl3_j = tbl_stack(list(cnt_d30, up_d30(d_elig_d30 |> filter(u6_fu)), cnt_a5, dw_a5(d_a5_j )))
+
+
   d_cs <-  d_elig_d30 |> 
     mutate(arm = ifelse(o_preop_vektskole, "EPEP", "SPEP"),
-   fow1 =  ifelse (!u6_fu & a5_fu, "Did attend to a5 Follow-up", 
+   fow1 =  ifelse (!u6_fu & a5_nt, "Did attend to a5 Follow-up", 
                    ifelse( !u6_fu,"lost of FU (u6)", NA)),
-   fow2 = ifelse(is.na(a5_fu), "Not yet", ifelse(a5_fu, NA, "Lost of FU (a5)")))
+   fow2 = ifelse(is.na(a5_nt), "Not yet", ifelse(a5_nt, NA, "Lost of FU (a5)")))
   
 
   ordrs = c( # p_pasientid = "Finished Followup",

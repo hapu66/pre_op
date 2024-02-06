@@ -157,13 +157,13 @@ d_revop <- df %>% filter(!op_primar)
 
 dt =  d_prim %>% 
   mutate(u6_fu =  u6_ferdigstill == 1 & u6_oppf_type %in% c(1, 2, 3),
-         a5_fu = a5_ferdigstill == 1, 
-         a5_nt =  a5_ferdigstill == 1 & a5_dato_oppf - o_dato_op < 2007 & a5_dato_oppf - o_dato_op > 1642 &
-         a5_oppf_type %in%  c(1,2,3) &
+   a5_fu = a5_ferdigstill == 1, 
+   a5_nt =  a5_ferdigstill == 1 & a5_dato_oppf - o_dato_op < 2007 & a5_dato_oppf - o_dato_op > 1642 &
+    a5_oppf_type %in%  c(1,2,3) &
    !is.na(a5_ant_vekt)  & a5_ant_vekt > 0,   # fu a5 i normtid,   3 st wrong with a5_ant_vekt == 0
-         trt =   case_when(
-           o_preop_vektskole==1   ~ "EPEP",
-           o_preop_vektskole==0   ~ "SPEP"   ))
+   trt =   case_when(
+   o_preop_vektskole==1   ~ "EPEP",
+   o_preop_vektskole==0   ~ "SPEP"   ))
 
 d =    dt %>% filter(!is.na(o_preop_vektskole), o_opmetode %in% c(1, 6)) %>%
   select(p_pasientid, ForlopsID, o_sykehus,  o_dato_op, p_alder_v_op, Sex, Female, 

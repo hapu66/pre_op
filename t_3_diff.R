@@ -80,7 +80,7 @@ include =c(vtap, dBMI, subst))
 tbl3 = tbl_stack(list(cnt_d30, up_d30(d_elig_d30 |> filter(u6_fu)), 
                       cnt_a5, dw_a5(d_elig |> filter(a5_nt))))
 
-tbl3 |>  as_gt() |>  
+T3 = tbl3 |>  as_gt() |>  
   rows_add( .list = rlang::list2("label" =  "Eligible for 30 d follow-up",
                                                     "stat_1" = as.character(N_op_d30$N_opr[1]),
                                                     "stat_2" = as.character(N_op_d30$N_opr[2])),
@@ -90,6 +90,9 @@ tbl3 |>  as_gt() |>
                                  "stat_2" = as.character(N_op_a5$N_opr[2])),
             .before = 12 ) |> 
   rows_add( .n_empty = 1, .before = 12)
+
+
+#  T3 |> opt_footnote_marks(marks = "letters") %>% gtsave("T3_wo_just_diff.docx")
 
 # ---- interaction EPEP -- opmetode
 m_opm =  lm( formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0 + o_preop_vektskole*o_opmetode +  b_beh_diab + smoke  , data = filter(d_elig, a5_nt))
@@ -183,7 +186,6 @@ just = function(o_sykehus){
   RE_tbbl |> filter(grp == o_sykehus) |> pull(condval)
 }
 
-
 d_a5_j = d_elig |> filter(a5_nt) |> 
   mutate(a5_TWL_j =  a5_TWL - o_sykehus |> map( just) |> unlist(),
          vtap = a5_TWL_j)
@@ -192,11 +194,23 @@ tbl3_j = tbl_stack(list(cnt_d30, up_d30(d_elig_d30 |> filter(u6_fu)),
                         cnt_a5, dw_a5(d_a5_j )))
 
 T3_j = tbl3_j |>  as_gt() |>  
-  rows_add( .list = rlang::list2("label" =  "Eligible for 5 yrs follow up",
+  rows_add( .list = rlang::list2("label" =  "Eligible for 30 d follow-up",
+                                 "stat_1" = as.character(N_op_d30$N_opr[1]),
+                                 "stat_2" = as.character(N_op_d30$N_opr[2])),
+            .before = 1 ) |> 
+  rows_add( .list = rlang::list2("label" =  "Eligible for 5 yrs follow-up",
                                  "stat_1" = as.character(N_op_a5$N_opr[1]),
                                  "stat_2" = as.character(N_op_a5$N_opr[2])),
-            .before = 11 ) |> 
-  rows_add( .n_empty = 1, .before = 11)
+            .before = 12 ) |> 
+  rows_add( .n_empty = 1, .before = 12)
+
+  
+  # 
+  # rows_add( .list = rlang::list2("label" =  "Eligible for 5 yrs follow up",
+  #                                "stat_1" = as.character(N_op_a5$N_opr[1]),
+  #                                "stat_2" = as.character(N_op_a5$N_opr[2])),
+  #           .before = 11 ) |> 
+  # rows_add( .n_empty = 1, .before = 11)
 
 # S1 = tbl_stack(list(cnt_d30, up_d30(d_elig_d30 |> filter(u6_fu))))
 # S2 = tbl_stack( list(cnt_a5, dw_a5(d_elig |> filter(a5_nt ))))

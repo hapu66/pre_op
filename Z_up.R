@@ -165,6 +165,13 @@ dt =  d_prim %>%
    o_preop_vektskole==1   ~ "EPEP",
    o_preop_vektskole==0   ~ "SPEP"   ))
 
+#  dt |> dplyr::select(b_dato_henv, o_dato_op, o_preop_vektskole) %>% 
+# group_by(o_preop_vektskole) %>% summarise(mean(o_dato_op - b_dato_henv, na.rm = T))
+#                 0 359.5444 days                             
+#                 1 466.7441 days                             
+
+
+
 d =    dt %>% filter(!is.na(o_preop_vektskole), o_opmetode %in% c(1, 6)) %>%
   select(p_pasientid, ForlopsID, o_sykehus,  o_dato_op, p_alder_v_op, Sex, Female, 
          o_preop_vektskole, o_preop_vektprog, o_opmetode, smoke, work,

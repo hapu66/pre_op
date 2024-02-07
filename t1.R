@@ -241,8 +241,8 @@ T2 = tbl_merge( list(     # eligible,  actual
 ), tab_spanner = FALSE)
 
 
-# T1  %>% as_gt() %>% opt_footnote_marks(marks = "letters") %>% gtsave("t1a.docx")
-# T2  %>% as_gt() %>% opt_footnote_marks(marks = "letters") %>% gtsave("t1b.docx")
+# T1  %>% as_gt() %>% opt_footnote_marks(marks = "letters") %>% gtsave("T1a.docx")
+# T2  %>% as_gt() %>% opt_footnote_marks(marks = "letters") %>% gtsave("T1.docx")
 
 
 

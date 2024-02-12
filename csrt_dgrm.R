@@ -9,7 +9,7 @@ library(consort)
     mutate(arm = ifelse(o_preop_vektskole, "EPEP", "SPEP"),
    fow1 =  ifelse (!u6_fu & a5_nt, "Did attend to a5 Follow-up", 
      ifelse( !u6_fu,"Lost to Follow-up (30d)", NA)),
-   fow2 = ifelse(o_dato_op >=  Sys.Date() - days(2007), 
+   fow2 = ifelse(o_dato_op >=  Sys.Date() - days(2007) | o_sykehus == "Vestre Viken HF", # check VV in Z_up
                  "Not yet", ifelse(!a5_nt, "Lost to Follow-up (a5)", NA)))
   
 

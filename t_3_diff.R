@@ -237,6 +237,10 @@ Tb3_uj = tbl3_uj |>  as_gt()  |>
 tbl3_bj = tbl_stack(list(cnt_d30, up_d30(d_d30_j), cnt_a5, dw_a5(d_a5_j) ))
 
 final_T3_bj = tbl3_bj |>  as_gt() |>  
+  rows_add( .list = rlang::list2("label" =  "Eligible for 30 d follow-up",
+                                 "stat_1" = as.character(N_op_d30$N_opr[1]),
+                                 "stat_2" = as.character(N_op_d30$N_opr[2])),
+            .before = 1 ) |> 
   rows_add( .list = rlang::list2("label" =  "Eligible for 5 yrs follow up",
                                  "stat_1" = as.character(N_op_a5$N_opr[1]),
                                  "stat_2" = as.character(N_op_a5$N_opr[2])),

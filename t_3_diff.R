@@ -14,32 +14,32 @@ cnt_a5 = d_elig %>% tbl_summary(by = trt,
 
 #     Construct the upper part of T3 -------------------------------------------
 up_d30 = function(tb) { tb |> 
-    select(trt,  vent, vtap_30, vt_pr, ligg_mn4, reinn, alv_kmp) |>  
+    select(trt,  vent, vtap_30,   ligg_mn4, reinn, alv_kmp) |>  
     tbl_summary( 
       by = trt,
       type = list( vent ~  "continuous",
                    vtap_30 ~ "continuous",  # 
-                   vt_pr ~ "continuous",
+                  # vt_pr ~ "continuous",
                    ligg_mn4 ~ "dichotomous",
                    reinn   ~ "dichotomous",
                    alv_kmp ~ "dichotomous"  ),
       statistic = list( vent ~ "{median} ({p25}, {p75})",
                         vtap_30 ~ "{mean} ({sd})",
-                        vt_pr ~ "{mean} ({sd})",
+                       # vt_pr ~ "{mean} ({sd})",
                         ligg_mn4 ~ "{n} / {N} ({p}%)",
                         reinn ~ "{n} / {N} ({p}%)",
                         alv_kmp ~ "{n} / {N} ({p}%)"),      #  digits = list(ligg ~ 2), 
       digits = all_continuous() ~ 1,
       label = list( vent ~ "Waiting time (d)",
                     vtap_30 ~ "%TWL preop",
-                    vt_pr ~ "Pre-operative BMI loss (kg/m^2)",
-                    ligg_mn4 ~ "Over 3 postoperative days in hospital",
+                   # vt_pr ~ "Pre-operative BMI loss (kg/m^2)",
+                    ligg_mn4 ~ "Hospital stay > 3 days",
                     reinn ~ "Readmission",
                     alv_kmp ~ "Severe complications (30 d)"),
       missing_text = "Missing data" 
     ) |>    add_difference(pvalue_fun = ~style_pvalue(.x, digits = 2),
                            estimate_fun = all_categorical() ~ function(x) paste0(style_sigfig(100*x), "%"),
-                           include = c(vtap_30, vt_pr, ligg_mn4, reinn, alv_kmp)) }
+                           include = c(vtap_30,  ligg_mn4, reinn, alv_kmp)) }
 
   # ,       estimate_fun = list(all_continuous() ~ style_sigfig, 
 #  all_categorical() ~ function(x) paste0(style_sigfig(x), "%")))  }
@@ -48,26 +48,26 @@ up_d30 = function(tb) { tb |>
 
 #     Construct the lower part of T3 -------------------------------------------
 dw_a5 = function(tb) {tb |> 
-  select(trt, vtap, dBMI, subst) |>  
+  select(trt, vtap,  subst) |>  # dBMI
   tbl_summary( 
   by = trt,
 type = list(vtap ~ "continuous", 
-    dBMI ~ "continuous" , 
+  #  dBMI ~ "continuous" , 
     subst ~ "dichotomous"),    
 statistic = list( 
   vtap ~ "{mean} ({sd})",
-  dBMI ~ "{mean} ({sd})",
+#  dBMI ~ "{mean} ({sd})",
   subst~ "{n} / {N} ({p}%)"),
 digits = all_continuous() ~ 1,
 label = list( vtap ~ "%TWL", 
-  dBMI  ~ "Five year BMI loss (kg/m^2)",
+#  dBMI  ~ "Five year BMI loss (kg/m^2)",
   subst ~ "Substitution"),
 missing_text = "Missing data") |>  
  add_difference(  pvalue_fun = ~style_pvalue(.x, digits = 2),
 estimate_fun = all_categorical() ~ function(x) paste0(style_sigfig(100*x), "%"),
 # list(
 #  all_continuous() ~ function(x) paste0(style_sigfig(x, digits = 2)),  
-include =c(vtap, dBMI, subst)) 
+include =c(vtap,   subst)) #dBMI
 }
 #  add_p(pvalue_fun = ~style_pvalue(.x, digits = 2) )
 #  list( 
@@ -244,8 +244,8 @@ final_T3_bj = tbl3_bj |>  as_gt() |>
   rows_add( .list = rlang::list2("label" =  "Eligible for 5 yrs follow up",
                                  "stat_1" = as.character(N_op_a5$N_opr[1]),
                                  "stat_2" = as.character(N_op_a5$N_opr[2])),
-            .before = 11 ) |> 
-  rows_add( .n_empty = 1, .before = 11)
+            .before = 12 ) |> 
+  rows_add( .n_empty = 1, .before = 12)
 
 ### final_T3_bj |>opt_stylize(style = 6) |> opt_footnote_marks(marks = "letters") %>% gtsave("T3_w_just_diff.docx")
 
@@ -304,7 +304,7 @@ p_TWL_a5 = round(Tb3_uj$`_data`$p.value[14], 4)
 TWL_GS = signif(mean(d_elig_GS$a5_TWL, na.rm = T), 3)
 TWL_GB = signif(mean(d_elig_GB$a5_TWL, na.rm = T), 3)
 
-PEPjust_p = final_T3_bj$`_data`$p.value[14]
+PEPjust_p = final_T3_bj$`_data`$p.value[11]
 
 # p_opm
 

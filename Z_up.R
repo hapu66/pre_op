@@ -191,7 +191,7 @@ eo_dato_a5 = as.Date("2018-04-15")
 #
 ## d_elig    =  d %>% filter(o_dato_op <  Sys.Date() - years(5) - months(6))  
 ## Setting up data tables:
-d_elig    =  d %>% filter(o_dato_op <  Sys.Date() - days(2007)) |>  # -5.5 yr prb: 2023-10-31
+d_elig    =  d %>% filter(o_dato_op <  Sys.Date() - days(2007)) |>  # -5.5 yr prb: 2023-10-31  # as.Date("2024-01-31")
   filter(o_sykehus != "Vestre Viken HF")  # 4 st
 
 d_elig_GS  = d_elig  %>% filter(o_opmetode == 6)

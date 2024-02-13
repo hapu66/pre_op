@@ -7,24 +7,25 @@ library(consort)
 
   d_cs <-  d_elig_d30 |> 
     mutate(arm = ifelse(o_preop_vektskole, "EPEP", "SPEP"),
-   fow1 =  ifelse (!u6_fu & a5_nt, "Did attend to a5 Follow-up", 
-     ifelse( !u6_fu,"Lost to Follow-up (30d)", NA)),
+   fow1 =  ifelse (!u6_fu & a5_nt, "Attended 5 yrs follow-up", 
+     ifelse( !u6_fu,"No 5 yrs follow-up", NA)),
    fow2 = ifelse(o_dato_op >=  Sys.Date() - days(2007) | o_sykehus == "Vestre Viken HF", # check VV in Z_up
-                 "Not yet", ifelse(!a5_nt, "Lost to Follow-up (a5)", NA)))
+                 "Not reached 5 yrs", ifelse(!a5_nt, "Lost to follow-up (a5)", NA)))
   
 
   ordrs = c( # p_pasientid = "Finished Followup",
-    arm     = "Pre-operative program",
-   fow1    = "No 30d Follow-up",
-   p_pasientid = "30d Follow-up",
-   fow2    = "Not evaluable",
-   p_pasientid = "5 yr Follow-up, normal time")
+    arm     = "Total number of patients",
+   fow1    = "No 30d follow-up",
+   p_pasientid = "30d follow-up",
+   fow2    = "Not evaluable at 5 yrs",
+   p_pasientid = "5 yr follow-up, normal time")
   
   
 consort_plot( data = d_cs,
               orders =  ordrs, 
               allocation = "arm",
-              side_box = c( "fow1", "fow2") 
+              side_box = c( "fow1", "fow2"),
+              cex = 1.2
               )
 
 

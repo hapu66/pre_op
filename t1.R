@@ -237,7 +237,7 @@ T1 = tbl_merge( list(
 
 T2 = tbl_merge( list(     # eligible,  actual
   cmb(d_elig_d30, d_act_d30),
-  cmb(d_elig, d_act_a5)
+  cmb(d_elig,  d_elig |> filter(a5_nt))  # d_act_a5?  has 4.5-5.5 WRONG
 ), tab_spanner = FALSE)
 
 

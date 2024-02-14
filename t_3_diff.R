@@ -88,8 +88,8 @@ T3 = tbl3 |>  as_gt() |>
   rows_add( .list = rlang::list2("label" =  "Eligible for 5 yrs follow-up",
                                  "stat_1" = as.character(N_op_a5$N_opr[1]),
                                  "stat_2" = as.character(N_op_a5$N_opr[2])),
-            .before = 12 ) |> 
-  rows_add( .n_empty = 1, .before = 12)
+            .before = 9 ) |> 
+  rows_add( .n_empty = 1, .before = 9)
 
 
 #  T3 |> opt_footnote_marks(marks = "letters") %>% gtsave("T3_wo_just_diff.docx")
@@ -244,10 +244,10 @@ final_T3_bj = tbl3_bj |>  as_gt() |>
   rows_add( .list = rlang::list2("label" =  "Eligible for 5 yrs follow up",
                                  "stat_1" = as.character(N_op_a5$N_opr[1]),
                                  "stat_2" = as.character(N_op_a5$N_opr[2])),
-            .before = 12 ) |> 
-  rows_add( .n_empty = 1, .before = 12)
+            .before = 10 ) |> 
+  rows_add( .n_empty = 1, .before = 10)
 
-### final_T3_bj |>opt_stylize(style = 6) |> opt_footnote_marks(marks = "letters") %>% gtsave("T3_w_just_diff.docx")
+### final_T3_bj |>opt_stylize(style = 6) |> opt_footnote_marks(marks = "letters") %>% gtsave("T2_w_just_diff.docx")
 
 library(rstatix)
 n_elig_d30 = nrow(d_elig_d30)
@@ -298,6 +298,12 @@ TWL_EPEP_pr = Tb3_uj$`_data`$stat_1[4]
 TWL_SPEP_pr = Tb3_uj$`_data`$stat_2[4]
 dBMI_EPEP_pr = Tb3_uj$`_data`$stat_1[6]
 dBMI_SPEP_pr = Tb3_uj$`_data`$stat_2[6]
+
+TWL_EPEP_j_d30 =   final_T3_bj$`_data`$stat_1[5] %>% substring(1,3) 
+TWL_SPEP_j_d30 =   final_T3_bj$`_data`$stat_2[5] %>% substring(1,3) 
+
+TWL_EPEP_j_a5 = final_T3_bj$`_data`$stat_1[11]  %>% substring(1,4) 
+TWL_SPEP_j_a5 = final_T3_bj$`_data`$stat_2[11]  %>% substring(1,4) 
 
 
 TWL_EPEP =  Tb3_uj$`_data`$stat_1[14]

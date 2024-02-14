@@ -250,7 +250,11 @@ final_T3_bj = tbl3_bj |>  as_gt() |>
 ### final_T3_bj |>opt_stylize(style = 6) |> opt_footnote_marks(marks = "letters") %>% gtsave("T3_w_just_diff.docx")
 
 library(rstatix)
+n_elig_d30 = nrow(d_elig_d30)
+n_elig = nrow(d_elig)
 
+n_act_30 = nrow(d_act_d30)
+n_act = nrow(d_act_a5)
  
 n_GS_e30 = nrow(d_elig_d30_GS)
 n_GS_ea5  =  nrow(d_elig_GS)
@@ -273,7 +277,6 @@ n_GB_a5EP = sum(d_act_a5_GB$o_preop_vektskole)
 n_EPEP =  table(d_elig_d30$o_preop_vektskole)[[2]]
 n_SPEP =  table(d_elig_d30$o_preop_vektskole)[[1]]
 
-n_PEP  = nrow(d_elig_d30)
 
 ligg_p  =  p_round( Tb3_uj$`_data`$p.value[8], digits = 2)
 readm_p =  p_round(  Tb3_uj$`_data`$p.value[9])
@@ -283,10 +286,13 @@ fu5_p =    p_round(  Tb3_uj$`_data`$p.value[13])
 n_EPEP_30 = n_GS_a30EP + n_GB_a30EP            # Tb3_uj$`_data`$stat_1[1]
 n_SPEP_30 = n_GS_a30 + n_GB_a30 - n_EPEP_30    # Tb3_uj$`_data`$stat_2[1]
 
+n_PEP  =  n_EPEP_30 + n_SPEP_30
+
+
 p_EPEP_a5 = Tb3_uj$`_data`$stat_1[12]
 p_SPEP_a5 =  Tb3_uj$`_data`$stat_2[12]
-n_EPEP_a5 = Tb3_uj$`_data`$stat_1[13]
-n_SPEP_a5 =  Tb3_uj$`_data`$stat_2[13]
+n_EPEP_a5 =  n_GS_a5EP + n_GB_a5EP  
+n_SPEP_a5 =    n_act - n_EPEP_a5
 
 TWL_EPEP_pr = Tb3_uj$`_data`$stat_1[4]
 TWL_SPEP_pr = Tb3_uj$`_data`$stat_2[4]

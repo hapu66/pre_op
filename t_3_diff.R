@@ -1,5 +1,8 @@
 library(lme4)
-library(lmerTest)
+# library(lmerTest)
+# library(conflicted)
+# conflicts_prefer(dplyr::filter())
+# conflicts_prefer(dplyr::select())
 
 N_op_d30  <- d_elig_d30 |>  group_by(trt) |> summarise(N_opr = n())  
 N_op_a5  <- d_elig |>  group_by(trt) |> summarise(N_opr = n())  
@@ -113,7 +116,7 @@ m_00   <- lm(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0   +
 summary(m_00)
 
 # 
-m_0   <- lmer(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0   + 
+m_0   <- lmer(formula = a5_TWL ~   p_alder_v_op + Female + bmi_0   + o_opmetode +
                         o_preop_vektskole + b_beh_diab + smoke +(1|o_sykehus),  
                data = d_elig |> filter(a5_nt))  # d_act_a5 has NOT -5.5år -filter
 summary(m_0)
@@ -122,7 +125,39 @@ RE_tbbl = as_tibble(REff)
 library(lattice)
 dotplot( ranef(m_0))
 
-plot(  m_0) # residuals
+# 2024-02-16
+#
+m_lm   <- lm(formula = a5_TWL ~   p_alder_v_op + Female + bmi_0   + o_opmetode +
+                o_preop_vektskole + b_beh_diab + smoke  ,  
+              data = d_elig |> filter(a5_nt))  # d_act_a5 has NOT -5.5år -filter
+summary(m_lm)
+
+##
+
+library(CIplot)
+
+Follow_up_a5 = glm( formula = a5_nt  ~ 
+   p_alder_v_op + Female + bmi_0   + o_opmetode + o_preop_vektskole + b_beh_diab + smoke, 
+   data =  d_elig,  
+   family = binomial)
+
+# For odds ratio
+exp(Follow_up_a5$coefficients)
+ 
+Subst = glm( formula = subst  ~ 
+                      p_alder_v_op + Female + bmi_0   + o_opmetode + o_preop_vektskole + b_beh_diab + smoke, 
+                    data =  d_elig,  
+                    family = binomial)
+
+# For odds ratio
+exp(Subst$coefficients)
+
+
+ORci(Follow_up_a5, conf.level = 0.95)
+ORci(Subst, conf.level = 0.95)
+# -----------------------------------------------------------------------------
+
+plot( m_0) # residuals
 
 # df |> group_by(o_sykehus) |> summarise(n()) |> print(n=22)
 library(lattice)

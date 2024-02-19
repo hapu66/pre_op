@@ -9,11 +9,11 @@ N_op_a5  <- d_elig |>  group_by(trt) |> summarise(N_opr = n())
 
 cnt_d30 = d_elig_d30 %>% tbl_summary(by = trt, 
                                         include = c(u6_fu), 
-                                        label = u6_fu ~ "Actual 30d follow-up") %>% add_difference()
+                                        label = u6_fu ~ "Actual 30d follow-up") 
 
 cnt_a5 = d_elig %>% tbl_summary(by = trt, 
                                 include = c(a5_nt), 
-                                label = a5_nt ~ "Actual 5 yr follow-up") %>% add_difference()
+                                label = a5_nt ~ "Actual 5 yr follow-up") 
 
 #     Construct the upper part of T3 -------------------------------------------
 up_d30 = function(tb) { tb |> 
@@ -241,10 +241,7 @@ Tb3_uj = tbl3_uj |>  as_gt()  |>
   rows_add( .list = rlang::list2(
     "label" =  "Eligible for 5 yrs follow up",
     "stat_1" = as.character(N_op_a5$N_opr[1]),
-    "stat_2" = as.character(N_op_a5$N_opr[2]),
-   "estimate" = NA,
-   "ci" = NA,
-   "p.value" = NA),
+    "stat_2" = as.character(N_op_a5$N_opr[2])),
     .before = 11 )  |>  
   rows_add( .n_empty = 1, .before = 11)
  
@@ -297,10 +294,10 @@ n_EPEP =  table(d_elig_d30$o_preop_vektskole)[[2]]
 n_SPEP =  table(d_elig_d30$o_preop_vektskole)[[1]]
 
 
-ligg_p  =  p_round( Tb3_uj$`_data`$p.value[8], digits = 2)
-readm_p =  p_round(  Tb3_uj$`_data`$p.value[9])
-compl_p =  p_round(  Tb3_uj$`_data`$p.value[10], digits = 2)
-fu5_p =    p_round(  Tb3_uj$`_data`$p.value[13])
+# ligg_p  =  p_round( Tb3_uj$`_data`$p.value[8], digits = 2)
+# readm_p =  p_round(  Tb3_uj$`_data`$p.value[9])
+# compl_p =  p_round(  Tb3_uj$`_data`$p.value[10], digits = 2)
+# fu5_p =    p_round(  Tb3_uj$`_data`$p.value[13])
 
 n_EPEP_30 = n_GS_a30EP + n_GB_a30EP            # Tb3_uj$`_data`$stat_1[1]
 n_SPEP_30 = n_GS_a30 + n_GB_a30 - n_EPEP_30    # Tb3_uj$`_data`$stat_2[1]
@@ -330,12 +327,12 @@ TWL_SPEP =  Tb3_uj$`_data`$stat_2[14]
 dBMI_EPEP =  Tb3_uj$`_data`$stat_1[15]
 dBMI_SPEP =  Tb3_uj$`_data`$stat_2[15]
 
-p_TWL_a5 = round(Tb3_uj$`_data`$p.value[14], 4)
+# p_TWL_a5 = round(Tb3_uj$`_data`$p.value[14], 4)
  
 TWL_GS = signif(mean(d_elig_GS$a5_TWL, na.rm = T), 3)
 TWL_GB = signif(mean(d_elig_GB$a5_TWL, na.rm = T), 3)
 
-PEPjust_p = final_T3_bj$`_data`$p.value[11]
+# PEPjust_p = final_T3_bj$`_data`$p.value[11]
 
 # p_opm
 

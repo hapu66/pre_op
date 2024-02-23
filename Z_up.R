@@ -28,7 +28,7 @@ avnmappe = paste0(datamappe, "AlleVarNum")
 #
 prc <- function(x) round( 100*x, 1)
 setwd(avnmappe)
-fil_PBV = paste0("PatBasVarNum.csv")         ## dd-dato = 3. 8.2023                    
+fil_PBV = paste0("PatBasVarNum.csv")         ##                      
 fil_Opr = paste0("OperasjonsVarNum.csv")
 fil_u6k = paste0("SeksUkerOppfNum.csv")
 # k_bok = paste0("SOReg_klokeboken_2023-08-07.csv") # kloke-boka
@@ -177,7 +177,7 @@ d =    dt %>% filter(!is.na(o_preop_vektskole), o_opmetode %in% c(1, 6)) %>%
          o_preop_vektskole, o_preop_vektprog, o_opmetode, smoke, work,
          b_finans,  u6_ferdigstill, u6_oppf_type, a5_oppf_type,
          contains("bmi_"),  contains("b_beh"),  vt_pr, TWL_pr,
-         vent,   ligg_mn4,   alv_kmp,  subst,  N_revop,
+         vent,   ligg_mn4,   alv_kmp,  subst,  N_revop, b_ant_vekt,
          reinn,  depr,   vtap,   dBMI,   u6_fu, a5_fu, a5_nt, trt,
          o_dato_op, a5_ferdigstill, a5_ant_vekt, a5_dato_oppf, bmi_5a,  a5_TWL) %>% 
   mutate(bmi_0 = bmi_baseline, bmi_0o = bmi_op, bmi_0u6 = bmi_6v) %>%
@@ -198,6 +198,8 @@ d_elig_GS  = d_elig  %>% filter(o_opmetode == 6)
 d_elig_GB  = d_elig  %>% filter(o_opmetode == 1)
 
 d_elig_d30 = d %>% filter(o_dato_op <  Sys.Date()   - days(90))  # - 3 m
+d_elig_d30 <- d_elig_d30 |> mutate(vtap_30 = TWL_pr) 
+
 d_elig_d30_GS = d_elig_d30 %>% filter(o_opmetode == 6)
 d_elig_d30_GB = d_elig_d30 %>% filter(o_opmetode == 1)
 
@@ -209,7 +211,6 @@ d_act_a5 = d %>% filter(a5_nt)  # follow-up 5 yr
 d_act_a5_GS = d_act_a5 %>% filter(o_opmetode == 6)  # OBS normtid = +- 6 months
 d_act_a5_GB = d_act_a5 %>% filter(o_opmetode == 1)
 ## -----
-d_elig_d30 <- d_elig_d30 |> mutate(vtap_30 = TWL_pr) 
 
 # df |> filter(o_sykehus == "Vestre Viken HF", !is.na(a5_dato_oppf))  |> pull(o_opmetode) |> table()
 

@@ -8,76 +8,68 @@ N_op_d30  <- d_elig_d30 |>  group_by(trt) |> summarise(N_opr = n())
 N_op_a5  <- d_elig |>  group_by(trt) |> summarise(N_opr = n())  
 
 cnt_d30 = d_elig_d30 %>% tbl_summary(by = trt, 
-                                        include = c(u6_fu), 
-                                        label = u6_fu ~ "Actual 30d follow-up") 
+    include = c(u6_fu), 
+    label = u6_fu ~ "Actual 30d follow-up") 
 
 cnt_a5 = d_elig %>% tbl_summary(by = trt, 
-                                include = c(a5_nt), 
-                                label = a5_nt ~ "Actual 5 yr follow-up") 
+   include = c(a5_nt), 
+   label = a5_nt ~ "Actual 5 yr follow-up") 
 
 #     Construct the upper part of T3 -------------------------------------------
 up_d30 = function(tb) { tb |> 
-    select(trt,  vent, vtap_30,   ligg_mn4, reinn, alv_kmp) |>  
-    tbl_summary( 
-      by = trt,
-      type = list( vent ~  "continuous",
-                   vtap_30 ~ "continuous",  # 
-                  # vt_pr ~ "continuous",
-                   ligg_mn4 ~ "dichotomous",
-                   reinn   ~ "dichotomous",
-                   alv_kmp ~ "dichotomous"  ),
-      statistic = list( vent ~ "{median} ({p25}, {p75})",
-                        vtap_30 ~ "{mean} ({sd})",
-                       # vt_pr ~ "{mean} ({sd})",
-                        ligg_mn4 ~ "{n} / {N} ({p}%)",
-                        reinn ~ "{n} / {N} ({p}%)",
-                        alv_kmp ~ "{n} / {N} ({p}%)"),      #  digits = list(ligg ~ 2), 
-      digits = all_continuous() ~ 1,
-      label = list( vent ~ "Waiting time (d)",
-                    vtap_30 ~ "%TWL preop",
-                   # vt_pr ~ "Pre-operative BMI loss (kg/m^2)",
-                    ligg_mn4 ~ "Hospital stay > 3 days",
-                    reinn ~ "Readmission",
-                    alv_kmp ~ "Severe complications (30 d)"),
-      missing_text = "Missing data" 
-    )  }
+  select(trt,  vent, vtap_30,   ligg_mn4, reinn, alv_kmp) |>  
+  tbl_summary( 
+  by = trt,
+type = list( vent ~  "continuous",
+ vtap_30 ~ "continuous",  
+ ligg_mn4 ~ "dichotomous",
+ reinn   ~ "dichotomous",
+ alv_kmp ~ "dichotomous"  ),
+statistic = list( vent ~ "{median} ({p25}, {p75})",
+  vtap_30 ~ "{mean} ({sd})",
+  ligg_mn4 ~ "{n} / {N} ({p}%)",
+  reinn ~ "{n} / {N} ({p}%)",
+  alv_kmp ~ "{n} / {N} ({p}%)"),      
+digits = all_continuous() ~ 1,
+  label = list( vent ~ "Waiting time (d)",
+  vtap_30 ~ "%TWL preop",
+  ligg_mn4 ~ "Hospital stay > 3 days",
+ reinn ~ "Readmission",
+  alv_kmp ~ "Severe complications (30 d)"),
+ missing_text = "Missing data" 
+  )  }
 
  
 #     Construct the lower part of T3 -------------------------------------------
 dw_a5 = function(tb) {tb |> 
-  select(trt, vtap,  subst) |>  # dBMI
+  select(trt, vtap,  subst) |>   
   tbl_summary( 
   by = trt,
 type = list(vtap ~ "continuous", 
-  #  dBMI ~ "continuous" , 
-    subst ~ "dichotomous"),    
+  subst ~ "dichotomous"),    
 statistic = list( 
   vtap ~ "{mean} ({sd})",
-#  dBMI ~ "{mean} ({sd})",
   subst~ "{n} / {N} ({p}%)"),
 digits = all_continuous() ~ 1,
 label = list( vtap ~ "%TWL", 
-#  dBMI  ~ "Five year BMI loss (kg/m^2)",
   subst ~ "Substitution"),
 missing_text = "Missing data")  
 }
  
 
 
-tbl3 = tbl_stack(list(cnt_d30, up_d30(d_elig_d30 |> filter(u6_fu)), 
-                      cnt_a5, dw_a5(d_elig |> filter(a5_nt))))
+tbl3 = tbl_stack(list(cnt_d30, up_d30(d_elig_d30 |> filter(u6_fu)), cnt_a5, dw_a5(d_elig |> filter(a5_nt))))
 
-T3 = tbl3 |>  as_gt() |>  
+T3_uj = tbl3  |>  as_gt() |>  
   rows_add( .list = rlang::list2("label" =  "Eligible for 30 d follow-up",
-                                                    "stat_1" = as.character(N_op_d30$N_opr[1]),
-                                                    "stat_2" = as.character(N_op_d30$N_opr[2])),
-                               .before = 1 ) |> 
+    "stat_1" = as.character(N_op_d30$N_opr[1]),
+    "stat_2" = as.character(N_op_d30$N_opr[2])),
+   .before = 1 ) |> 
   rows_add( .list = rlang::list2("label" =  "Eligible for 5 yrs follow-up",
-                                 "stat_1" = as.character(N_op_a5$N_opr[1]),
-                                 "stat_2" = as.character(N_op_a5$N_opr[2])),
-            .before = 9 ) |> 
+    "stat_1" = as.character(N_op_a5$N_opr[1]),
+    "stat_2" = as.character(N_op_a5$N_opr[2])),
+    .before = 9 ) |> 
   rows_add( .n_empty = 1, .before = 9)
-
 
 #  T3 |> opt_footnote_marks(marks = "letters") %>% gtsave("T3_wo_just_diff.docx")
 
@@ -85,24 +77,23 @@ T3 = tbl3 |>  as_gt() |>
 m_opm =  lm( formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0 + o_preop_vektskole*o_opmetode +  b_beh_diab + smoke  , data = filter(d_elig, a5_nt))
 summary(m_opm)
 
+m_opm_b =  lm( formula = a5_TWL ~ p_alder_v_op + Female + bmi_0 + o_preop_vektskole*o_opmetode +b_beh_diab + smoke  , data = filter(d_elig, a5_nt))
+summary(m_opm_b)
+
+
 p_opm = summary(m_opm)$coefficients["o_preop_vektskole:o_opmetode", "Pr(>|t|)"]
 p_opm = signif(p_opm, 2)
 
-m_vtpr =  lm( formula = a5_TWL ~ vt_pr * o_preop_vektskole + p_alder_v_op + Female + bmi_0  + o_opmetode +  b_beh_diab + smoke  , data = filter(d_elig, a5_nt))
-summary(m_vtpr)
+# p_vtpr = summary(m_vtpr)$coefficients["vt_pr:o_preop_vektskole", "Pr(>|t|)"]
+# p_vtpr = signif(p_vtpr, 2)
 
-p_vtpr = summary(m_vtpr)$coefficients["vt_pr:o_preop_vektskole", "Pr(>|t|)"]
-p_vtpr = signif(p_vtpr, 2)
 # ---------------------- 5 yr linear model ------------------------------------  LME Models -----------------------------
-m_00   <- lm(formula = a5_TWL ~ vt_pr + p_alder_v_op + Female + bmi_0   + 
-                o_preop_vektskole + b_beh_diab + smoke  ,  
-              data = d_elig |> filter(a5_nt))
+m_00   <- lm(formula = a5_TWL ~ p_alder_v_op + Female + bmi_0 + o_opmetode + o_preop_vektskole + b_beh_diab + smoke, data = d_elig |> filter(a5_nt))
 summary(m_00)
 
 # 
-m_0   <- lmer(formula = a5_TWL ~   p_alder_v_op + Female + bmi_0   + o_opmetode +
-                        o_preop_vektskole + b_beh_diab + smoke +(1|o_sykehus),  
-               data = d_elig |> filter(a5_nt))  # d_act_a5 has NOT -5.5år -filter
+m_0   <- lmer(formula = a5_TWL ~ p_alder_v_op + Female + bmi_0 + o_opmetode + o_preop_vektskole + b_beh_diab + smoke +(1|o_sykehus),  
+ data = d_elig |> filter(a5_nt))  # d_act_a5 has NOT -5.5år -filter
 summary(m_0)
 REff  = ranef(m_0)
 RE_tbbl = as_tibble(REff)
@@ -111,14 +102,13 @@ dotplot( ranef(m_0))
 
 # 2024-02-16
 #
-m_lm   <- lm(formula = a5_TWL ~   p_alder_v_op + Female + bmi_0   + o_opmetode +
-                o_preop_vektskole + b_beh_diab + smoke  ,  
-              data = d_elig |> filter(a5_nt))  # d_act_a5 has NOT -5.5år -filter
-summary(m_lm)
-
+m_base   <- lm(formula = a5_TWL ~ p_alder_v_op + Female + bmi_0 + o_opmetode + o_preop_vektskole + b_beh_diab + smoke,  
+    data = d_elig |> filter(a5_nt))  # d_act_a5 has NOT -5.5år -filter
+summary(m_base)
+plot( m_base)
 ##
 
-library(CIplot)
+library(CIplot) # -------------- Logistic models for   follow-up in norm time, substitution 
 
 Follow_up_a5 = glm( formula = a5_nt  ~ 
    p_alder_v_op + Female + bmi_0   + o_opmetode + o_preop_vektskole + b_beh_diab + smoke, 
@@ -129,9 +119,9 @@ Follow_up_a5 = glm( formula = a5_nt  ~
 exp(Follow_up_a5$coefficients)
  
 Subst = glm( formula = subst  ~ 
-                      p_alder_v_op + Female + bmi_0   + o_opmetode + o_preop_vektskole + b_beh_diab + smoke, 
-                    data =  d_elig,  
-                    family = binomial)
+    p_alder_v_op + Female + bmi_0   + o_opmetode + o_preop_vektskole + b_beh_diab + smoke, 
+    data =  d_elig,  
+   family = binomial)
 
 # For odds ratio
 exp(Subst$coefficients)
@@ -181,16 +171,14 @@ RE_tbbl_u6 = as_tibble(REff_u6d)
 
 plot(m_u6d)
 
-m_u6e  <- lmer(formula = TWL_pr ~  p_alder_v_op + Female + bmi_0   + 
-                 o_preop_vektskole   + smoke +(1|o_sykehus),  
-               data = d_act_d30)
+m_u6e  <- lmer(formula = TWL_pr ~  p_alder_v_op + Female + bmi_0 + o_opmetode + o_preop_vektskole + smoke +(1|o_sykehus),  data = d_act_d30)
 summary(m_u6e)
 REff_u6e  = ranef(m_u6e)
 RE_tbbl_u6 = as_tibble(REff_u6e)
 
 plot(m_u6e)
 
-
+# ----------------------------------------    adjustments at 30d  
 just_u6 = function(o_sykehus){
   RE_tbbl_u6 |> filter(grp == o_sykehus) |> pull(condval)
 }
@@ -198,19 +186,18 @@ just_u6 = function(o_sykehus){
 
 d_d30_j = d_elig_d30 |> filter(u6_fu) |> 
   mutate(u6_TWL_j =  TWL_pr - o_sykehus |> map( just_u6) |> unlist(),
-         vtap_30 = u6_TWL_j)
+    vtap_30 = u6_TWL_j)
 
-#        ----------------------------- adjusting RE hospitals
+#        ----------------------------- adjusting RE hospitals at a5
 just = function(o_sykehus){
   RE_tbbl |> filter(grp == o_sykehus) |> pull(condval)
 }
 
 d_a5_j = d_elig |> filter(a5_nt) |> 
   mutate(a5_TWL_j =  a5_TWL - o_sykehus |> map( just) |> unlist(),
-         vtap = a5_TWL_j)
+  vtap = a5_TWL_j)
 
-tbl3_j = tbl_stack(list(cnt_d30, up_d30(d_elig_d30 |> filter(u6_fu)), 
-                        cnt_a5, dw_a5(d_a5_j )))
+tbl3_j = tbl_stack(list(cnt_d30, up_d30(d_elig_d30 |> filter(u6_fu)), cnt_a5, dw_a5(d_a5_j )))
 
 T3_j = tbl3_j |>  as_gt() |>  
   rows_add( .list = rlang::list2("label" =  "Eligible for 30 d follow-up",
@@ -245,6 +232,17 @@ Tb3_uj = tbl3_uj |>  as_gt()  |>
     .before = 11 )  |>  
   rows_add( .n_empty = 1, .before = 11)
  
+
+T3_uj = tbl3_uj |>  as_gt()  |>
+  rows_add( .list = rlang::list2("label" =  "Eligible for 30 d follow-up",
+                                 "stat_1" = as.character(N_op_d30$N_opr[1]),
+                                 "stat_2" = as.character(N_op_d30$N_opr[2])),
+            .before = 1 ) |> 
+  rows_add( .list = rlang::list2("label" =  "Eligible for 5 yrs follow up",
+                                 "stat_1" = as.character(N_op_a5$N_opr[1]),
+                                 "stat_2" = as.character(N_op_a5$N_opr[2])),
+            .before = 10 ) |> 
+  rows_add( .n_empty = 1, .before = 10)
 
 ### Tb3_uj |> opt_footnote_marks(marks = "letters") %>% gtsave("T3_wo_just_diff.docx")
 

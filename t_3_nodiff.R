@@ -105,7 +105,7 @@ dotplot( ranef(m_0))
 m_base   <- lm(formula = a5_TWL ~ p_alder_v_op + Female + bmi_0 + o_opmetode + o_preop_vektskole + b_beh_diab + smoke,  
     data = d_elig |> filter(a5_nt))  # d_act_a5 has NOT -5.5år -filter
 summary(m_base)
-plot( m_base)
+# plot( m_base)
 ##
 
 library(CIplot) # -------------- Logistic models for   follow-up in norm time, substitution 
@@ -131,7 +131,7 @@ ORci(Follow_up_a5, conf.level = 0.95)
 ORci(Subst, conf.level = 0.95)
 # -----------------------------------------------------------------------------
 
-plot( m_0) # residuals
+# plot( m_0) # residuals
 
 # df |> group_by(o_sykehus) |> summarise(n()) |> print(n=22)
 library(lattice)
@@ -144,7 +144,7 @@ m_u6  <- lmer(formula = TWL_pr ~ vt_pr + p_alder_v_op + Female + bmi_0   +
 summary(m_u6)
 REff_u6  = ranef(m_u6)
 RE_tbbl_u6 = as_tibble(REff_u6)
-plot(m_u6)
+# plot(m_u6)
 
 
 m_u6b  <- lmer(formula = TWL_pr ~ vt_pr + p_alder_v_op + Female + bmi_0   + 
@@ -153,7 +153,7 @@ m_u6b  <- lmer(formula = TWL_pr ~ vt_pr + p_alder_v_op + Female + bmi_0   +
 summary(m_u6b)
 REff_u6b  = ranef(m_u6b)
 RE_tbbl_u6 = as_tibble(REff_u6b)
-plot(m_u6b)
+# plot(m_u6b)
 
 m_u6c  <- lmer(formula = TWL_pr ~ vt_pr + p_alder_v_op + bmi_0 + o_preop_vektskole +(1|o_sykehus),  
                data = d_act_d30)
@@ -161,7 +161,7 @@ summary(m_u6c)
 REff_u6c  = ranef(m_u6c)
 RE_tbbl_u6 = as_tibble(REff_u6c)
 
-plot(m_u6c)
+# plot(m_u6c)
 ### ---------------------------------
 m_u6d  <- lmer(formula = TWL_pr ~   p_alder_v_op + bmi_0 + o_preop_vektskole +(1|o_sykehus),  
                data = d_act_d30)
@@ -169,14 +169,14 @@ summary(m_u6d)
 REff_u6d  = ranef(m_u6d)
 RE_tbbl_u6 = as_tibble(REff_u6d)
 
-plot(m_u6d)
+# plot(m_u6d)
 
 m_u6e  <- lmer(formula = TWL_pr ~  p_alder_v_op + Female + bmi_0 + o_opmetode + o_preop_vektskole + smoke +(1|o_sykehus),  data = d_act_d30)
 summary(m_u6e)
 REff_u6e  = ranef(m_u6e)
 RE_tbbl_u6 = as_tibble(REff_u6e)
 
-plot(m_u6e)
+# plot(m_u6e)
 
 # ----------------------------------------    adjustments at 30d  
 just_u6 = function(o_sykehus){

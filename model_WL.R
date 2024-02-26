@@ -11,7 +11,7 @@ rs_a5 = function(tb) {tb |>
       digits = all_continuous() ~ 1,
       label = list( vtap ~ "weight measure", 
                     subst ~ "Substitution"),
-      missing_text = "Missing data")  
+      missing_text = "Missing data")  |> add_difference(  pvalue_fun = ~style_pvalue(.x, digits = 2))
 }
 
 
@@ -321,4 +321,46 @@ rs_a5(d_a5_vkt_GB_j)
   
   rs_a5(d_a5_TWL_GB_j)
   
+  #  plot weight measures
+  #
+  
+  d_elig_GS |> ggplot(aes(x=bmi_0, y=a5_TWL))  + geom_point() +
+    geom_abline(intercept =  m_TWL_0_GS$coefficients[1], 
+                slope = m_TWL_0_GS$coefficients[2],
+                colour ="red") + ggtitle("GS, TWL vs bmi_0+..") +
+    theme_minimal()
+  
+  d_elig_GS |> ggplot(aes(x= bmi_0, y =bmi_5a))  + geom_point() +  
+    geom_abline(intercept =  m_bmi_0_GS$coefficients[1], 
+               slope = m_bmi_0_GS$coefficients[2],
+               colour ="red") + ggtitle("GS, bmi_a5 vs bmi_0+..") +
+    theme_minimal()
+    
+  d_elig_GS |> ggplot(aes(x= b_ant_vekt, y = a5_ant_vekt))  + geom_point() +
+    geom_abline(intercept =  m_vkt_0_GS$coefficients[1], 
+                slope = m_vkt_0_GS$coefficients[2],
+                colour ="red") + ggtitle("GS, a5_ant_vekt vs b_ant_vekt +..") +
+    theme_minimal()
+  
+    
+  d_elig_GB |> ggplot(aes(x=bmi_0, y=a5_TWL))  + geom_point() +
+    geom_abline(intercept =  m_TWL_0_GB$coefficients[1], 
+                slope = m_TWL_0_GB$coefficients[2],
+                colour ="red") +ggtitle("GB, TWL vs bmi_0 +..") +
+    theme_minimal()
+  
+  d_elig_GB |> ggplot(aes(x= bmi_0, y =bmi_5a))  + geom_point() +  
+    geom_abline(intercept =  m_bmi_0_GB$coefficients[1], 
+                slope = m_bmi_0_GB$coefficients[2],
+                colour ="red") +ggtitle("GB, bmi_a5 vs bmi_0 +..") +
+    theme_minimal()
+  
+  d_elig_GB |> ggplot(aes(x= b_ant_vekt, y = a5_ant_vekt))  + geom_point() +
+    geom_abline(intercept =  m_vkt_0_GB$coefficients[1], 
+                slope = m_vkt_0_GB$coefficients[2],
+                colour ="red") +ggtitle("GB, a5_ant_vekt vs b_ant_vekt +..") +
+    theme_minimal()
+  
+  
+    
   

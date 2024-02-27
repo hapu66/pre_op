@@ -70,11 +70,11 @@ rs_a5(d_a5_TWL_GB_j)   # ---------------------- TWL_GB_j
 # 
 m_bmi_0_GS <-  lm(formula = bmi_5a ~ bmi_0 +  p_alder_v_op + Female  + o_preop_vektskole + b_beh_diab + smoke  ,  #  
                   data = d_elig_GS |> filter(a5_nt))  #   
-summary(m_TWL_0_GS) 
+summary(m_bmi_0_GS) 
 
 m_bmi_0_GB <-  lm(formula = bmi_5a ~ bmi_0 +  p_alder_v_op + Female  + o_preop_vektskole + b_beh_diab + smoke  ,  #  
                   data = d_elig_GB |> filter(a5_nt))  #   
-summary(m_TWL_0_GB) 
+summary(m_bmi_0_GB) 
 
 # -----------------------------------  random effects  
 
@@ -122,11 +122,11 @@ rs_a5(d_a5_bmi_GB_j)   # ---------------------- bmi_GB_j
 # 
 m_vkt_0_GS <-  lm(formula = a5_ant_vekt ~ b_ant_vekt +  p_alder_v_op + Female  + o_preop_vektskole + b_beh_diab + smoke  ,  #  
                   data = d_elig_GS |> filter(a5_nt))  #   
-summary(m_TWL_0_GS) 
+summary(m_vkt_0_GS) 
 
 m_vkt_0_GB <-  lm(formula = a5_ant_vekt ~ b_ant_vekt +  p_alder_v_op + Female  + o_preop_vektskole + b_beh_diab + smoke  ,  #  
                   data = d_elig_GB |> filter(a5_nt))  #   
-summary(m_TWL_0_GB) 
+summary(m_vkt_0_GB) 
 
 # -----------------------------------  random effects  
 

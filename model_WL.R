@@ -169,8 +169,33 @@ d_a5_vkt_GB_j = d_elig_GB |> filter(a5_nt) |>
 rs_a5(d_a5_vkt_GB_j)   # ---------------------- bmi_GB_j
 
 
-
+  d_elig_GS |> filter(a5_nt) |> pull(b_ant_vekt) |>  mean()  #[1] 122.664
+  d_elig_GB |> filter(a5_nt) |> pull(b_ant_vekt) |> mean()  #[1] 125.0076
  
+  d_elig_GS |> filter(a5_nt, o_preop_vektskole==0) |> pull(b_ant_vekt) |>  mean()  #[1] 124.1124
+  d_elig_GS |> filter(a5_nt, o_preop_vektskole==1) |> pull(b_ant_vekt) |>  mean()  #[1] 119.8012
+  
+  d_elig_GB |> filter(a5_nt, o_preop_vektskole==0) |> pull(b_ant_vekt) |>  mean()  #[1] 124.9199
+  d_elig_GB |> filter(a5_nt, o_preop_vektskole==1) |> pull(b_ant_vekt) |>  mean()  #[1] 125.0687
+  
+  d_elig_GS |>filter(a5_nt) |> group_by(o_preop_vektskole) |> summarise(n(),  mean(b_ant_vekt))
+  d_elig_GB |>filter(a5_nt) |> group_by(o_preop_vektskole) |> summarise(n(),  mean(b_ant_vekt))
+  
+###  --------------------------------------------------  initial weight?  
+d_a5_vkt_GS_d = d_elig_GS |> filter(a5_nt) |> 
+    mutate(a5_vkt_j =  a5_ant_vekt - o_sykehus |> map(vkt_just_GS) |> unlist(),
+           vtap = -a5_vkt_j + b_ant_vekt)
+  
+  rs_a5(d_a5_vkt_GS_d)   # ---------------------- vkt_GS_d 
+  
+  # -- GB
+d_a5_vkt_GB_d = d_elig_GB |> filter(a5_nt) |> 
+    mutate(a5_vkt_j =  a5_ant_vekt - o_sykehus |> map(vkt_just_GB) |> unlist(),
+           vtap = -a5_vkt_j + b_ant_vekt)
+  
+  rs_a5(d_a5_vkt_GB_d)   # ---------------------- bmi_GB_d
+  
+  
 
 #
 # calculate TWL in two ways ---------------------------------------------------------------------
@@ -231,11 +256,11 @@ rs_a5(d_a5_vkt_GB_j)   # ---------------------- bmi_GB_j
   ggplot(data =  d_elig |> filter(a5_nt), aes(x= p_alder_v_op, y= a5_TWL, group=o_opmetode, colour=o_opmetode)) + geom_point() + theme_minimal()
   ggplot(data =  d_a5_j |> filter(a5_nt), aes(x= p_alder_v_op, y= a5_TWL_j, group=o_opmetode, colour=o_opmetode)) + geom_point() + theme_minimal()
   
-  ggplot(data =  d_a5_GS_j |> filter(a5_nt), aes(x= p_alder_v_op, y= a5_TWL_j, group=o_opmetode, colour=o_opmetode)) + geom_point() + theme_minimal()
-  ggplot(data =  d_a5_GB_j |> filter(a5_nt), aes(x= p_alder_v_op, y= a5_TWL_j, group=o_opmetode, colour=o_opmetode)) + geom_point() + theme_minimal()
+  ggplot(data =  d_a5_vkt_GS_j |> filter(a5_nt), aes(x= p_alder_v_op, y= a5_vkt_j, group=o_opmetode, colour=o_opmetode)) + geom_point() + theme_minimal()
+  ggplot(data =  d_a5_vkt_GB_j |> filter(a5_nt), aes(x= p_alder_v_op, y= a5_vkt_j, group=o_opmetode, colour=o_opmetode)) + geom_point() + theme_minimal()
   
-  ggplot(data = d_a5_bmi_j, aes(x= p_alder_v_op, y= bmi_5a, group=o_opmetode, colour=o_opmetode)) + geom_point() + theme_minimal()
-  ggplot(data = d_a5_bmi_j, aes(x= p_alder_v_op, y= bmi_5a_j, group=o_opmetode, colour=o_opmetode)) + geom_point() + theme_minimal()
+  ggplot(data = d_a5_bmi_GS_j, aes(x= p_alder_v_op, y= bmi_5a, group=o_opmetode, colour=o_opmetode)) + geom_point() + theme_minimal()
+  ggplot(data = d_a5_bmi_GS_j, aes(x= p_alder_v_op, y= a5_bmi_j, group=o_opmetode, colour=o_opmetode)) + geom_point() + theme_minimal()
   
   
   

@@ -33,7 +33,7 @@ fil_Opr = paste0("OperasjonsVarNum.csv")
 fil_u6k = paste0("SeksUkerOppfNum.csv")
 # k_bok = paste0("SOReg_klokeboken_2023-08-07.csv") # kloke-boka
 
-PBV <-  read_csv2(fil_PBV) # 13990
+PBV <-  read_csv2(fil_PBV) # 14829
 Opr <-  read_csv2(fil_Opr)
 u6k <-  read_csv2(fil_u6k)
 # kb <- read_csv2(k_bok)     
